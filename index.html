@@ -1,515 +1,563 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALBINA KHABIYEVA | Blooming Ink</title>
-    
-    <!-- Tailwind CSS -->
+    <title>Edition Couture | Pop-Art Fashion</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- React & Libraries -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    
-    <!-- Three.js (Core Only) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
-    <!-- Lenis (Smooth Scroll) -->
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@300;400;500&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Outfit:wght@300;500;800&display=swap" rel="stylesheet">
     <style>
-        body { 
-            background-color: #ffffff; 
-            color: #000000;
-            margin: 0;
-            font-family: 'Manrope', sans-serif;
-            overflow-x: hidden;
-            cursor: none; /* Custom cursor active */
+        /* CANLI VE CIVIL CIVIL RENKLER */
+        :root {
+            --bg-color: #fff0f5; /* Lavender Blush */
+            --pop-pink: #ff1493; /* Deep Pink */
+            --pop-blue: #00ced1; /* Dark Turquoise */
+            --pop-yellow: #ffd700; /* Gold */
+            --pop-purple: #8a2be2; /* Blue Violet */
+            --text-main: #2d2d2d;
         }
-        .font-serif-display { font-family: 'Italiana', serif; }
+
+        body { 
+            margin: 0; 
+            overflow-x: hidden; 
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at 10% 20%, rgba(255, 20, 147, 0.1) 0%, transparent 20%), 
+                              radial-gradient(circle at 90% 80%, rgba(0, 206, 209, 0.1) 0%, transparent 20%);
+            color: var(--text-main); 
+            font-family: 'Outfit', sans-serif; 
+        }
+
+        h1, h2, h3, .display-font { font-family: 'Abril Fatface', cursive; letter-spacing: 1px; }
         
-        /* Smooth Scroll Setup */
-        html.lenis { height: auto; }
-        .lenis.lenis-smooth { scroll-behavior: auto; }
-        .lenis.lenis-stopped { overflow: hidden; }
+        /* Custom Scrollbar - Renkli */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #fff; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(var(--pop-pink), var(--pop-purple)); border-radius: 5px; border: 2px solid #fff; }
+
+        /* Canvas container */
+        #canvas-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+        }
+
+        /* Pop-Art Cards */
+        .pop-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 3px solid var(--text-main);
+            border-radius: 20px;
+            box-shadow: 8px 8px 0px var(--pop-pink);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pop-card:hover {
+            transform: translate(-4px, -4px) rotate(1deg);
+            box-shadow: 12px 12px 0px var(--pop-blue);
+            border-color: var(--pop-purple);
+        }
         
-        ::selection { background: #000; color: #fff; }
+        /* Süsleme Çizgileri */
+        .pop-card::after {
+            content: '';
+            position: absolute;
+            top: -50px; right: -50px;
+            width: 100px; height: 100px;
+            background: var(--pop-yellow);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        /* Eğlenceli Butonlar */
+        .btn-pop {
+            background: var(--pop-pink);
+            color: white;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: 3px solid var(--text-main);
+            box-shadow: 4px 4px 0px var(--text-main);
+            transition: all 0.2s;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .btn-pop:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px var(--pop-yellow);
+            background: var(--pop-purple);
+        }
+        .btn-pop:active {
+            transform: translate(2px, 2px);
+            box-shadow: 0px 0px 0px;
+        }
+
+        /* Loading Screen - Renkli */
+        #loader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--pop-yellow);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loader-text {
+            font-size: 5rem;
+            color: var(--pop-pink);
+            text-shadow: 4px 4px 0px white;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        /* Text Highlights */
+        .highlight {
+            background: linear-gradient(120deg, var(--pop-yellow) 0%, var(--pop-yellow) 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 88%;
+            padding: 0 5px;
+        }
     </style>
 </head>
-<body>
-    <div id="root"></div>
+<body class="antialiased">
 
-    <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
-        const { motion, useScroll, useTransform, AnimatePresence } = window.Motion;
+    <!-- Loading Screen -->
+    <div id="loader">
+        <h1 class="display-font loader-text text-6xl">EDITION COUTURE</h1>
+        <p class="font-bold tracking-widest mt-4 bg-white px-4 py-1 border-2 border-black">MODA YÜKLENİYOR</p>
+    </div>
 
-        // --- 0. SMOOTH SCROLL ---
-        const SmoothScroll = ({ children }) => {
-            useEffect(() => {
-                const lenis = new Lenis({
-                    duration: 1.2,
-                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                    smooth: true,
-                });
-                function raf(time) {
-                    lenis.raf(time);
-                    requestAnimationFrame(raf);
-                }
-                requestAnimationFrame(raf);
-                return () => lenis.destroy();
-            }, []);
-            return <>{children}</>;
-        };
+    <!-- 3D Canvas -->
+    <div id="canvas-container"></div>
 
-        // --- 1. PERFORMANCE CURSOR ---
-        const Cursor = () => {
-            const cursorRef = useRef(null);
+    <!-- UI Overlay -->
+    <nav class="fixed top-0 w-full p-6 flex justify-between items-center z-50">
+        <div class="bg-white border-2 border-black px-4 py-2 shadow-[4px_4px_0px_#000] rotate-[-2deg]">
+            <span class="text-2xl display-font font-bold text-pink-600">Edition Couture</span>
+        </div>
+        
+        <div class="hidden md:flex space-x-4">
+            <a href="#" class="bg-white border-2 border-black px-4 py-1 rounded-full font-bold text-sm hover:bg-cyan-300 transition-colors">KOLEKSİYON</a>
+            <a href="#" class="bg-white border-2 border-black px-4 py-1 rounded-full font-bold text-sm hover:bg-yellow-300 transition-colors">TRENDLER</a>
+            <a href="#" class="bg-white border-2 border-black px-4 py-1 rounded-full font-bold text-sm hover:bg-purple-300 transition-colors">POPÜLER</a>
+        </div>
+
+        <a href="#" class="btn-pop text-xs !py-2 !px-6">Üye Ol</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="relative z-10 pt-32 pb-20">
+        
+        <!-- Hero Section -->
+        <section class="min-h-[85vh] flex flex-col justify-center px-6 md:px-24 pointer-events-none">
+            <div class="max-w-4xl relative">
+                <!-- Decorative Circle -->
+                <div class="absolute -top-20 -left-20 w-40 h-40 bg-yellow-300 rounded-full border-4 border-black z-[-1] opacity-80"></div>
+                
+                <span class="bg-black text-white px-3 py-1 text-sm font-bold tracking-widest uppercase rotate-2 inline-block mb-4">Yeni Sezon</span>
+                <h1 class="text-7xl md:text-9xl display-font text-gray-900 mb-6 leading-[0.9]">
+                    Renklerin <br>
+                    <span class="text-pink-500 drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">Dansı</span>
+                </h1>
+                <p class="text-gray-800 bg-white/80 backdrop-blur-sm p-4 rounded-xl border-2 border-black max-w-lg text-lg mb-8 pointer-events-auto font-medium shadow-[6px_6px_0px_#8a2be2]">
+                    Moda hiç bu kadar eğlenceli olmamıştı! <br>
+                    Pembe tonların enerjisi ve pop-art desenlerin çılgınlığıyla gardırobunuza neşe katın.
+                </p>
+                <div class="pointer-events-auto">
+                    <a href="#" class="btn-pop">Partiye Katıl</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Grid -->
+        <section class="px-6 md:px-24 py-12 grid grid-cols-1 md:grid-cols-2 gap-16">
             
-            useEffect(() => {
-                const cursor = cursorRef.current;
+            <!-- Article 1 -->
+            <div class="pop-card p-8 group cursor-pointer bg-white">
+                <div class="relative z-10">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="bg-cyan-300 border-2 border-black px-3 py-1 text-xs font-black uppercase rounded shadow-[2px_2px_0px_#000]">Trend</span>
+                        <span class="text-4xl display-font text-pink-500">01.</span>
+                    </div>
+                    <h3 class="text-4xl display-font mb-4 text-gray-900 group-hover:text-purple-600 transition-colors">Şeker Pembesi</h3>
+                    <p class="text-gray-600 font-medium mb-6 leading-relaxed">
+                        Bu sezon kurallar yok! Baştan aşağı <span class="highlight">pembe</span> giyinmek artık bir manifesto. Panter desenlerini neon renklerle karıştırıyoruz.
+                    </p>
+                    <div class="h-48 bg-gray-100 rounded-lg border-2 border-dashed border-gray-300 mb-6 flex items-center justify-center overflow-hidden">
+                        <div class="w-full h-full bg-[url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80')] bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-500 hover:scale-110"></div>
+                    </div>
+                    <button class="text-black font-black uppercase border-b-4 border-yellow-400 hover:border-pink-500 transition-colors">Devamını Oku →</button>
+                </div>
+            </div>
+
+            <!-- Article 2 (Offset) -->
+            <div class="pop-card p-8 group cursor-pointer bg-white md:mt-24">
+                <div class="relative z-10">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="bg-purple-300 border-2 border-black px-3 py-1 text-xs font-black uppercase rounded shadow-[2px_2px_0px_#000]">Stil</span>
+                        <span class="text-4xl display-font text-cyan-500">02.</span>
+                    </div>
+                    <h3 class="text-4xl display-font mb-4 text-gray-900 group-hover:text-pink-600 transition-colors">Maksimalist Etki</h3>
+                    <p class="text-gray-600 font-medium mb-6 leading-relaxed">
+                        Az çoktur devri bitti. Şimdi "Daha Çok" zamanı! Büyük aksesuarlar, karışık desenler ve <span class="highlight">cesur</span> renk blokları.
+                    </p>
+                    <!-- Pattern Preview Block -->
+                    <div class="h-48 w-full mb-6 rounded-lg border-2 border-black relative overflow-hidden bg-yellow-100">
+                         <div class="absolute inset-0 opacity-100" style="background-image: radial-gradient(#ff1493 4px, transparent 4px), radial-gradient(#8a2be2 4px, transparent 4px); background-size: 30px 30px; background-position: 0 0, 15px 15px;"></div>
+                         <div class="absolute inset-0 flex items-center justify-center font-black text-3xl text-black -rotate-12 bg-white/50 backdrop-blur-sm">DESEN AŞKI</div>
+                    </div>
+                    <button class="text-black font-black uppercase border-b-4 border-cyan-400 hover:border-purple-500 transition-colors">İncele →</button>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Fun Interactive Section -->
+        <section class="py-24 px-6">
+            <div class="bg-pink-100 border-4 border-black rounded-[3rem] p-12 text-center relative max-w-3xl mx-auto shadow-[12px_12px_0px_#ff1493]">
+                <div class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-yellow-400 border-2 border-black px-6 py-2 rotate-2 shadow-[4px_4px_0px_#000]">
+                    <span class="font-black text-xl uppercase">Sürprizler Seni Bekliyor!</span>
+                </div>
                 
-                const move = (e) => {
-                    if(cursor) {
-                        cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
-                    }
-                };
-
-                window.addEventListener("mousemove", move);
+                <h2 class="text-5xl display-font mb-6 text-purple-700">Moda Kulübüne Katıl</h2>
+                <p class="text-lg font-bold text-gray-700 mb-8">
+                    Haftalık renk dozunuzu almak için bültenimize kaydolun. <br>
+                    Sıkıcı e-postalar göndermiyoruz, söz!
+                </p>
                 
-                const handleHover = (e) => {
-                    if (e.target.closest('a, button, input, textarea, .hover-target')) {
-                        cursor.classList.add('scale-[3]');
-                        cursor.classList.add('mix-blend-difference');
-                        cursor.classList.add('bg-white');
-                        cursor.classList.remove('bg-black');
-                    } else {
-                        cursor.classList.remove('scale-[3]');
-                        cursor.classList.remove('mix-blend-difference');
-                        cursor.classList.remove('bg-white');
-                        cursor.classList.add('bg-black');
-                    }
-                };
-                window.addEventListener('mouseover', handleHover);
+                <div class="flex flex-col md:flex-row gap-4 justify-center max-w-md mx-auto">
+                    <input type="email" placeholder="E-posta adresin..." class="flex-1 border-2 border-black rounded-full p-4 outline-none focus:bg-yellow-50 font-bold placeholder-gray-400 shadow-[4px_4px_0px_#ddd] focus:shadow-[4px_4px_0px_#000] transition-all">
+                    <button class="bg-black text-white font-bold rounded-full px-8 py-4 shadow-[4px_4px_0px_#8a2be2] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all active:scale-95 border-2 border-transparent hover:border-black hover:bg-white hover:text-black">KAYDOL</button>
+                </div>
+            </div>
+        </section>
 
-                return () => {
-                    window.removeEventListener("mousemove", move);
-                    window.removeEventListener('mouseover', handleHover);
-                };
-            }, []);
+    </main>
 
-            return (
-                <div 
-                    ref={cursorRef}
-                    className="fixed top-0 left-0 w-3 h-3 bg-black rounded-full pointer-events-none z-[9999] transition-transform duration-75 ease-out will-change-transform"
-                    style={{ position: 'fixed', left: 0, top: 0 }}
-                />
-            );
-        };
+    <footer class="bg-black py-12 text-center border-t-8 border-pink-500 relative overflow-hidden">
+        <!-- Footer Pattern -->
+        <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: linear-gradient(45deg, #333 25%, transparent 25%), linear-gradient(-45deg, #333 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #333 75%), linear-gradient(-45deg, transparent 75%, #333 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"></div>
+        
+        <div class="relative z-10">
+            <div class="display-font text-4xl font-bold mb-6 text-white">EDITION COUTURE</div>
+            <div class="flex justify-center gap-6 mb-8">
+                <a href="#" class="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center border-2 border-white hover:bg-yellow-400 hover:border-black hover:text-black transition-colors text-white font-bold">IG</a>
+                <a href="#" class="w-10 h-10 bg-cyan-500 rounded-full flex items-center justify-center border-2 border-white hover:bg-yellow-400 hover:border-black hover:text-black transition-colors text-white font-bold">TW</a>
+                <a href="#" class="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center border-2 border-white hover:bg-yellow-400 hover:border-black hover:text-black transition-colors text-white font-bold">YT</a>
+            </div>
+            <p class="text-gray-400 text-sm font-bold">© 2025 Edition Couture. Hayat çok kısa, renkli giyin.</p>
+        </div>
+    </footer>
 
-        // --- 2. THREE.JS GIANT BLOOMING FLOWER ---
-        const RealisticBloomingFlower = () => {
-            const mountRef = useRef(null);
+    <!-- Three.js Implementation -->
+    <script>
+        // --- 1. SETUP ---
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        // Background Color: Light lavender/white mix is handled by CSS, scene is transparent mostly
+        // but let's add a very light color to catch fog
+        scene.background = new THREE.Color(0xfff0f5); 
+        scene.fog = new THREE.Fog(0xfff0f5, 8, 25);
 
-            useEffect(() => {
-                const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(0, 1.5, 10);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        container.appendChild(renderer.domElement);
+
+        // --- 2. LIGHTING (Pop Studio) ---
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.7); 
+        scene.add(ambientLight);
+
+        // Key Light (Warm Yellow)
+        const keyLight = new THREE.DirectionalLight(0xffd700, 1.0);
+        keyLight.position.set(5, 10, 5);
+        keyLight.castShadow = true;
+        scene.add(keyLight);
+
+        // Rim Light (Electric Blue)
+        const rimLight = new THREE.PointLight(0x00ced1, 1.5);
+        rimLight.position.set(-5, 5, -5);
+        scene.add(rimLight);
+
+        // Fill Light (Hot Pink)
+        const pinkFill = new THREE.PointLight(0xff1493, 0.8);
+        pinkFill.position.set(5, 0, 5);
+        scene.add(pinkFill);
+
+        // --- 3. FUNKY POP-ART TEXTURE ---
+        function createPopTexture() {
+            const size = 512;
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+
+            // Base color: Hot Pink
+            ctx.fillStyle = '#ff69b4'; 
+            ctx.fillRect(0, 0, size, size);
+
+            // Pattern: Random colorful geometric shapes
+            const colors = ['#00ced1', '#ffd700', '#8a2be2', '#ffffff'];
+            
+            for (let i = 0; i < 60; i++) {
+                const x = Math.random() * size;
+                const y = Math.random() * size;
+                const r = Math.random() * 30 + 10;
                 
-                // Camera setup for a bigger, closer view
-                const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-                camera.position.set(0, 3, 5); // Closer and higher angle
-                camera.lookAt(0, 0, 0);
-
-                const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-                mountRef.current.appendChild(renderer.domElement);
-
-                // --- Lighting (Dramatic Studio Light) ---
-                const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
-                scene.add(ambientLight);
-
-                const spotLight = new THREE.SpotLight(0xffffff, 1.5);
-                spotLight.position.set(5, 10, 5);
-                spotLight.angle = 0.5;
-                spotLight.penumbra = 0.5;
-                scene.add(spotLight);
+                ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+                ctx.beginPath();
                 
-                const rimLight = new THREE.PointLight(0xffffff, 1);
-                rimLight.position.set(-5, 2, -5);
-                scene.add(rimLight);
+                // Mix circles and triangles
+                if (Math.random() > 0.5) {
+                    ctx.arc(x, y, r, 0, Math.PI * 2);
+                } else {
+                    ctx.moveTo(x, y - r);
+                    ctx.lineTo(x + r, y + r);
+                    ctx.lineTo(x - r, y + r);
+                    ctx.closePath();
+                }
+                ctx.fill();
 
-                // --- Flower Logic ---
-                const flowerGroup = new THREE.Group();
-                scene.add(flowerGroup);
-
-                // Petal Geometry (Curved and Detailed)
-                // We bend a plane to make it look like a petal
-                const createPetalGeometry = (width, length) => {
-                    const shape = new THREE.Shape();
-                    // Organic petal shape
-                    shape.moveTo(0, 0);
-                    shape.bezierCurveTo(width * 0.5, length * 0.2, width, length * 0.5, 0, length);
-                    shape.bezierCurveTo(-width, length * 0.5, -width * 0.5, length * 0.2, 0, 0);
-
-                    const extrudeSettings = {
-                        steps: 5, // More steps for smoothness
-                        depth: 0.05,
-                        bevelEnabled: true,
-                        bevelThickness: 0.02,
-                        bevelSize: 0.02,
-                        bevelSegments: 5
-                    };
-
-                    const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-                    
-                    // Bend the geometry (Simple vertex displacement for curve)
-                    const positions = geometry.attributes.position;
-                    const vector = new THREE.Vector3();
-                    for (let i = 0; i < positions.count; i++) {
-                        vector.fromBufferAttribute(positions, i);
-                        // Bend along Z axis based on Y height (length)
-                        const bendFactor = 0.5; 
-                        const zOffset = Math.pow(vector.y / length, 2) * bendFactor;
-                        vector.z += zOffset;
-                        positions.setXYZ(i, vector.x, vector.y, vector.z);
-                    }
-                    geometry.computeVertexNormals();
-                    
-                    return geometry;
-                };
-
-                // Material: Metallic/Pearl White
-                const petalMaterial = new THREE.MeshPhysicalMaterial({
-                    color: 0xf5f5f5,
-                    metalness: 0.3,
-                    roughness: 0.2,
-                    clearcoat: 1.0,
-                    clearcoatRoughness: 0.1,
-                    side: THREE.DoubleSide
-                });
-
-                // Layers of petals
-                const layers = [
-                    { count: 6, width: 0.6, length: 1.5, angleOffset: 0, yPos: 0.2, rotOffset: 0.2 }, // Inner
-                    { count: 9, width: 0.8, length: 2.0, angleOffset: 0.2, yPos: 0.1, rotOffset: 0.5 }, // Middle
-                    { count: 12, width: 1.0, length: 2.5, angleOffset: 0.4, yPos: 0.0, rotOffset: 0.8 }, // Outer
-                ];
-
-                const petalAnimations = []; // Store references for animation
-
-                layers.forEach((layer, layerIndex) => {
-                    const geo = createPetalGeometry(layer.width, layer.length);
-                    
-                    for(let i=0; i<layer.count; i++) {
-                        const pivot = new THREE.Group();
-                        const mesh = new THREE.Mesh(geo, petalMaterial);
-                        
-                        // Initial setup
-                        pivot.add(mesh);
-                        pivot.position.y = layer.yPos;
-                        pivot.rotation.y = (i / layer.count) * Math.PI * 2 + layer.angleOffset;
-                        
-                        // Initial bloom state (Closed)
-                        // mesh.rotation.x = -1.5; // Tightly closed
-                        
-                        flowerGroup.add(pivot);
-                        
-                        petalAnimations.push({
-                            mesh: mesh,
-                            baseRot: -1.2 + (layerIndex * 0.3), // Inner layers are more closed initially
-                            bloomRange: 1.5, // How much it opens
-                            speedOffset: i * 0.1 + layerIndex * 0.5 // Organic delay
-                        });
-                    }
-                });
-
-                // Pistil (Center)
-                const pistilGeo = new THREE.SphereGeometry(0.4, 32, 32);
-                const pistilMat = new THREE.MeshPhysicalMaterial({ color: 0x333333, roughness: 0.8, metalness: 0.5 });
-                const pistil = new THREE.Mesh(pistilGeo, pistilMat);
-                pistil.position.y = 0.5;
-                pistil.scale.y = 0.6;
-                flowerGroup.add(pistil);
-
-                // Initial Position
-                flowerGroup.rotation.x = 0.5; // Tilt towards camera
-                flowerGroup.position.y = -1; // Move down so it fills the screen nicely
-
-                // --- Animation ---
-                let time = 0;
-                const animate = () => {
-                    requestAnimationFrame(animate);
-                    time += 0.003; // Slow, graceful speed
-
-                    // Rotate entire flower slowly
-                    flowerGroup.rotation.y = time * 0.1;
-
-                    // Blooming Logic
-                    // Use Sine wave for breathing effect (Open <-> Close)
-                    const breath = (Math.sin(time) + 1) / 2; // 0 to 1
-                    
-                    petalAnimations.forEach(p => {
-                        // Interpolate rotation
-                        // Closed state + (Range * Breath * OrganicFactor)
-                        const currentRot = p.baseRot + (p.bloomRange * breath);
-                        
-                        // Apply smoothing or delay based on petal index
-                        // We use a slightly offset time for each petal to make it wave
-                        const organicBreath = (Math.sin(time + p.speedOffset) + 1) / 2;
-                        
-                        // Actually, let's make it simply open gracefully
-                        // Open: Positive rotation X (outwards)
-                        // Closed: Negative rotation X (inwards)
-                        p.mesh.rotation.x = p.baseRot + (organicBreath * 1.2); 
-                    });
-
-                    renderer.render(scene, camera);
-                };
-                animate();
-
-                // Handle Resize
-                const handleResize = () => {
-                    camera.aspect = window.innerWidth / window.innerHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(window.innerWidth, window.innerHeight);
-                };
-                window.addEventListener('resize', handleResize);
-
-                return () => {
-                    window.removeEventListener('resize', handleResize);
-                    if (mountRef.current) mountRef.current.removeChild(renderer.domElement);
-                };
-            }, []);
-
-            return <div ref={mountRef} className="fixed inset-0 z-0 pointer-events-none opacity-100" />;
-        };
-
-        // --- 3. HERO (Updated Layout) ---
-        const Hero = ({ t }) => {
-            return (
-                <section className="h-screen relative flex flex-col items-center justify-center overflow-hidden pointer-events-none">
-                    <div className="absolute inset-0 z-10 flex flex-col justify-between py-12 px-6">
-                        {/* Top: Name split */}
-                        <div className="flex justify-between items-start mix-blend-difference text-black pointer-events-auto">
-                            <motion.h1 
-                                initial={{ x: -100, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 1.2 }}
-                                className="font-serif-display text-[12vw] md:text-[8vw] leading-none tracking-tighter"
-                            >
-                                ALBINA
-                            </motion.h1>
-                            <div className="text-right hidden md:block mt-4">
-                                <p className="text-xs uppercase tracking-widest">Berlin, Germany</p>
-                                <p className="text-xs uppercase tracking-widest text-gray-500">Fine Line Specialist</p>
-                            </div>
-                        </div>
-
-                        {/* Middle is empty for the 3D Flower */}
-
-                        {/* Bottom: Last Name & CTA */}
-                        <div className="flex justify-between items-end mix-blend-difference text-black pointer-events-auto">
-                            <div className="hidden md:block">
-                                <a href="#booking" className="inline-block border border-black rounded-full px-8 py-3 text-xs uppercase tracking-widest hover:bg-black hover:text-white transition-colors duration-300 hover-target">
-                                    {t.bookBtn}
-                                </a>
-                            </div>
-                            <motion.h1 
-                                initial={{ x: 100, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 1.2, delay: 0.2 }}
-                                className="font-serif-display text-[12vw] md:text-[8vw] leading-none tracking-tighter text-right"
-                            >
-                                KHABIYEVA
-                            </motion.h1>
-                        </div>
-                    </div>
-                    
-                    {/* Mobile CTA */}
-                    <div className="absolute bottom-32 left-1/2 -translate-x-1/2 md:hidden pointer-events-auto">
-                         <a href="#booking" className="text-xs uppercase tracking-widest border-b border-black pb-1">Start Project</a>
-                    </div>
-                </section>
-            );
-        };
-
-        // --- 4. WATERFALL GALLERY (Asymmetric) ---
-        const WaterfallGallery = ({ t }) => {
-            const { scrollY } = useScroll();
-            const y1 = useTransform(scrollY, [0, 2000], [0, -100]);
-            const y2 = useTransform(scrollY, [0, 2000], [0, -300]);
-
-            const works = [
-                { id: 1, img: "https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=800", title: "Project Alpha" },
-                { id: 2, img: "https://images.unsplash.com/photo-1565568169222-7776b9766444?w=800", title: "Project Beta" },
-                { id: 3, img: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=800", title: "Project Gamma" },
-                { id: 4, img: "https://images.unsplash.com/photo-1590246294797-e066227441c2?w=800", title: "Project Delta" },
-            ];
-
-            return (
-                <section className="py-24 px-6 bg-white relative z-10">
-                    <div className="container mx-auto">
-                        <div className="flex justify-between items-end mb-24 border-b border-black pb-4">
-                            <h2 className="text-4xl font-serif-display">{t.worksTitle}</h2>
-                            <span className="text-xs font-bold uppercase tracking-widest">2024 Archive</span>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-32">
-                            <motion.div style={{ y: y1 }} className="flex flex-col gap-24 mt-0 md:mt-24">
-                                {works.slice(0, 2).map((w, i) => (
-                                    <div key={i} className="group cursor-none hover-target">
-                                        <div className="aspect-[3/4] overflow-hidden bg-gray-50 mb-4">
-                                            <img src={w.img} className="w-full h-full object-cover grayscale group-hover:scale-105 transition-transform duration-700" />
-                                        </div>
-                                        <div className="flex justify-between text-xs uppercase tracking-widest">
-                                            <span>{w.title}</span>
-                                            <span>Fine Line</span>
-                                        </div>
-                                    </div>
-                                ))}
-                            </motion.div>
-                            
-                            <motion.div style={{ y: y2 }} className="flex flex-col gap-24">
-                                {works.slice(2, 4).map((w, i) => (
-                                    <div key={i} className="group cursor-none hover-target">
-                                        <div className="aspect-[3/4] overflow-hidden bg-gray-50 mb-4">
-                                            <img src={w.img} className="w-full h-full object-cover grayscale group-hover:scale-105 transition-transform duration-700" />
-                                        </div>
-                                        <div className="flex justify-between text-xs uppercase tracking-widest">
-                                            <span>{w.title}</span>
-                                            <span>Floral</span>
-                                        </div>
-                                    </div>
-                                ))}
-                            </motion.div>
-                        </div>
-                    </div>
-                </section>
-            );
-        };
-
-        // --- 5. PHILOSOPHY (Big Type) ---
-        const Philosophy = ({ t }) => {
-            return (
-                <section className="py-40 bg-black text-white px-6">
-                    <div className="container mx-auto max-w-5xl text-center">
-                        <span className="text-6xl font-serif-display block mb-8 opacity-30">“</span>
-                        <p className="font-serif-display text-3xl md:text-5xl leading-tight mb-12">
-                            {t.philosophyText}
-                        </p>
-                        <div className="h-[1px] w-24 bg-white/30 mx-auto"></div>
-                    </div>
-                </section>
-            );
-        };
-
-        // --- 6. BOOKING (Clean) ---
-        const Booking = ({ t, onOpen }) => {
-            return (
-                <section id="booking" className="py-32 px-6 bg-white flex flex-col items-center justify-center">
-                    <h2 className="text-xs font-bold uppercase tracking-[0.5em] mb-12 text-gray-400">Availability Open</h2>
-                    
-                    <button 
-                        onClick={onOpen}
-                        className="group relative inline-block cursor-none hover-target"
-                    >
-                        <span className="font-serif-display text-6xl md:text-9xl text-black group-hover:italic transition-all duration-300">
-                            {t.bookBtn}
-                        </span>
-                        <div className="absolute bottom-0 left-0 w-full h-1 bg-black scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
-                    </button>
-
-                    <div className="mt-24 flex gap-12 text-xs uppercase font-bold tracking-widest text-black">
-                        <a href="#" className="hover:underline hover-target">Instagram</a>
-                        <a href="#" className="hover:underline hover-target">Email</a>
-                    </div>
-                </section>
-            );
-        };
-
-        // --- 7. MODAL ---
-        const Modal = ({ isOpen, onClose }) => {
-            return (
-                <AnimatePresence>
-                    {isOpen && (
-                        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-                            <motion.div 
-                                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                                onClick={onClose} className="absolute inset-0 bg-white/95 backdrop-blur-xl"
-                            />
-                            <motion.div 
-                                initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 50, opacity: 0 }}
-                                className="w-full max-w-xl relative z-10"
-                            >
-                                <div className="flex justify-between items-center mb-12 border-b border-black pb-4">
-                                    <h3 className="font-serif-display text-4xl">Booking Request</h3>
-                                    <button onClick={onClose} className="text-xs font-bold uppercase tracking-widest hover-target">Close</button>
-                                </div>
-                                <form className="space-y-8">
-                                    <input type="text" className="w-full border-b border-gray-200 py-3 text-lg outline-none focus:border-black transition-colors bg-transparent placeholder-gray-400 hover-target" placeholder="Name" />
-                                    <input type="email" className="w-full border-b border-gray-200 py-3 text-lg outline-none focus:border-black transition-colors bg-transparent placeholder-gray-400 hover-target" placeholder="Email" />
-                                    <textarea rows="3" className="w-full border-b border-gray-200 py-3 text-lg outline-none focus:border-black transition-colors bg-transparent placeholder-gray-400 resize-none hover-target" placeholder="Describe your idea..."></textarea>
-                                    <button className="w-full bg-black text-white py-5 text-xs font-bold tracking-[0.3em] uppercase hover:bg-white hover:text-black border border-black transition-colors mt-8 hover-target">
-                                        Send Request
-                                    </button>
-                                </form>
-                            </motion.div>
-                        </div>
-                    )}
-                </AnimatePresence>
-            );
-        };
-
-        // --- DATA ---
-        const content = {
-            en: {
-                worksTitle: "Selected Works",
-                philosophyText: "Tattooing is an intimate ritual. I create designs that flow organically with the body, aging gracefully alongside you.",
-                bookBtn: "Inquire"
-            },
-            de: {
-                worksTitle: "Ausgewählte Werke",
-                philosophyText: "Tätowieren ist ein intimes Ritual. Ich entwerfe Designs, die organisch mit dem Körper fließen und anmutig mit Ihnen altern.",
-                bookBtn: "Anfragen"
+                // Add bold outline
+                ctx.strokeStyle = '#000000';
+                ctx.lineWidth = 3;
+                ctx.stroke();
             }
-        };
 
-        const App = () => {
-            const [lang, setLang] = useState('en');
-            const [modalOpen, setModalOpen] = useState(false);
-            const t = content[lang];
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(2, 2);
+            return texture;
+        }
 
-            return (
-                <SmoothScroll>
-                    <div className="antialiased bg-white selection:bg-black selection:text-white">
-                        <Cursor />
-                        <div className="fixed top-8 left-8 z-50 text-xs font-bold tracking-widest hidden md:block">EST. 2024</div>
-                        <div className="fixed top-8 right-8 z-50 flex gap-4 text-xs font-bold tracking-widest cursor-pointer hover-target">
-                            <span onClick={() => setLang('en')} className={lang === 'en' ? 'underline' : 'opacity-50'}>EN</span>
-                            <span onClick={() => setLang('de')} className={lang === 'de' ? 'underline' : 'opacity-50'}>DE</span>
-                        </div>
+        const popTexture = createPopTexture();
 
-                        <div className="relative">
-                            <RealisticBloomingFlower /> {/* 3D Flower Background */}
-                            <Hero t={t} />
-                        </div>
+        // --- 4. ENVIRONMENT (Floor & Shapes) ---
+        // Grid Floor for Pop Effect
+        const gridHelper = new THREE.GridHelper(100, 50, 0xff1493, 0xdddddd);
+        gridHelper.position.y = 0;
+        scene.add(gridHelper);
 
-                        <main className="relative z-10 bg-white">
-                            <WaterfallGallery t={t} />
-                            <Philosophy t={t} />
-                            <Booking t={t} onOpen={() => setModalOpen(true)} />
-                        </main>
+        const floorGeo = new THREE.PlaneGeometry(100, 100);
+        const floorMat = new THREE.MeshBasicMaterial({ 
+            color: 0xfff0f5,
+            transparent: true,
+            opacity: 0.8
+        });
+        const floor = new THREE.Mesh(floorGeo, floorMat);
+        floor.rotation.x = -Math.PI / 2;
+        floor.position.y = -0.01;
+        floor.receiveShadow = true;
+        scene.add(floor);
 
-                        <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
-                    </div>
-                </SmoothScroll>
+        // Floating Geometric Shapes (Confetti)
+        const shapeGroup = new THREE.Group();
+        const geometries = [
+            new THREE.TorusGeometry(0.3, 0.1, 8, 20),
+            new THREE.OctahedronGeometry(0.4),
+            new THREE.BoxGeometry(0.4, 0.4, 0.4),
+            new THREE.ConeGeometry(0.3, 0.6, 16)
+        ];
+        const mats = [
+            new THREE.MeshStandardMaterial({ color: 0xffd700, roughness: 0.2 }),
+            new THREE.MeshStandardMaterial({ color: 0x00ced1, roughness: 0.2 }),
+            new THREE.MeshStandardMaterial({ color: 0xff1493, roughness: 0.2 }),
+            new THREE.MeshStandardMaterial({ color: 0x8a2be2, roughness: 0.2 })
+        ];
+
+        for (let i = 0; i < 30; i++) {
+            const geo = geometries[Math.floor(Math.random() * geometries.length)];
+            const mat = mats[Math.floor(Math.random() * mats.length)];
+            const mesh = new THREE.Mesh(geo, mat);
+            
+            mesh.position.set(
+                (Math.random() - 0.5) * 15,
+                Math.random() * 6 + 1,
+                (Math.random() - 0.5) * 10
             );
+            mesh.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, 0);
+            
+            // Store random rotation speed
+            mesh.userData = {
+                rotX: (Math.random() - 0.5) * 0.05,
+                rotY: (Math.random() - 0.5) * 0.05
+            };
+            
+            shapeGroup.add(mesh);
+        }
+        scene.add(shapeGroup);
+
+        // --- 5. THE POP PANTHER ---
+        const pantherGroup = new THREE.Group();
+        
+        const pantherMat = new THREE.MeshStandardMaterial({
+            map: popTexture,
+            roughness: 0.4,
+            metalness: 0.1,
+            envMapIntensity: 0.5
+        });
+
+        // Use same geometry logic as before but maybe slightly chunkier/cartoony
+        function createPart(geometry, x, y, z, rx, ry, rz) {
+            const mesh = new THREE.Mesh(geometry, pantherMat);
+            mesh.position.set(x, y, z);
+            mesh.rotation.set(rx || 0, ry || 0, rz || 0);
+            mesh.castShadow = true;
+            return mesh;
+        }
+
+        // Body
+        const bodyGeo = new THREE.CylinderGeometry(0.55, 0.45, 3.5, 16); // Slightly thicker
+        const body = createPart(bodyGeo, 0, 1.2, 0, 0, 0, Math.PI / 2);
+        pantherGroup.add(body);
+
+        // Neck
+        const neckGeo = new THREE.CylinderGeometry(0.4, 0.55, 1.2, 16);
+        const neck = createPart(neckGeo, 2, 1.8, 0, 0, 0, -Math.PI / 4);
+        pantherGroup.add(neck);
+
+        // Head
+        const headGeo = new THREE.SphereGeometry(0.55, 32, 32);
+        const head = createPart(headGeo, 2.5, 2.2, 0);
+        head.scale.set(1.2, 1, 1);
+        pantherGroup.add(head);
+
+        // Snout
+        const snoutGeo = new THREE.BoxGeometry(0.45, 0.35, 0.45);
+        const snout = createPart(snoutGeo, 3, 2.1, 0);
+        pantherGroup.add(snout);
+
+        // Ears - Larger for cute/pop look
+        const earGeo = new THREE.ConeGeometry(0.2, 0.4, 32);
+        const earL = createPart(earGeo, 2.4, 2.7, 0.35, 0, 0, -0.5);
+        const earR = createPart(earGeo, 2.4, 2.7, -0.35, 0, 0, -0.5);
+        pantherGroup.add(earL, earR);
+
+        // Legs
+        const legUpperGeo = new THREE.CylinderGeometry(0.3, 0.2, 1.2, 16);
+        const legLowerGeo = new THREE.CylinderGeometry(0.2, 0.15, 1.2, 16);
+
+        // Front Left
+        const flGroup = new THREE.Group();
+        flGroup.position.set(1.5, 1.2, 0.45);
+        flGroup.add(createPart(legUpperGeo, 0, -0.3, 0));
+        flGroup.add(createPart(legLowerGeo, 0, -1.3, 0));
+        pantherGroup.add(flGroup);
+
+        // Front Right
+        const frGroup = new THREE.Group();
+        frGroup.position.set(1.5, 1.2, -0.45);
+        frGroup.add(createPart(legUpperGeo, 0, -0.3, 0));
+        frGroup.add(createPart(legLowerGeo, 0, -1.3, 0));
+        pantherGroup.add(frGroup);
+
+        // Back Left
+        const blGroup = new THREE.Group();
+        blGroup.position.set(-1.2, 1.2, 0.45);
+        blGroup.add(createPart(legUpperGeo, 0, -0.3, 0, 0.3, 0, 0)); 
+        blGroup.add(createPart(legLowerGeo, 0, -1.3, 0.2, -0.3, 0, 0));
+        pantherGroup.add(blGroup);
+
+        // Back Right
+        const brGroup = new THREE.Group();
+        brGroup.position.set(-1.2, 1.2, -0.45);
+        brGroup.add(createPart(legUpperGeo, 0, -0.3, 0, 0.3, 0, 0));
+        brGroup.add(createPart(legLowerGeo, 0, -1.3, 0.2, -0.3, 0, 0));
+        pantherGroup.add(brGroup);
+
+        // Tail
+        const tailGroup = new THREE.Group();
+        tailGroup.position.set(-1.8, 1.3, 0);
+        const tailGeo = new THREE.CylinderGeometry(0.12, 0.05, 1.5, 8);
+        const tail = createPart(tailGeo, -0.6, 0.2, 0, 0, 0, -1.2);
+        tailGroup.add(tail);
+        pantherGroup.add(tailGroup);
+
+        scene.add(pantherGroup);
+
+        // --- 6. ANIMATION ---
+        let mouseX = 0;
+        let mouseY = 0;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX - window.innerWidth / 2) * 0.001;
+            mouseY = (event.clientY - window.innerHeight / 2) * 0.001;
+        });
+
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = clock.getElapsedTime();
+
+            // 1. Panther Animation (More bounce)
+            pantherGroup.position.y = Math.sin(time * 4) * 0.08; // Faster, bouncier
+            
+            const walkSpeed = 4;
+            const walkRange = 0.3;
+            
+            flGroup.rotation.z = Math.sin(time * walkSpeed) * walkRange;
+            brGroup.rotation.z = Math.sin(time * walkSpeed) * walkRange;
+            frGroup.rotation.z = Math.sin(time * walkSpeed + Math.PI) * walkRange;
+            blGroup.rotation.z = Math.sin(time * walkSpeed + Math.PI) * walkRange;
+            
+            tailGroup.rotation.y = Math.sin(time * 5) * 0.4;
+            tailGroup.rotation.z = Math.sin(time * 3) * 0.1;
+
+            // 2. Confetti Animation
+            shapeGroup.children.forEach(mesh => {
+                mesh.rotation.x += mesh.userData.rotX;
+                mesh.rotation.y += mesh.userData.rotY;
+                mesh.position.y += Math.sin(time + mesh.position.x) * 0.005; // Gentle floating
+            });
+
+            // 3. Camera Interaction
+            const scrollY = window.scrollY;
+            const scrollPercent = scrollY / (document.body.scrollHeight - window.innerHeight);
+
+            // Rotate camera 360 around the panther while scrolling
+            const camRadius = 9;
+            const camAngle = scrollPercent * Math.PI * 2 + (mouseX * 0.5);
+
+            camera.position.x = Math.sin(camAngle) * camRadius;
+            camera.position.z = Math.cos(camAngle) * camRadius;
+            camera.position.y = 2 + (mouseY * 3);
+            
+            camera.lookAt(0, 1.2, 0);
+
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        window.onload = () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    animate();
+                }, 500);
+            }, 1000);
         };
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
     </script>
 </body>
 </html>
