@@ -1,356 +1,324 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.2">
-  <style type="text/css">
-    body {background-color: #fee7ef}
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #cacaca; -webkit-text-stroke: #cacaca}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #36c0a0; -webkit-text-stroke: #36c0a0}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #cacaca; -webkit-text-stroke: #cacaca; min-height: 16.0px}
-    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #6d7378; -webkit-text-stroke: #6d7378}
-    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #d4d4d4; -webkit-text-stroke: #d4d4d4}
-    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #71c083; -webkit-text-stroke: #71c083}
-    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #b76ff7; -webkit-text-stroke: #b76ff7}
-    span.s1 {font-kerning: none; color: #b76ff7; background-color: #171818; -webkit-text-stroke: 0px #b76ff7}
-    span.s2 {font-kerning: none; background-color: #171818}
-    span.s3 {font-kerning: none; color: #36c0a0; background-color: #171818; -webkit-text-stroke: 0px #36c0a0}
-    span.s4 {font-kerning: none; color: #d4d4d4; background-color: #171818; -webkit-text-stroke: 0px #d4d4d4}
-    span.s5 {font-kerning: none; color: #71c083; background-color: #171818; -webkit-text-stroke: 0px #71c083}
-    span.s6 {font-kerning: none; color: #cacaca; background-color: #171818; -webkit-text-stroke: 0px #cacaca}
-    span.s7 {font-kerning: none}
-    span.s8 {font-kerning: none; color: #f67c30; background-color: #171818; -webkit-text-stroke: 0px #f67c30}
-    span.s9 {font-kerning: none; color: #ee2e38; background-color: #171818; -webkit-text-stroke: 0px #ee2e38}
-    span.s10 {font-kerning: none; color: #6d7378; background-color: #171818; -webkit-text-stroke: 0px #6d7378}
-  </style>
-</head>
-<body>
-<p class="p1"><span class="s1">import</span><span class="s2"> </span><span class="s3">React</span><span class="s4">,</span><span class="s2"> </span><span class="s4">{</span><span class="s2"> useState</span><span class="s4">,</span><span class="s2"> useEffect </span><span class="s4">}</span><span class="s2"> </span><span class="s1">from</span><span class="s2"> </span><span class="s5">'react'</span><span class="s4">;</span></p>
-<p class="p2"><span class="s1">import</span><span class="s6"> </span><span class="s4">{</span><span class="s6"> </span><span class="s2">Calendar</span><span class="s4">,</span><span class="s6"> </span><span class="s2">Clock</span><span class="s4">,</span><span class="s6"> </span><span class="s2">CheckCircle</span><span class="s4">,</span><span class="s6"> </span><span class="s2">ArrowRight</span><span class="s4">,</span><span class="s6"> </span><span class="s2">Instagram</span><span class="s4">,</span><span class="s6"> </span><span class="s2">Mail</span><span class="s4">,</span><span class="s6"> </span><span class="s2">Play</span><span class="s6"> </span><span class="s4">}</span><span class="s6"> </span><span class="s1">from</span><span class="s6"> </span><span class="s5">'lucide-react'</span><span class="s4">;</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p4"><span class="s2">/* NOT: 3D Arka Plan ve Aşırı Dekoratif Öğeler Kaldırılmıştır.</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">   </span>Daha Sade ve Net Bir Tasarım Amaçlanmıştır. */</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p4"><span class="s2">// --- 3D Stilinde Geri Sayım Sayacı (Sadeleştirilmiş) ---</span></p>
-<p class="p2"><span class="s1">const</span><span class="s6"> </span><span class="s2">Countdown3D</span><span class="s6"> </span><span class="s4">=</span><span class="s6"> </span><span class="s4">()</span><span class="s6"> </span><span class="s4">=&gt;</span><span class="s6"> </span><span class="s4">{</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> </span><span class="s4">[</span><span class="s2">timeLeft</span><span class="s4">,</span><span class="s2"> setTimeLeft</span><span class="s4">]</span><span class="s2"> </span><span class="s4">=</span><span class="s2"> useState</span><span class="s4">({</span><span class="s2"> days</span><span class="s4">:</span><span class="s2"> </span><span class="s8">0</span><span class="s4">,</span><span class="s2"> hours</span><span class="s4">:</span><span class="s2"> </span><span class="s8">0</span><span class="s4">,</span><span class="s2"> minutes</span><span class="s4">:</span><span class="s2"> </span><span class="s8">0</span><span class="s4">,</span><span class="s2"> seconds</span><span class="s4">:</span><span class="s2"> </span><span class="s8">0</span><span class="s2"> </span><span class="s4">});</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>useEffect</span><span class="s4">(()</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">{</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">const</span><span class="s2"> targetDate </span><span class="s4">=</span><span class="s2"> </span><span class="s1">new</span><span class="s2"> </span><span class="s3">Date</span><span class="s4">(</span><span class="s5">'2025-12-13T10:00:00'</span><span class="s4">).</span><span class="s2">getTime</span><span class="s4">();</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">const</span><span class="s2"> interval </span><span class="s4">=</span><span class="s2"> setInterval</span><span class="s4">(()</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">{</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s1">const</span><span class="s2"> now </span><span class="s4">=</span><span class="s2"> </span><span class="s1">new</span><span class="s2"> </span><span class="s3">Date</span><span class="s4">().</span><span class="s2">getTime</span><span class="s4">();</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s1">const</span><span class="s2"> distance </span><span class="s4">=</span><span class="s2"> targetDate </span><span class="s4">-</span><span class="s2"> now</span><span class="s4">;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s1">if</span><span class="s2"> </span><span class="s4">(</span><span class="s2">distance </span><span class="s4">&lt;</span><span class="s2"> </span><span class="s8">0</span><span class="s4">)</span><span class="s2"> </span><span class="s4">{</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>clearInterval</span><span class="s4">(</span><span class="s2">interval</span><span class="s4">);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">}</span><span class="s2"> </span><span class="s1">else</span><span class="s2"> </span><span class="s4">{</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>setTimeLeft</span><span class="s4">({</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>days</span><span class="s4">:</span><span class="s2"> </span><span class="s3">Math</span><span class="s4">.</span><span class="s2">floor</span><span class="s4">(</span><span class="s2">distance </span><span class="s4">/</span><span class="s2"> </span><span class="s4">(</span><span class="s8">1000</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">60</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">60</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">24</span><span class="s4">)),</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>hours</span><span class="s4">:</span><span class="s2"> </span><span class="s3">Math</span><span class="s4">.</span><span class="s2">floor</span><span class="s4">((</span><span class="s2">distance </span><span class="s4">%</span><span class="s2"> </span><span class="s4">(</span><span class="s8">1000</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">60</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">60</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">24</span><span class="s4">))</span><span class="s2"> </span><span class="s4">/</span><span class="s2"> </span><span class="s4">(</span><span class="s8">1000</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">60</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">60</span><span class="s4">)),</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>minutes</span><span class="s4">:</span><span class="s2"> </span><span class="s3">Math</span><span class="s4">.</span><span class="s2">floor</span><span class="s4">((</span><span class="s2">distance </span><span class="s4">%</span><span class="s2"> </span><span class="s4">(</span><span class="s8">1000</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">60</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">60</span><span class="s4">))</span><span class="s2"> </span><span class="s4">/</span><span class="s2"> </span><span class="s4">(</span><span class="s8">1000</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">60</span><span class="s4">)),</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>seconds</span><span class="s4">:</span><span class="s2"> </span><span class="s3">Math</span><span class="s4">.</span><span class="s2">floor</span><span class="s4">((</span><span class="s2">distance </span><span class="s4">%</span><span class="s2"> </span><span class="s4">(</span><span class="s8">1000</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">60</span><span class="s4">))</span><span class="s2"> </span><span class="s4">/</span><span class="s2"> </span><span class="s8">1000</span><span class="s4">),</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s4">});</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s4">},</span><span class="s2"> </span><span class="s8">1000</span><span class="s4">);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">return</span><span class="s2"> </span><span class="s4">()</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> clearInterval</span><span class="s4">(</span><span class="s2">interval</span><span class="s4">);</span></p>
-<p class="p5"><span class="s6"><span class="Apple-converted-space">  </span></span><span class="s2">},</span><span class="s6"> </span><span class="s2">[]);</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> </span><span class="s3">FlipCard</span><span class="s2"> </span><span class="s4">=</span><span class="s2"> </span><span class="s4">({</span><span class="s2"> value</span><span class="s4">,</span><span class="s2"> label </span><span class="s4">})</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">(</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">    </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"flex flex-col items-center mx-2 md:mx-3 group"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"relative w-14 h-16 md:w-20 md:h-24 bg-white rounded-lg shadow-md border-b-4 border-orange-500 flex items-center justify-center overflow-hidden"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;</span><span class="s6">span className</span><span class="s4">=</span><span class="s2">"text-2xl md:text-4xl font-black text-gray-800 font-mono"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span></span><span class="s4">{</span><span class="s2">value </span><span class="s4">&lt;</span><span class="s2"> </span><span class="s8">10</span><span class="s2"> </span><span class="s4">?</span><span class="s2"> </span><span class="s5">`0</span><span class="s4">${</span><span class="s2">value</span><span class="s4">}</span><span class="s5">`</span><span class="s2"> </span><span class="s4">:</span><span class="s2"> value</span><span class="s4">}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;/</span><span class="s2">span</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s6">span className</span><span class="s4">=</span><span class="s2">"mt-2 text-xs md:text-sm font-bold text-gray-500 tracking-widest uppercase"</span><span class="s4">&gt;{</span><span class="s6">label</span><span class="s4">}&lt;/</span><span class="s6">span</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s4">);</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p7"><span class="s6"><span class="Apple-converted-space">  </span></span><span class="s2">return</span><span class="s6"> </span><span class="s4">(</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">    </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"flex items-center justify-start gap-1 md:gap-4 mt-8 mb-8"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s3">FlipCard</span><span class="s2"> value</span><span class="s4">={</span><span class="s2">timeLeft</span><span class="s4">.</span><span class="s2">days</span><span class="s4">}</span><span class="s2"> label</span><span class="s4">=</span><span class="s5">"GÜN"</span><span class="s2"> /&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"text-xl font-bold text-orange-300 pb-6"</span><span class="s6">&gt;:&lt;/div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s3">FlipCard</span><span class="s2"> value</span><span class="s4">={</span><span class="s2">timeLeft</span><span class="s4">.</span><span class="s2">hours</span><span class="s4">}</span><span class="s2"> label</span><span class="s4">=</span><span class="s5">"SAAT"</span><span class="s2"> /&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"text-xl font-bold text-orange-300 pb-6"</span><span class="s6">&gt;:&lt;/div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s3">FlipCard</span><span class="s2"> value</span><span class="s4">={</span><span class="s2">timeLeft</span><span class="s4">.</span><span class="s2">minutes</span><span class="s4">}</span><span class="s2"> label</span><span class="s4">=</span><span class="s5">"DK"</span><span class="s2"> /&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"text-xl font-bold text-orange-300 pb-6"</span><span class="s6">&gt;:&lt;/div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s3">FlipCard</span><span class="s2"> value</span><span class="s4">={</span><span class="s2">timeLeft</span><span class="s4">.</span><span class="s2">seconds</span><span class="s4">}</span><span class="s2"> label</span><span class="s4">=</span><span class="s5">"SN"</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s4">);</span></p>
-<p class="p5"><span class="s2">};</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p4"><span class="s2">// --- Ana Uygulama ---</span></p>
-<p class="p7"><span class="s2">export</span><span class="s6"> </span><span class="s2">default</span><span class="s6"> </span><span class="s2">function</span><span class="s6"> </span><span class="s3">EgitimpediaLandingV4</span><span class="s4">()</span><span class="s6"> </span><span class="s4">{</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> </span><span class="s4">[</span><span class="s2">isScrolled</span><span class="s4">,</span><span class="s2"> setIsScrolled</span><span class="s4">]</span><span class="s2"> </span><span class="s4">=</span><span class="s2"> useState</span><span class="s4">(</span><span class="s1">false</span><span class="s4">);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> </span><span class="s4">[</span><span class="s2">formData</span><span class="s4">,</span><span class="s2"> setFormData</span><span class="s4">]</span><span class="s2"> </span><span class="s4">=</span><span class="s2"> useState</span><span class="s4">({</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>name</span><span class="s4">:</span><span class="s2"> </span><span class="s5">''</span><span class="s4">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>surname</span><span class="s4">:</span><span class="s2"> </span><span class="s5">''</span><span class="s4">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>email</span><span class="s4">:</span><span class="s2"> </span><span class="s5">''</span><span class="s4">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>phone</span><span class="s4">:</span><span class="s2"> </span><span class="s5">''</span><span class="s4">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>sessions</span><span class="s4">:</span><span class="s2"> </span><span class="s4">[]</span></p>
-<p class="p5"><span class="s6"><span class="Apple-converted-space">  </span></span><span class="s2">});</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> </span><span class="s4">[</span><span class="s2">formStatus</span><span class="s4">,</span><span class="s2"> setFormStatus</span><span class="s4">]</span><span class="s2"> </span><span class="s4">=</span><span class="s2"> useState</span><span class="s4">(</span><span class="s5">'idle'</span><span class="s4">);</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>useEffect</span><span class="s4">(()</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">{</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">const</span><span class="s2"> handleScroll </span><span class="s4">=</span><span class="s2"> </span><span class="s4">()</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> setIsScrolled</span><span class="s4">(</span><span class="s2">window</span><span class="s4">.</span><span class="s2">scrollY </span><span class="s4">&gt;</span><span class="s2"> </span><span class="s8">20</span><span class="s4">);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>window</span><span class="s4">.</span><span class="s2">addEventListener</span><span class="s4">(</span><span class="s5">'scroll'</span><span class="s4">,</span><span class="s2"> handleScroll</span><span class="s4">);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">return</span><span class="s2"> </span><span class="s4">()</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> window</span><span class="s4">.</span><span class="s2">removeEventListener</span><span class="s4">(</span><span class="s5">'scroll'</span><span class="s4">,</span><span class="s2"> handleScroll</span><span class="s4">);</span></p>
-<p class="p5"><span class="s6"><span class="Apple-converted-space">  </span></span><span class="s2">},</span><span class="s6"> </span><span class="s2">[]);</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> handleInputChange </span><span class="s4">=</span><span class="s2"> </span><span class="s4">(</span><span class="s2">e</span><span class="s4">)</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> setFormData</span><span class="s4">({</span><span class="s2"> </span><span class="s4">...</span><span class="s2">formData</span><span class="s4">,</span><span class="s2"> </span><span class="s4">[</span><span class="s2">e</span><span class="s4">.</span><span class="s2">target</span><span class="s4">.</span><span class="s2">name</span><span class="s4">]:</span><span class="s2"> e</span><span class="s4">.</span><span class="s2">target</span><span class="s4">.</span><span class="s2">value </span><span class="s4">});</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> handleCheckboxChange </span><span class="s4">=</span><span class="s2"> </span><span class="s4">(</span><span class="s2">e</span><span class="s4">)</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">{</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">const</span><span class="s2"> </span><span class="s4">{</span><span class="s2"> value</span><span class="s4">,</span><span class="s2"> checked </span><span class="s4">}</span><span class="s2"> </span><span class="s4">=</span><span class="s2"> e</span><span class="s4">.</span><span class="s2">target</span><span class="s4">;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">if</span><span class="s2"> </span><span class="s4">(</span><span class="s2">checked</span><span class="s4">)</span><span class="s2"> </span><span class="s4">{</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>setFormData</span><span class="s4">(</span><span class="s2">prev </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">({</span><span class="s2"> </span><span class="s4">...</span><span class="s2">prev</span><span class="s4">,</span><span class="s2"> sessions</span><span class="s4">:</span><span class="s2"> </span><span class="s4">[...</span><span class="s2">prev</span><span class="s4">.</span><span class="s2">sessions</span><span class="s4">,</span><span class="s2"> value</span><span class="s4">]</span><span class="s2"> </span><span class="s4">}));</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s4">}</span><span class="s2"> </span><span class="s1">else</span><span class="s2"> </span><span class="s4">{</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>setFormData</span><span class="s4">(</span><span class="s2">prev </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">({</span><span class="s2"> </span><span class="s4">...</span><span class="s2">prev</span><span class="s4">,</span><span class="s2"> sessions</span><span class="s4">:</span><span class="s2"> prev</span><span class="s4">.</span><span class="s2">sessions</span><span class="s4">.</span><span class="s2">filter</span><span class="s4">(</span><span class="s2">s </span><span class="s4">=&gt;</span><span class="s2"> s </span><span class="s4">!==</span><span class="s2"> value</span><span class="s4">)</span><span class="s2"> </span><span class="s4">}));</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s4">}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s4">};</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> handleSubmit </span><span class="s4">=</span><span class="s2"> </span><span class="s4">(</span><span class="s2">e</span><span class="s4">)</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">{</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>e</span><span class="s4">.</span><span class="s2">preventDefault</span><span class="s4">();</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>setFormStatus</span><span class="s4">(</span><span class="s5">'submitting'</span><span class="s4">);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>setTimeout</span><span class="s4">(()</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">{</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>setFormStatus</span><span class="s4">(</span><span class="s5">'success'</span><span class="s4">);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s4">},</span><span class="s2"> </span><span class="s8">1500</span><span class="s4">);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s4">};</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> scrollToSection </span><span class="s4">=</span><span class="s2"> </span><span class="s4">(</span><span class="s2">id</span><span class="s4">)</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">{</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">const</span><span class="s2"> element </span><span class="s4">=</span><span class="s2"> document</span><span class="s4">.</span><span class="s2">getElementById</span><span class="s4">(</span><span class="s2">id</span><span class="s4">);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">if</span><span class="s2"> </span><span class="s4">(</span><span class="s2">element</span><span class="s4">)</span><span class="s2"> element</span><span class="s4">.</span><span class="s2">scrollIntoView</span><span class="s4">({</span><span class="s2"> behavior</span><span class="s4">:</span><span class="s2"> </span><span class="s5">'smooth'</span><span class="s2"> </span><span class="s4">});</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s4">};</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p7"><span class="s6"><span class="Apple-converted-space">  </span></span><span class="s2">return</span><span class="s6"> </span><span class="s4">(</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">    </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"min-h-screen bg-gray-50 text-gray-900 font-sans selection:bg-orange-500 selection:text-white overflow-x-hidden"</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s2"><span class="Apple-converted-space">      </span></span></p>
-<p class="p4"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">{</span><span class="s2">/* Navbar (Daha Sade) */</span><span class="s4">}</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s6">nav className</span><span class="s4">={</span><span class="s2">`fixed w-full z-50 transition-all duration-300 </span><span class="s4">${</span><span class="s6">isScrolled </span><span class="s4">?</span><span class="s6"> </span><span class="s2">'py-3 bg-white shadow-sm'</span><span class="s6"> </span><span class="s4">:</span><span class="s6"> </span><span class="s2">'py-5 bg-transparent'</span><span class="s4">}</span><span class="s2">`</span><span class="s4">}&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"container mx-auto px-6 flex justify-between items-center"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">          </span></span><span class="s4">&lt;</span><span class="s6">img src</span><span class="s4">=</span><span class="s2">"unnamed.png"</span><span class="s6"> alt</span><span class="s4">=</span><span class="s2">"Eğitimpedia"</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"h-8 md:h-10 object-contain"</span><span class="s6"> /&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">          </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"hidden md:flex items-center gap-6"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span></span><span class="s4">&lt;</span><span class="s2">button<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span>onClick</span><span class="s4">={()</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> scrollToSection</span><span class="s4">(</span><span class="s5">'register'</span><span class="s4">)}</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">              </span>className</span><span class="s4">=</span><span class="s2">"px-6 py-2.5 bg-orange-600 hover:bg-orange-700 text-white rounded-full font-bold text-sm transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5"</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span></span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span></span><span class="s3">Kay</span><span class="s9">ı</span><span class="s2">t </span><span class="s3">Ol</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span></span><span class="s4">&lt;/</span><span class="s2">button</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;/</span><span class="s2">nav</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p4"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">{</span><span class="s2">/* Hero Bölümü (Sadeleştirilmiş) */</span><span class="s4">}</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s6">section className</span><span class="s4">=</span><span class="s2">"relative pt-32 pb-20 lg:pt-40 lg:pb-24 px-6 flex items-center bg-white"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"container mx-auto max-w-7xl relative z-10"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">          </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"grid lg:grid-cols-2 gap-16 items-center"</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s2"><span class="Apple-converted-space">            </span></span></p>
-<p class="p4"><span class="s6"><span class="Apple-converted-space">            </span></span><span class="s4">{</span><span class="s2">/* Sol İçerik */</span><span class="s4">}</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">            </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"flex flex-col justify-center"</span><span class="s4">&gt;</span></p>
-<p class="p4"><span class="s6"><span class="Apple-converted-space">              </span></span><span class="s4">{</span><span class="s2">/* Logo Hero Kısmında da Eklendi */</span><span class="s4">}</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;</span><span class="s6">img src</span><span class="s4">=</span><span class="s2">"unnamed.png"</span><span class="s6"> alt</span><span class="s4">=</span><span class="s2">"Eğitimpedia Logo"</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"h-12 mb-6 object-contain self-start"</span><span class="s6"> /&gt;</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-orange-50 border border-orange-100 w-fit"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s6">span className</span><span class="s4">=</span><span class="s2">"w-2 h-2 rounded-full bg-orange-500 animate-pulse"</span><span class="s6">&gt;&lt;/span</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s6">span className</span><span class="s4">=</span><span class="s2">"text-orange-700 text-xs font-bold tracking-widest uppercase"</span><span class="s4">&gt;</span><span class="s3">Canl</span><span class="s9">ı</span><span class="s6"> </span><span class="s3">Webinar</span><span class="s4">&lt;/</span><span class="s6">span</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;</span><span class="s6">h1 className</span><span class="s4">=</span><span class="s2">"text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.1] mb-6 text-gray-900 uppercase"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s3">E</span><span class="s9">ğ</span><span class="s2">itimpedia </span><span class="s4">&lt;</span><span class="s2">br/&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s2">span className</span><span class="s4">=</span><span class="s5">"text-orange-600"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s3">Okul</span><span class="s2"> </span><span class="s3">Tercih</span><span class="s2"> </span><span class="s3">Webinar</span><span class="s9">ı</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;/</span><span class="s2">span</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;/</span><span class="s2">h1</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"flex items-center gap-4 text-gray-600 mb-8 text-lg font-medium"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"flex items-center gap-2"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;</span><span class="s3">Calendar</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"w-5 h-5 text-orange-500"</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s8">13</span><span class="s2"> </span><span class="s3">Aral</span><span class="s9">ı</span><span class="s2">k </span><span class="s3">Cumartesi</span><span class="s2"> </span><span class="s8">2025</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s6">span className</span><span class="s4">=</span><span class="s2">"w-1.5 h-1.5 rounded-full bg-gray-300"</span><span class="s6">&gt;&lt;/span</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"flex items-center gap-2"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;</span><span class="s6">span className</span><span class="s4">=</span><span class="s2">"w-5 h-5 rounded bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs"</span><span class="s4">&gt;</span><span class="s3">Z</span><span class="s4">&lt;/</span><span class="s6">span</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s3">Zoom</span><span class="s2"> </span><span class="s3">Online</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;</span><span class="s6">p className</span><span class="s4">=</span><span class="s2">"text-lg text-gray-600 max-w-lg mb-2 leading-relaxed"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s9">Ç</span><span class="s2">ocu</span><span class="s9">ğ</span><span class="s2">unuzun e</span><span class="s9">ğ</span><span class="s2">itim yolculu</span><span class="s9">ğ</span><span class="s2">unda en </span><span class="s1">do</span><span class="s9">ğ</span><span class="s2">ru karar</span><span class="s9">ı</span><span class="s2"> vermek i</span><span class="s9">ç</span><span class="s1">in</span><span class="s2"> </span><span class="s3">Ali</span><span class="s2"> </span><span class="s3">Ko</span><span class="s9">ç</span><span class="s2"> ile bulu</span><span class="s9">ş</span><span class="s2">uyoruz</span><span class="s4">.</span><span class="s2"><span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;/</span><span class="s2">p</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s2"><span class="Apple-converted-space">              </span></span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"mt-2 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg max-w-lg shadow-sm"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s6">p className</span><span class="s4">=</span><span class="s2">"text-sm text-blue-800 font-medium flex items-center gap-2"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                   </span></span><span class="s4">&lt;</span><span class="s3">CheckCircle</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"w-4 h-4"</span><span class="s2"> /&gt; </span><span class="s3">Zoom</span><span class="s2"> linki ve detayl</span><span class="s9">ı</span><span class="s2"> kat</span><span class="s9">ı</span><span class="s2">l</span><span class="s9">ı</span><span class="s2">m bilgileri kay</span><span class="s9">ı</span><span class="s2">t sonras</span><span class="s9">ı</span><span class="s2"> mail yoluyla payla</span><span class="s9">şı</span><span class="s2">lacakt</span><span class="s9">ı</span><span class="s2">r</span><span class="s4">.</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;/</span><span class="s2">p</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;</span><span class="s3">Countdown3D</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p4"><span class="s6"><span class="Apple-converted-space">            </span></span><span class="s4">{</span><span class="s2">/* Sağ İçerik: Form (Sadeleştirilmiş) */</span><span class="s4">}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span></span><span class="s4">&lt;</span><span class="s2">div id</span><span class="s4">=</span><span class="s5">"register"</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"relative"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"relative bg-white rounded-2xl p-8 shadow-xl border border-gray-100"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;</span><span class="s6">h3 className</span><span class="s4">=</span><span class="s2">"text-2xl font-bold mb-6 text-gray-900 text-center"</span><span class="s4">&gt;</span><span class="s9">Ü</span><span class="s6">cretsiz </span><span class="s3">Kat</span><span class="s9">ı</span><span class="s6">l</span><span class="s9">ı</span><span class="s6">m </span><span class="s3">Formu</span><span class="s4">&lt;/</span><span class="s6">h3</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s2"><span class="Apple-converted-space">                  </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">{</span><span class="s2">formStatus </span><span class="s4">===</span><span class="s2"> </span><span class="s5">'success'</span><span class="s2"> </span><span class="s4">?</span><span class="s2"> </span><span class="s4">(</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"text-center py-12"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;</span><span class="s3">CheckCircle</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"w-8 h-8 text-green-600"</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s2">h4 className</span><span class="s4">=</span><span class="s5">"text-2xl font-bold text-gray-900 mb-2"</span><span class="s4">&gt;</span><span class="s3">Kayd</span><span class="s9">ı</span><span class="s2">n</span><span class="s9">ı</span><span class="s2">z </span><span class="s3">Ba</span><span class="s9">ş</span><span class="s2">ar</span><span class="s9">ı</span><span class="s2">l</span><span class="s9">ı</span><span class="s4">!&lt;/</span><span class="s2">h4</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s2">p className</span><span class="s4">=</span><span class="s5">"text-gray-600"</span><span class="s4">&gt;</span><span class="s3">Bilgileriniz</span><span class="s2"> al</span><span class="s9">ı</span><span class="s2">nd</span><span class="s9">ı</span><span class="s4">.</span><span class="s2"> </span><span class="s3">E</span><span class="s4">-</span><span class="s2">posta kutunuzu kontrol etmeyi unutmay</span><span class="s9">ı</span><span class="s2">n</span><span class="s4">.&lt;/</span><span class="s2">p</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">)</span><span class="s2"> </span><span class="s4">:</span><span class="s2"> </span><span class="s4">(</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;</span><span class="s2">form onSubmit</span><span class="s4">={</span><span class="s2">handleSubmit</span><span class="s4">}</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"space-y-5"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"grid grid-cols-2 gap-4"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"space-y-1"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                            </span></span><span class="s4">&lt;</span><span class="s6">label className</span><span class="s4">=</span><span class="s2">"text-xs font-bold text-gray-500 uppercase ml-1"</span><span class="s4">&gt;</span><span class="s3">Ad</span><span class="s4">&lt;/</span><span class="s6">label</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                            </span></span><span class="s4">&lt;</span><span class="s6">input </span><span class="s1">type</span><span class="s4">=</span><span class="s2">"text"</span><span class="s6"> name</span><span class="s4">=</span><span class="s2">"name"</span><span class="s6"> required className</span><span class="s4">=</span><span class="s2">"w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"</span><span class="s6"> onChange</span><span class="s4">={</span><span class="s6">handleInputChange</span><span class="s4">}</span><span class="s6"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"space-y-1"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                            </span></span><span class="s4">&lt;</span><span class="s6">label className</span><span class="s4">=</span><span class="s2">"text-xs font-bold text-gray-500 uppercase ml-1"</span><span class="s4">&gt;</span><span class="s3">Soyad</span><span class="s4">&lt;/</span><span class="s6">label</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                            </span></span><span class="s4">&lt;</span><span class="s6">input </span><span class="s1">type</span><span class="s4">=</span><span class="s2">"text"</span><span class="s6"> name</span><span class="s4">=</span><span class="s2">"surname"</span><span class="s6"> required className</span><span class="s4">=</span><span class="s2">"w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"</span><span class="s6"> onChange</span><span class="s4">={</span><span class="s6">handleInputChange</span><span class="s4">}</span><span class="s6"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s2"><span class="Apple-converted-space">                      </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"space-y-1"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;</span><span class="s6">label className</span><span class="s4">=</span><span class="s2">"text-xs font-bold text-gray-500 uppercase ml-1"</span><span class="s4">&gt;</span><span class="s3">E</span><span class="s4">-</span><span class="s3">Posta</span><span class="s4">&lt;/</span><span class="s6">label</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;</span><span class="s6">input </span><span class="s1">type</span><span class="s4">=</span><span class="s2">"email"</span><span class="s6"> name</span><span class="s4">=</span><span class="s2">"email"</span><span class="s6"> required className</span><span class="s4">=</span><span class="s2">"w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"</span><span class="s6"> onChange</span><span class="s4">={</span><span class="s6">handleInputChange</span><span class="s4">}</span><span class="s6"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s2"><span class="Apple-converted-space">                      </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"space-y-1"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;</span><span class="s6">label className</span><span class="s4">=</span><span class="s2">"text-xs font-bold text-gray-500 uppercase ml-1"</span><span class="s4">&gt;</span><span class="s3">Telefon</span><span class="s4">&lt;/</span><span class="s6">label</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;</span><span class="s6">input </span><span class="s1">type</span><span class="s4">=</span><span class="s2">"tel"</span><span class="s6"> name</span><span class="s4">=</span><span class="s2">"phone"</span><span class="s6"> required className</span><span class="s4">=</span><span class="s2">"w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"</span><span class="s6"> onChange</span><span class="s4">={</span><span class="s6">handleInputChange</span><span class="s4">}</span><span class="s6"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"pt-2"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;</span><span class="s2">label className</span><span class="s4">=</span><span class="s5">"block text-sm font-bold text-gray-800 mb-3"</span><span class="s4">&gt;</span><span class="s9">İ</span><span class="s2">lgilendi</span><span class="s9">ğ</span><span class="s2">iniz </span><span class="s3">Oturumlar</span><span class="s2">:&lt;/label</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                          </span></span><span class="s4">{[</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                            </span></span><span class="s2">"Anaokulu Webinarı (10.00–12.00)"</span><span class="s4">,</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                            </span></span><span class="s2">"İlkokul Webinarı (12.30–14.30)"</span><span class="s4">,</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                            </span></span><span class="s2">"Ortaokul Webinarı (15.00–17.00)"</span><span class="s4">,</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                            </span></span><span class="s2">"Lise Webinarı (17.30–19.30)"</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                          </span></span><span class="s4">].</span><span class="s2">map</span><span class="s4">((</span><span class="s2">session</span><span class="s4">,</span><span class="s2"> idx</span><span class="s4">)</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">(</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                            </span></span><span class="s4">&lt;</span><span class="s6">label key</span><span class="s4">={</span><span class="s6">idx</span><span class="s4">}</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"flex items-center gap-3 p-3 rounded-lg border border-gray-100 bg-gray-50 hover:border-orange-300 cursor-pointer transition-all group"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                              </span></span><span class="s4">&lt;</span><span class="s2">input </span><span class="s1">type</span><span class="s4">=</span><span class="s5">"checkbox"</span><span class="s2"> value</span><span class="s4">={</span><span class="s2">session</span><span class="s4">}</span><span class="s2"> onChange</span><span class="s4">={</span><span class="s2">handleCheckboxChange</span><span class="s4">}</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"w-5 h-5 text-orange-600 rounded focus:ring-orange-500 border-gray-300"</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                              </span></span><span class="s4">&lt;</span><span class="s2">span className</span><span class="s4">=</span><span class="s5">"text-sm text-gray-600 group-hover:text-gray-900"</span><span class="s4">&gt;{</span><span class="s2">session</span><span class="s4">}&lt;/</span><span class="s2">span</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                            </span></span><span class="s4">&lt;/</span><span class="s2">label</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                          </span></span><span class="s4">))}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s6">button </span><span class="s1">type</span><span class="s4">=</span><span class="s2">"submit"</span><span class="s6"> disabled</span><span class="s4">={</span><span class="s6">formData</span><span class="s4">.</span><span class="s6">sessions</span><span class="s4">.</span><span class="s6">length </span><span class="s4">===</span><span class="s6"> </span><span class="s8">0</span><span class="s6"> </span><span class="s4">||</span><span class="s6"> formStatus </span><span class="s4">===</span><span class="s6"> </span><span class="s2">'submitting'</span><span class="s4">}</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"w-full py-3.5 bg-orange-600 hover:bg-orange-700 text-white rounded-lg font-bold text-lg shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span></span><span class="s4">{</span><span class="s2">formStatus </span><span class="s4">===</span><span class="s2"> </span><span class="s5">'submitting'</span><span class="s2"> </span><span class="s4">?</span><span class="s2"> </span><span class="s5">'İşleniyor...'</span><span class="s2"> </span><span class="s4">:</span><span class="s2"> </span><span class="s5">'Kayıt Ol'</span><span class="s4">}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;/</span><span class="s2">button</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;/</span><span class="s2">form</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">)}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;/</span><span class="s2">section</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p4"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">{</span><span class="s2">/* Ali Koç &amp; Eğitimpedia Bölümü (Sadeleştirilmiş) */</span><span class="s4">}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s2">section className</span><span class="s4">=</span><span class="s5">"py-20 bg-gray-50"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"container mx-auto px-6"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">          </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"flex flex-col md:flex-row items-center gap-16"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">             </span></span><span class="s4">{</span><span class="s10">/* Görsel */</span><span class="s4">}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">             </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"w-full md:w-1/2"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s2">img<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span>src</span><span class="s4">=</span><span class="s5">"DSC_5908 copy.jpg"</span><span class="s2"><span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span>alt</span><span class="s4">=</span><span class="s5">"Ali Koç"</span><span class="s2"><span class="Apple-converted-space"> </span></span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                  </span>className</span><span class="s4">=</span><span class="s2">"relative w-full h-[500px] object-cover rounded-2xl shadow-xl"</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>/&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">             </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">             </span></span><span class="s4">{</span><span class="s10">/* Metin */</span><span class="s4">}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">             </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"w-full md:w-1/2"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s6">h2 className</span><span class="s4">=</span><span class="s2">"text-3xl md:text-4xl font-black mb-6 leading-tight text-gray-900"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s3">E</span><span class="s9">ğ</span><span class="s2">itimde </span><span class="s4">&lt;</span><span class="s2">span className</span><span class="s4">=</span><span class="s5">"text-orange-600"</span><span class="s4">&gt;</span><span class="s3">D</span><span class="s9">ö</span><span class="s2">n</span><span class="s9">ü</span><span class="s2">m </span><span class="s3">Noktas</span><span class="s9">ı</span><span class="s4">.&lt;/</span><span class="s2">span</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;/</span><span class="s2">h2</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s2"><span class="Apple-converted-space">                </span></span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"prose prose-lg text-gray-600 mb-8"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;</span><span class="s2">p</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s3">E</span><span class="s9">ğ</span><span class="s2">itim d</span><span class="s9">ü</span><span class="s2">nyas</span><span class="s9">ı</span><span class="s2">n</span><span class="s9">ı</span><span class="s2">n deneyimli ismi </span><span class="s4">&lt;</span><span class="s2">strong</span><span class="s4">&gt;</span><span class="s3">Ali</span><span class="s2"> </span><span class="s3">Ko</span><span class="s9">ç</span><span class="s4">&lt;/</span><span class="s2">strong</span><span class="s4">&gt;</span><span class="s2"> rehberli</span><span class="s9">ğ</span><span class="s2">inde</span><span class="s4">,</span><span class="s2"> </span><span class="s9">ç</span><span class="s2">ocu</span><span class="s9">ğ</span><span class="s2">unuzun gelece</span><span class="s9">ğ</span><span class="s2">ini </span><span class="s9">ş</span><span class="s2">ekillendirecek okul se</span><span class="s9">ç</span><span class="s2">im s</span><span class="s9">ü</span><span class="s2">re</span><span class="s9">ç</span><span class="s2">lerini t</span><span class="s9">ü</span><span class="s2">m </span><span class="s9">ş</span><span class="s2">effafl</span><span class="s9">ığı</span><span class="s2">yla konu</span><span class="s9">ş</span><span class="s2">uyoruz</span><span class="s4">.</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;/</span><span class="s2">p</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;</span><span class="s6">p className</span><span class="s4">=</span><span class="s2">"font-medium text-gray-800 border-l-4 border-orange-500 pl-4 py-2 bg-white rounded-r-lg shadow-sm"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s3">Bu</span><span class="s2"> webinar</span><span class="s4">,</span><span class="s2"> sadece bir bilgilendirme toplant</span><span class="s9">ı</span><span class="s2">s</span><span class="s9">ı</span><span class="s2"> de</span><span class="s9">ğ</span><span class="s2">il</span><span class="s4">;</span><span class="s2"> ayn</span><span class="s9">ı</span><span class="s2"> zamanda </span><span class="s4">&lt;</span><span class="s2">strong</span><span class="s4">&gt;</span><span class="s3">E</span><span class="s9">ğ</span><span class="s2">itimpedia</span><span class="s4">&lt;/</span><span class="s2">strong</span><span class="s4">&gt;</span><span class="s2"> platformunun </span><span class="s1">do</span><span class="s9">ğ</span><span class="s2">u</span><span class="s9">ş</span><span class="s2">unun habercisidir</span><span class="s4">.</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;/</span><span class="s2">p</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;</span><span class="s2">p</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                    </span></span><span class="s3">E</span><span class="s9">ğ</span><span class="s6">itimpedia</span><span class="s4">;</span><span class="s6"> </span><span class="s9">ç</span><span class="s6">ok yak</span><span class="s9">ı</span><span class="s6">nda hayata ge</span><span class="s9">ç</span><span class="s6">ecek</span><span class="s4">,</span><span class="s6"> </span><span class="s3">T</span><span class="s9">ü</span><span class="s6">rkiye</span><span class="s2">'deki tüm okulların veriye dayalı, şeffaf ve kapsamlı bir şekilde incelenebileceği devrim niteliğinde bir platformdur. Velilerin "en doğru" okulu bulma yolculuğunda onlara ışık tutacak, daha önce yapılmamış bir veri tabanı ve rehberlik sistemidir.</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;/</span><span class="s2">p</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"flex items-center gap-4"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"flex -space-x-4"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                     </span></span><span class="s4">{[</span><span class="s8">1</span><span class="s4">,</span><span class="s8">2</span><span class="s4">,</span><span class="s8">3</span><span class="s4">].</span><span class="s2">map</span><span class="s4">(</span><span class="s2">i </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">(</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                       </span></span><span class="s4">&lt;</span><span class="s6">div key</span><span class="s4">={</span><span class="s6">i</span><span class="s4">}</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"w-12 h-12 rounded-full border-4 border-white bg-gray-200 overflow-hidden shadow-sm"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                          </span></span><span class="s4">&lt;</span><span class="s6">img src</span><span class="s4">={</span><span class="s2">`https://api.dicebear.com/7.x/avataaars/svg?seed=</span><span class="s4">${</span><span class="s6">i</span><span class="s4">*</span><span class="s8">55</span><span class="s4">}</span><span class="s2">`</span><span class="s4">}</span><span class="s6"> alt</span><span class="s4">=</span><span class="s2">"avatar"</span><span class="s6"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                       </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                     </span></span><span class="s4">))}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;</span><span class="s2">p className</span><span class="s4">=</span><span class="s5">"font-bold text-gray-900"</span><span class="s4">&gt;</span><span class="s3">Binlerce</span><span class="s2"> </span><span class="s3">Veli</span><span class="s2"> </span><span class="s3">Bekliyor</span><span class="s4">&lt;/</span><span class="s2">p</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;</span><span class="s2">p className</span><span class="s4">=</span><span class="s5">"text-xs text-gray-500"</span><span class="s4">&gt;</span><span class="s3">Lansman</span><span class="s2"> </span><span class="s9">ö</span><span class="s2">ncesi yerinizi al</span><span class="s9">ı</span><span class="s2">n</span><span class="s4">.&lt;/</span><span class="s2">p</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">             </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;/</span><span class="s2">section</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p4"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">{</span><span class="s2">/* Yaratıcı Ajanda Bölümü (Sadeleştirilmiş Arka Plan) */</span><span class="s4">}</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s6">section className</span><span class="s4">=</span><span class="s2">"py-20 bg-gray-900 text-white relative overflow-hidden"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"container mx-auto px-6 relative z-10"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">          </span></span><span class="s4">&lt;</span><span class="s6">h2 className</span><span class="s4">=</span><span class="s2">"text-3xl font-bold text-center mb-16"</span><span class="s4">&gt;</span><span class="s3">Webinar</span><span class="s6"> </span><span class="s3">Ak</span><span class="s9">ışı</span><span class="s4">&lt;/</span><span class="s6">h2</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"relative"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">             </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"flex flex-col md:flex-row gap-8 md:gap-0 relative justify-between"</span><span class="s4">&gt;</span></p>
-<p class="p4"><span class="s6"><span class="Apple-converted-space">                </span></span><span class="s4">{</span><span class="s2">/* Bağlantı Çizgisi (Masaüstü) */</span><span class="s4">}</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"hidden md:block absolute top-[30px] left-0 w-full h-0.5 bg-gray-700 z-0"</span><span class="s6">&gt;&lt;/div</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">{[</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">{</span><span class="s2"> time</span><span class="s4">:</span><span class="s2"> </span><span class="s5">"10.00"</span><span class="s4">,</span><span class="s2"> title</span><span class="s4">:</span><span class="s2"> </span><span class="s5">"Anaokulu"</span><span class="s4">,</span><span class="s2"> icon</span><span class="s4">:</span><span class="s2"> </span><span class="s4">&lt;</span><span class="s3">Play</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"w-4 h-4"</span><span class="s2"> /&gt; </span><span class="s4">},</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">{</span><span class="s2"> time</span><span class="s4">:</span><span class="s2"> </span><span class="s5">"12.30"</span><span class="s4">,</span><span class="s2"> title</span><span class="s4">:</span><span class="s2"> </span><span class="s5">"İlkokul"</span><span class="s4">,</span><span class="s2"> icon</span><span class="s4">:</span><span class="s2"> </span><span class="s4">&lt;</span><span class="s3">Play</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"w-4 h-4"</span><span class="s2"> /&gt; </span><span class="s4">},</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">{</span><span class="s2"> time</span><span class="s4">:</span><span class="s2"> </span><span class="s5">"15.00"</span><span class="s4">,</span><span class="s2"> title</span><span class="s4">:</span><span class="s2"> </span><span class="s5">"Ortaokul"</span><span class="s4">,</span><span class="s2"> icon</span><span class="s4">:</span><span class="s2"> </span><span class="s4">&lt;</span><span class="s3">Play</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"w-4 h-4"</span><span class="s2"> /&gt; </span><span class="s4">},</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">{</span><span class="s2"> time</span><span class="s4">:</span><span class="s2"> </span><span class="s5">"17.30"</span><span class="s4">,</span><span class="s2"> title</span><span class="s4">:</span><span class="s2"> </span><span class="s5">"Lise"</span><span class="s4">,</span><span class="s2"> icon</span><span class="s4">:</span><span class="s2"> </span><span class="s4">&lt;</span><span class="s3">Play</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"w-4 h-4"</span><span class="s2"> /&gt; </span><span class="s4">}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">].</span><span class="s2">map</span><span class="s4">((</span><span class="s2">item</span><span class="s4">,</span><span class="s2"> index</span><span class="s4">)</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">(</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;</span><span class="s6">div key</span><span class="s4">={</span><span class="s6">index</span><span class="s4">}</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"flex-1 relative z-10 group flex flex-col items-center text-center"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">{</span><span class="s10">/* Daire Düğüm */</span><span class="s4">}</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"w-16 h-16 rounded-full bg-gray-800 border-4 border-gray-700 group-hover:border-orange-500 group-hover:bg-orange-600 transition-all duration-300 flex items-center justify-center shadow-lg mb-6 z-10"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s2">span className</span><span class="s4">=</span><span class="s5">"font-bold font-mono text-sm"</span><span class="s4">&gt;{</span><span class="s2">item</span><span class="s4">.</span><span class="s2">time</span><span class="s4">}&lt;/</span><span class="s2">span</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s2"><span class="Apple-converted-space">                    </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">{</span><span class="s10">/* İçerik Kartı */</span><span class="s4">}</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"bg-gray-800 p-6 rounded-xl w-full max-w-[280px] border border-gray-700 transition-all duration-300 group-hover:border-orange-500/50 group-hover:shadow-lg group-hover:shadow-orange-500/10"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s2">h3 className</span><span class="s4">=</span><span class="s5">"text-xl font-bold text-orange-400 mb-2"</span><span class="s4">&gt;{</span><span class="s2">item</span><span class="s4">.</span><span class="s2">title</span><span class="s4">}&lt;/</span><span class="s2">h3</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s2">p className</span><span class="s4">=</span><span class="s5">"text-sm text-gray-400"</span><span class="s4">&gt;</span><span class="s3">Okul</span><span class="s2"> tercihlerinde dikkat edilmesi gerekenler ve soru</span><span class="s4">-</span><span class="s2">cevap</span><span class="s4">.&lt;/</span><span class="s2">p</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"mt-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-gray-500"</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;</span><span class="s3">Clock</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"w-3 h-3"</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span></span><span class="s8">2</span><span class="s2"> </span><span class="s3">Saat</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">))}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">             </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;/</span><span class="s2">section</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p4"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">{</span><span class="s2">/* Sade Footer */</span><span class="s4">}</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s6">footer className</span><span class="s4">=</span><span class="s2">"bg-white border-t border-gray-200 py-12 text-center"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;</span><span class="s6">img src</span><span class="s4">=</span><span class="s2">"unnamed.png"</span><span class="s6"> alt</span><span class="s4">=</span><span class="s2">"Logo"</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"h-8 mx-auto mb-6 object-contain"</span><span class="s6"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;</span><span class="s2">p className</span><span class="s4">=</span><span class="s5">"text-gray-500 text-sm"</span><span class="s4">&gt;</span><span class="s9">©</span><span class="s2"> </span><span class="s8">2025</span><span class="s2"> </span><span class="s3">E</span><span class="s9">ğ</span><span class="s2">itimpedia</span><span class="s4">.</span><span class="s2"> </span><span class="s3">T</span><span class="s9">ü</span><span class="s2">m haklar</span><span class="s9">ı</span><span class="s2"> sakl</span><span class="s9">ı</span><span class="s2">d</span><span class="s9">ı</span><span class="s2">r</span><span class="s4">.&lt;/</span><span class="s2">p</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"flex justify-center gap-6 mt-6"</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">           </span></span><span class="s4">&lt;</span><span class="s6">a href</span><span class="s4">=</span><span class="s2">"#"</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"text-gray-400 hover:text-orange-600 transition-colors"</span><span class="s6">&gt;&lt;</span><span class="s3">Instagram</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"w-6 h-6"</span><span class="s6">/&gt;&lt;/a</span><span class="s4">&gt;</span></p>
-<p class="p6"><span class="s6"><span class="Apple-converted-space">           </span></span><span class="s4">&lt;</span><span class="s6">a href</span><span class="s4">=</span><span class="s2">"#"</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"text-gray-400 hover:text-orange-600 transition-colors"</span><span class="s6">&gt;&lt;</span><span class="s3">Mail</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"w-6 h-6"</span><span class="s6">/&gt;&lt;/a</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;/</span><span class="s2">footer</span><span class="s4">&gt;</span></p>
-<p class="p3"><span class="s7"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s4">);</span></p>
-<p class="p5"><span class="s2">}</span></p>
-</body>
-</html>
+import React, { useState, useEffect } from 'react';
+import { Calendar, Clock, CheckCircle, ArrowRight, Instagram, Mail, Play } from 'lucide-react';
+
+/* NOT: 3D Arka Plan ve Aşırı Dekoratif Öğeler Kaldırılmıştır.
+   Daha Sade ve Net Bir Tasarım Amaçlanmıştır. */
+
+// --- 3D Stilinde Geri Sayım Sayacı (Sadeleştirilmiş) ---
+const Countdown3D = () => {
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const targetDate = new Date('2025-12-13T10:00:00').getTime();
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+      if (distance < 0) {
+        clearInterval(interval);
+      } else {
+        setTimeLeft({
+          days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((distance % (1000 * 60)) / 1000),
+        });
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const FlipCard = ({ value, label }) => (
+    <div className="flex flex-col items-center mx-2 md:mx-3 group">
+      <div className="relative w-14 h-16 md:w-20 md:h-24 bg-white rounded-lg shadow-md border-b-4 border-orange-500 flex items-center justify-center overflow-hidden">
+        <span className="text-2xl md:text-4xl font-black text-gray-800 font-mono">
+          {value < 10 ? `0${value}` : value}
+        </span>
+      </div>
+      <span className="mt-2 text-xs md:text-sm font-bold text-gray-500 tracking-widest uppercase">{label}</span>
+    </div>
+  );
+
+  return (
+    <div className="flex items-center justify-start gap-1 md:gap-4 mt-8 mb-8">
+      <FlipCard value={timeLeft.days} label="GÜN" />
+      <div className="text-xl font-bold text-orange-300 pb-6">:</div>
+      <FlipCard value={timeLeft.hours} label="SAAT" />
+      <div className="text-xl font-bold text-orange-300 pb-6">:</div>
+      <FlipCard value={timeLeft.minutes} label="DK" />
+      <div className="text-xl font-bold text-orange-300 pb-6">:</div>
+      <FlipCard value={timeLeft.seconds} label="SN" />
+    </div>
+  );
+};
+
+// --- Ana Uygulama ---
+export default function EgitimpediaLandingV4() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    surname: '',
+    email: '',
+    phone: '',
+    sessions: []
+  });
+  const [formStatus, setFormStatus] = useState('idle');
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleInputChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const handleCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setFormData(prev => ({ ...prev, sessions: [...prev.sessions, value] }));
+    } else {
+      setFormData(prev => ({ ...prev, sessions: prev.sessions.filter(s => s !== value) }));
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setFormStatus('submitting');
+    setTimeout(() => {
+      setFormStatus('success');
+    }, 1500);
+  };
+
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) element.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans selection:bg-orange-500 selection:text-white overflow-x-hidden">
+      
+      {/* Navbar (Daha Sade) */}
+      <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'py-3 bg-white shadow-sm' : 'py-5 bg-transparent'}`}>
+        <div className="container mx-auto px-6 flex justify-between items-center">
+          <img src="unnamed.png" alt="Eğitimpedia" className="h-8 md:h-10 object-contain" />
+          <div className="hidden md:flex items-center gap-6">
+            <button 
+              onClick={() => scrollToSection('register')}
+              className="px-6 py-2.5 bg-orange-600 hover:bg-orange-700 text-white rounded-full font-bold text-sm transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+            >
+              Kayıt Ol
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Bölümü (Sadeleştirilmiş) */}
+      <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-24 px-6 flex items-center bg-white">
+        <div className="container mx-auto max-w-7xl relative z-10">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            
+            {/* Sol İçerik */}
+            <div className="flex flex-col justify-center">
+              {/* Logo Hero Kısmında da Eklendi */}
+              <img src="unnamed.png" alt="Eğitimpedia Logo" className="h-12 mb-6 object-contain self-start" />
+
+              <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-orange-50 border border-orange-100 w-fit">
+                <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
+                <span className="text-orange-700 text-xs font-bold tracking-widest uppercase">Canlı Webinar</span>
+              </div>
+
+              <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.1] mb-6 text-gray-900 uppercase">
+                Eğitimpedia <br/>
+                <span className="text-orange-600">
+                  Okul Tercih Webinarı
+                </span>
+              </h1>
+
+              <div className="flex items-center gap-4 text-gray-600 mb-8 text-lg font-medium">
+                <div className="flex items-center gap-2">
+                    <Calendar className="w-5 h-5 text-orange-500" />
+                    13 Aralık Cumartesi 2025
+                </div>
+                <span className="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
+                <div className="flex items-center gap-2">
+                    <span className="w-5 h-5 rounded bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs">Z</span>
+                    Zoom Online
+                </div>
+              </div>
+
+              <p className="text-lg text-gray-600 max-w-lg mb-2 leading-relaxed">
+                Çocuğunuzun eğitim yolculuğunda en doğru kararı vermek için Ali Koç ile buluşuyoruz. 
+              </p>
+              
+              <div className="mt-2 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg max-w-lg shadow-sm">
+                <p className="text-sm text-blue-800 font-medium flex items-center gap-2">
+                   <CheckCircle className="w-4 h-4" /> Zoom linki ve detaylı katılım bilgileri kayıt sonrası mail yoluyla paylaşılacaktır.
+                </p>
+              </div>
+
+              <Countdown3D />
+            </div>
+
+            {/* Sağ İçerik: Form (Sadeleştirilmiş) */}
+            <div id="register" className="relative">
+                <div className="relative bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                  <h3 className="text-2xl font-bold mb-6 text-gray-900 text-center">Ücretsiz Katılım Formu</h3>
+                  
+                  {formStatus === 'success' ? (
+                    <div className="text-center py-12">
+                      <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <CheckCircle className="w-8 h-8 text-green-600" />
+                      </div>
+                      <h4 className="text-2xl font-bold text-gray-900 mb-2">Kaydınız Başarılı!</h4>
+                      <p className="text-gray-600">Bilgileriniz alındı. E-posta kutunuzu kontrol etmeyi unutmayın.</p>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                            <label className="text-xs font-bold text-gray-500 uppercase ml-1">Ad</label>
+                            <input type="text" name="name" required className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all" onChange={handleInputChange} />
+                        </div>
+                        <div className="space-y-1">
+                            <label className="text-xs font-bold text-gray-500 uppercase ml-1">Soyad</label>
+                            <input type="text" name="surname" required className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all" onChange={handleInputChange} />
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-1">
+                        <label className="text-xs font-bold text-gray-500 uppercase ml-1">E-Posta</label>
+                        <input type="email" name="email" required className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all" onChange={handleInputChange} />
+                      </div>
+                      
+                      <div className="space-y-1">
+                        <label className="text-xs font-bold text-gray-500 uppercase ml-1">Telefon</label>
+                        <input type="tel" name="phone" required className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all" onChange={handleInputChange} />
+                      </div>
+
+                      <div className="pt-2">
+                        <label className="block text-sm font-bold text-gray-800 mb-3">İlgilendiğiniz Oturumlar:</label>
+                        <div className="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar">
+                          {[
+                            "Anaokulu Webinarı (10.00–12.00)",
+                            "İlkokul Webinarı (12.30–14.30)",
+                            "Ortaokul Webinarı (15.00–17.00)",
+                            "Lise Webinarı (17.30–19.30)"
+                          ].map((session, idx) => (
+                            <label key={idx} className="flex items-center gap-3 p-3 rounded-lg border border-gray-100 bg-gray-50 hover:border-orange-300 cursor-pointer transition-all group">
+                              <input type="checkbox" value={session} onChange={handleCheckboxChange} className="w-5 h-5 text-orange-600 rounded focus:ring-orange-500 border-gray-300" />
+                              <span className="text-sm text-gray-600 group-hover:text-gray-900">{session}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+
+                      <button type="submit" disabled={formData.sessions.length === 0 || formStatus === 'submitting'} className="w-full py-3.5 bg-orange-600 hover:bg-orange-700 text-white rounded-lg font-bold text-lg shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                        {formStatus === 'submitting' ? 'İşleniyor...' : 'Kayıt Ol'}
+                      </button>
+                    </form>
+                  )}
+                </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Ali Koç & Eğitimpedia Bölümü (Sadeleştirilmiş) */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col md:flex-row items-center gap-16">
+             {/* Görsel */}
+             <div className="w-full md:w-1/2">
+                <img 
+                  src="DSC_5908 copy.jpg" 
+                  alt="Ali Koç" 
+                  className="relative w-full h-[500px] object-cover rounded-2xl shadow-xl"
+                />
+             </div>
+
+             {/* Metin */}
+             <div className="w-full md:w-1/2">
+                <h2 className="text-3xl md:text-4xl font-black mb-6 leading-tight text-gray-900">
+                  Eğitimde <span className="text-orange-600">Dönüm Noktası.</span>
+                </h2>
+                
+                <div className="prose prose-lg text-gray-600 mb-8">
+                  <p>
+                    Eğitim dünyasının deneyimli ismi <strong>Ali Koç</strong> rehberliğinde, çocuğunuzun geleceğini şekillendirecek okul seçim süreçlerini tüm şeffaflığıyla konuşuyoruz.
+                  </p>
+                  <p className="font-medium text-gray-800 border-l-4 border-orange-500 pl-4 py-2 bg-white rounded-r-lg shadow-sm">
+                    Bu webinar, sadece bir bilgilendirme toplantısı değil; aynı zamanda <strong>Eğitimpedia</strong> platformunun doğuşunun habercisidir.
+                  </p>
+                  <p>
+                    Eğitimpedia; çok yakında hayata geçecek, Türkiye'deki tüm okulların veriye dayalı, şeffaf ve kapsamlı bir şekilde incelenebileceği devrim niteliğinde bir platformdur. Velilerin "en doğru" okulu bulma yolculuğunda onlara ışık tutacak, daha önce yapılmamış bir veri tabanı ve rehberlik sistemidir.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <div className="flex -space-x-4">
+                     {[1,2,3].map(i => (
+                       <div key={i} className="w-12 h-12 rounded-full border-4 border-white bg-gray-200 overflow-hidden shadow-sm">
+                          <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i*55}`} alt="avatar" />
+                       </div>
+                     ))}
+                  </div>
+                  <div>
+                    <p className="font-bold text-gray-900">Binlerce Veli Bekliyor</p>
+                    <p className="text-xs text-gray-500">Lansman öncesi yerinizi alın.</p>
+                  </div>
+                </div>
+             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Yaratıcı Ajanda Bölümü (Sadeleştirilmiş Arka Plan) */}
+      <section className="py-20 bg-gray-900 text-white relative overflow-hidden">
+        <div className="container mx-auto px-6 relative z-10">
+          <h2 className="text-3xl font-bold text-center mb-16">Webinar Akışı</h2>
+
+          <div className="relative">
+             <div className="flex flex-col md:flex-row gap-8 md:gap-0 relative justify-between">
+                {/* Bağlantı Çizgisi (Masaüstü) */}
+                <div className="hidden md:block absolute top-[30px] left-0 w-full h-0.5 bg-gray-700 z-0"></div>
+
+                {[
+                  { time: "10.00", title: "Anaokulu", icon: <Play className="w-4 h-4" /> },
+                  { time: "12.30", title: "İlkokul", icon: <Play className="w-4 h-4" /> },
+                  { time: "15.00", title: "Ortaokul", icon: <Play className="w-4 h-4" /> },
+                  { time: "17.30", title: "Lise", icon: <Play className="w-4 h-4" /> }
+                ].map((item, index) => (
+                  <div key={index} className="flex-1 relative z-10 group flex flex-col items-center text-center">
+                    {/* Daire Düğüm */}
+                    <div className="w-16 h-16 rounded-full bg-gray-800 border-4 border-gray-700 group-hover:border-orange-500 group-hover:bg-orange-600 transition-all duration-300 flex items-center justify-center shadow-lg mb-6 z-10">
+                      <span className="font-bold font-mono text-sm">{item.time}</span>
+                    </div>
+                    
+                    {/* İçerik Kartı */}
+                    <div className="bg-gray-800 p-6 rounded-xl w-full max-w-[280px] border border-gray-700 transition-all duration-300 group-hover:border-orange-500/50 group-hover:shadow-lg group-hover:shadow-orange-500/10">
+                      <h3 className="text-xl font-bold text-orange-400 mb-2">{item.title}</h3>
+                      <p className="text-sm text-gray-400">Okul tercihlerinde dikkat edilmesi gerekenler ve soru-cevap.</p>
+                      <div className="mt-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-gray-500">
+                        <Clock className="w-3 h-3" />
+                        2 Saat
+                      </div>
+                    </div>
+                  </div>
+                ))}
+             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Sade Footer */}
+      <footer className="bg-white border-t border-gray-200 py-12 text-center">
+        <img src="unnamed.png" alt="Logo" className="h-8 mx-auto mb-6 object-contain" />
+        <p className="text-gray-500 text-sm">© 2025 Eğitimpedia. Tüm hakları saklıdır.</p>
+        <div className="flex justify-center gap-6 mt-6">
+           <a href="#" className="text-gray-400 hover:text-orange-600 transition-colors"><Instagram className="w-6 h-6"/></a>
+           <a href="#" className="text-gray-400 hover:text-orange-600 transition-colors"><Mail className="w-6 h-6"/></a>
+        </div>
+      </footer>
+
+    </div>
+  );
+}
