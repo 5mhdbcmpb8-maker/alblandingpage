@@ -1,563 +1,356 @@
-<!DOCTYPE html>
-<html lang="tr">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edition Couture | Pop-Art Fashion</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Outfit:wght@300;500;800&display=swap" rel="stylesheet">
-    <style>
-        /* CANLI VE CIVIL CIVIL RENKLER */
-        :root {
-            --bg-color: #fff0f5; /* Lavender Blush */
-            --pop-pink: #ff1493; /* Deep Pink */
-            --pop-blue: #00ced1; /* Dark Turquoise */
-            --pop-yellow: #ffd700; /* Gold */
-            --pop-purple: #8a2be2; /* Blue Violet */
-            --text-main: #2d2d2d;
-        }
-
-        body { 
-            margin: 0; 
-            overflow-x: hidden; 
-            background-color: var(--bg-color);
-            background-image: radial-gradient(circle at 10% 20%, rgba(255, 20, 147, 0.1) 0%, transparent 20%), 
-                              radial-gradient(circle at 90% 80%, rgba(0, 206, 209, 0.1) 0%, transparent 20%);
-            color: var(--text-main); 
-            font-family: 'Outfit', sans-serif; 
-        }
-
-        h1, h2, h3, .display-font { font-family: 'Abril Fatface', cursive; letter-spacing: 1px; }
-        
-        /* Custom Scrollbar - Renkli */
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #fff; }
-        ::-webkit-scrollbar-thumb { background: linear-gradient(var(--pop-pink), var(--pop-purple)); border-radius: 5px; border: 2px solid #fff; }
-
-        /* Canvas container */
-        #canvas-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-        }
-
-        /* Pop-Art Cards */
-        .pop-card {
-            background: rgba(255, 255, 255, 0.95);
-            border: 3px solid var(--text-main);
-            border-radius: 20px;
-            box-shadow: 8px 8px 0px var(--pop-pink);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .pop-card:hover {
-            transform: translate(-4px, -4px) rotate(1deg);
-            box-shadow: 12px 12px 0px var(--pop-blue);
-            border-color: var(--pop-purple);
-        }
-        
-        /* Süsleme Çizgileri */
-        .pop-card::after {
-            content: '';
-            position: absolute;
-            top: -50px; right: -50px;
-            width: 100px; height: 100px;
-            background: var(--pop-yellow);
-            border-radius: 50%;
-            z-index: 0;
-        }
-
-        /* Eğlenceli Butonlar */
-        .btn-pop {
-            background: var(--pop-pink);
-            color: white;
-            font-weight: 800;
-            text-transform: uppercase;
-            padding: 12px 30px;
-            border-radius: 50px;
-            border: 3px solid var(--text-main);
-            box-shadow: 4px 4px 0px var(--text-main);
-            transition: all 0.2s;
-            display: inline-block;
-            cursor: pointer;
-        }
-        .btn-pop:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 6px 6px 0px var(--pop-yellow);
-            background: var(--pop-purple);
-        }
-        .btn-pop:active {
-            transform: translate(2px, 2px);
-            box-shadow: 0px 0px 0px;
-        }
-
-        /* Loading Screen - Renkli */
-        #loader {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--pop-yellow);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
-        }
-        
-        .loader-text {
-            font-size: 5rem;
-            color: var(--pop-pink);
-            text-shadow: 4px 4px 0px white;
-            animation: bounce 1s infinite alternate;
-        }
-
-        @keyframes bounce {
-            from { transform: scale(1); }
-            to { transform: scale(1.1); }
-        }
-
-        /* Text Highlights */
-        .highlight {
-            background: linear-gradient(120deg, var(--pop-yellow) 0%, var(--pop-yellow) 100%);
-            background-repeat: no-repeat;
-            background-size: 100% 40%;
-            background-position: 0 88%;
-            padding: 0 5px;
-        }
-    </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.2">
+  <style type="text/css">
+    body {background-color: #fee7ef}
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #cacaca; -webkit-text-stroke: #cacaca}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #36c0a0; -webkit-text-stroke: #36c0a0}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #cacaca; -webkit-text-stroke: #cacaca; min-height: 16.0px}
+    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #6d7378; -webkit-text-stroke: #6d7378}
+    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #d4d4d4; -webkit-text-stroke: #d4d4d4}
+    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #71c083; -webkit-text-stroke: #71c083}
+    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #b76ff7; -webkit-text-stroke: #b76ff7}
+    span.s1 {font-kerning: none; color: #b76ff7; background-color: #171818; -webkit-text-stroke: 0px #b76ff7}
+    span.s2 {font-kerning: none; background-color: #171818}
+    span.s3 {font-kerning: none; color: #36c0a0; background-color: #171818; -webkit-text-stroke: 0px #36c0a0}
+    span.s4 {font-kerning: none; color: #d4d4d4; background-color: #171818; -webkit-text-stroke: 0px #d4d4d4}
+    span.s5 {font-kerning: none; color: #71c083; background-color: #171818; -webkit-text-stroke: 0px #71c083}
+    span.s6 {font-kerning: none; color: #cacaca; background-color: #171818; -webkit-text-stroke: 0px #cacaca}
+    span.s7 {font-kerning: none}
+    span.s8 {font-kerning: none; color: #f67c30; background-color: #171818; -webkit-text-stroke: 0px #f67c30}
+    span.s9 {font-kerning: none; color: #ee2e38; background-color: #171818; -webkit-text-stroke: 0px #ee2e38}
+    span.s10 {font-kerning: none; color: #6d7378; background-color: #171818; -webkit-text-stroke: 0px #6d7378}
+  </style>
 </head>
-<body class="antialiased">
-
-    <!-- Loading Screen -->
-    <div id="loader">
-        <h1 class="display-font loader-text text-6xl">EDITION COUTURE</h1>
-        <p class="font-bold tracking-widest mt-4 bg-white px-4 py-1 border-2 border-black">MODA YÜKLENİYOR</p>
-    </div>
-
-    <!-- 3D Canvas -->
-    <div id="canvas-container"></div>
-
-    <!-- UI Overlay -->
-    <nav class="fixed top-0 w-full p-6 flex justify-between items-center z-50">
-        <div class="bg-white border-2 border-black px-4 py-2 shadow-[4px_4px_0px_#000] rotate-[-2deg]">
-            <span class="text-2xl display-font font-bold text-pink-600">Edition Couture</span>
-        </div>
-        
-        <div class="hidden md:flex space-x-4">
-            <a href="#" class="bg-white border-2 border-black px-4 py-1 rounded-full font-bold text-sm hover:bg-cyan-300 transition-colors">KOLEKSİYON</a>
-            <a href="#" class="bg-white border-2 border-black px-4 py-1 rounded-full font-bold text-sm hover:bg-yellow-300 transition-colors">TRENDLER</a>
-            <a href="#" class="bg-white border-2 border-black px-4 py-1 rounded-full font-bold text-sm hover:bg-purple-300 transition-colors">POPÜLER</a>
-        </div>
-
-        <a href="#" class="btn-pop text-xs !py-2 !px-6">Üye Ol</a>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="relative z-10 pt-32 pb-20">
-        
-        <!-- Hero Section -->
-        <section class="min-h-[85vh] flex flex-col justify-center px-6 md:px-24 pointer-events-none">
-            <div class="max-w-4xl relative">
-                <!-- Decorative Circle -->
-                <div class="absolute -top-20 -left-20 w-40 h-40 bg-yellow-300 rounded-full border-4 border-black z-[-1] opacity-80"></div>
-                
-                <span class="bg-black text-white px-3 py-1 text-sm font-bold tracking-widest uppercase rotate-2 inline-block mb-4">Yeni Sezon</span>
-                <h1 class="text-7xl md:text-9xl display-font text-gray-900 mb-6 leading-[0.9]">
-                    Renklerin <br>
-                    <span class="text-pink-500 drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">Dansı</span>
-                </h1>
-                <p class="text-gray-800 bg-white/80 backdrop-blur-sm p-4 rounded-xl border-2 border-black max-w-lg text-lg mb-8 pointer-events-auto font-medium shadow-[6px_6px_0px_#8a2be2]">
-                    Moda hiç bu kadar eğlenceli olmamıştı! <br>
-                    Pembe tonların enerjisi ve pop-art desenlerin çılgınlığıyla gardırobunuza neşe katın.
-                </p>
-                <div class="pointer-events-auto">
-                    <a href="#" class="btn-pop">Partiye Katıl</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Content Grid -->
-        <section class="px-6 md:px-24 py-12 grid grid-cols-1 md:grid-cols-2 gap-16">
-            
-            <!-- Article 1 -->
-            <div class="pop-card p-8 group cursor-pointer bg-white">
-                <div class="relative z-10">
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="bg-cyan-300 border-2 border-black px-3 py-1 text-xs font-black uppercase rounded shadow-[2px_2px_0px_#000]">Trend</span>
-                        <span class="text-4xl display-font text-pink-500">01.</span>
-                    </div>
-                    <h3 class="text-4xl display-font mb-4 text-gray-900 group-hover:text-purple-600 transition-colors">Şeker Pembesi</h3>
-                    <p class="text-gray-600 font-medium mb-6 leading-relaxed">
-                        Bu sezon kurallar yok! Baştan aşağı <span class="highlight">pembe</span> giyinmek artık bir manifesto. Panter desenlerini neon renklerle karıştırıyoruz.
-                    </p>
-                    <div class="h-48 bg-gray-100 rounded-lg border-2 border-dashed border-gray-300 mb-6 flex items-center justify-center overflow-hidden">
-                        <div class="w-full h-full bg-[url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80')] bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-500 hover:scale-110"></div>
-                    </div>
-                    <button class="text-black font-black uppercase border-b-4 border-yellow-400 hover:border-pink-500 transition-colors">Devamını Oku →</button>
-                </div>
-            </div>
-
-            <!-- Article 2 (Offset) -->
-            <div class="pop-card p-8 group cursor-pointer bg-white md:mt-24">
-                <div class="relative z-10">
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="bg-purple-300 border-2 border-black px-3 py-1 text-xs font-black uppercase rounded shadow-[2px_2px_0px_#000]">Stil</span>
-                        <span class="text-4xl display-font text-cyan-500">02.</span>
-                    </div>
-                    <h3 class="text-4xl display-font mb-4 text-gray-900 group-hover:text-pink-600 transition-colors">Maksimalist Etki</h3>
-                    <p class="text-gray-600 font-medium mb-6 leading-relaxed">
-                        Az çoktur devri bitti. Şimdi "Daha Çok" zamanı! Büyük aksesuarlar, karışık desenler ve <span class="highlight">cesur</span> renk blokları.
-                    </p>
-                    <!-- Pattern Preview Block -->
-                    <div class="h-48 w-full mb-6 rounded-lg border-2 border-black relative overflow-hidden bg-yellow-100">
-                         <div class="absolute inset-0 opacity-100" style="background-image: radial-gradient(#ff1493 4px, transparent 4px), radial-gradient(#8a2be2 4px, transparent 4px); background-size: 30px 30px; background-position: 0 0, 15px 15px;"></div>
-                         <div class="absolute inset-0 flex items-center justify-center font-black text-3xl text-black -rotate-12 bg-white/50 backdrop-blur-sm">DESEN AŞKI</div>
-                    </div>
-                    <button class="text-black font-black uppercase border-b-4 border-cyan-400 hover:border-purple-500 transition-colors">İncele →</button>
-                </div>
-            </div>
-
-        </section>
-
-        <!-- Fun Interactive Section -->
-        <section class="py-24 px-6">
-            <div class="bg-pink-100 border-4 border-black rounded-[3rem] p-12 text-center relative max-w-3xl mx-auto shadow-[12px_12px_0px_#ff1493]">
-                <div class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-yellow-400 border-2 border-black px-6 py-2 rotate-2 shadow-[4px_4px_0px_#000]">
-                    <span class="font-black text-xl uppercase">Sürprizler Seni Bekliyor!</span>
-                </div>
-                
-                <h2 class="text-5xl display-font mb-6 text-purple-700">Moda Kulübüne Katıl</h2>
-                <p class="text-lg font-bold text-gray-700 mb-8">
-                    Haftalık renk dozunuzu almak için bültenimize kaydolun. <br>
-                    Sıkıcı e-postalar göndermiyoruz, söz!
-                </p>
-                
-                <div class="flex flex-col md:flex-row gap-4 justify-center max-w-md mx-auto">
-                    <input type="email" placeholder="E-posta adresin..." class="flex-1 border-2 border-black rounded-full p-4 outline-none focus:bg-yellow-50 font-bold placeholder-gray-400 shadow-[4px_4px_0px_#ddd] focus:shadow-[4px_4px_0px_#000] transition-all">
-                    <button class="bg-black text-white font-bold rounded-full px-8 py-4 shadow-[4px_4px_0px_#8a2be2] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all active:scale-95 border-2 border-transparent hover:border-black hover:bg-white hover:text-black">KAYDOL</button>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="bg-black py-12 text-center border-t-8 border-pink-500 relative overflow-hidden">
-        <!-- Footer Pattern -->
-        <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: linear-gradient(45deg, #333 25%, transparent 25%), linear-gradient(-45deg, #333 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #333 75%), linear-gradient(-45deg, transparent 75%, #333 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"></div>
-        
-        <div class="relative z-10">
-            <div class="display-font text-4xl font-bold mb-6 text-white">EDITION COUTURE</div>
-            <div class="flex justify-center gap-6 mb-8">
-                <a href="#" class="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center border-2 border-white hover:bg-yellow-400 hover:border-black hover:text-black transition-colors text-white font-bold">IG</a>
-                <a href="#" class="w-10 h-10 bg-cyan-500 rounded-full flex items-center justify-center border-2 border-white hover:bg-yellow-400 hover:border-black hover:text-black transition-colors text-white font-bold">TW</a>
-                <a href="#" class="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center border-2 border-white hover:bg-yellow-400 hover:border-black hover:text-black transition-colors text-white font-bold">YT</a>
-            </div>
-            <p class="text-gray-400 text-sm font-bold">© 2025 Edition Couture. Hayat çok kısa, renkli giyin.</p>
-        </div>
-    </footer>
-
-    <!-- Three.js Implementation -->
-    <script>
-        // --- 1. SETUP ---
-        const container = document.getElementById('canvas-container');
-        const scene = new THREE.Scene();
-        // Background Color: Light lavender/white mix is handled by CSS, scene is transparent mostly
-        // but let's add a very light color to catch fog
-        scene.background = new THREE.Color(0xfff0f5); 
-        scene.fog = new THREE.Fog(0xfff0f5, 8, 25);
-
-        const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
-        camera.position.set(0, 1.5, 10);
-
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-        container.appendChild(renderer.domElement);
-
-        // --- 2. LIGHTING (Pop Studio) ---
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.7); 
-        scene.add(ambientLight);
-
-        // Key Light (Warm Yellow)
-        const keyLight = new THREE.DirectionalLight(0xffd700, 1.0);
-        keyLight.position.set(5, 10, 5);
-        keyLight.castShadow = true;
-        scene.add(keyLight);
-
-        // Rim Light (Electric Blue)
-        const rimLight = new THREE.PointLight(0x00ced1, 1.5);
-        rimLight.position.set(-5, 5, -5);
-        scene.add(rimLight);
-
-        // Fill Light (Hot Pink)
-        const pinkFill = new THREE.PointLight(0xff1493, 0.8);
-        pinkFill.position.set(5, 0, 5);
-        scene.add(pinkFill);
-
-        // --- 3. FUNKY POP-ART TEXTURE ---
-        function createPopTexture() {
-            const size = 512;
-            const canvas = document.createElement('canvas');
-            canvas.width = size;
-            canvas.height = size;
-            const ctx = canvas.getContext('2d');
-
-            // Base color: Hot Pink
-            ctx.fillStyle = '#ff69b4'; 
-            ctx.fillRect(0, 0, size, size);
-
-            // Pattern: Random colorful geometric shapes
-            const colors = ['#00ced1', '#ffd700', '#8a2be2', '#ffffff'];
-            
-            for (let i = 0; i < 60; i++) {
-                const x = Math.random() * size;
-                const y = Math.random() * size;
-                const r = Math.random() * 30 + 10;
-                
-                ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
-                ctx.beginPath();
-                
-                // Mix circles and triangles
-                if (Math.random() > 0.5) {
-                    ctx.arc(x, y, r, 0, Math.PI * 2);
-                } else {
-                    ctx.moveTo(x, y - r);
-                    ctx.lineTo(x + r, y + r);
-                    ctx.lineTo(x - r, y + r);
-                    ctx.closePath();
-                }
-                ctx.fill();
-
-                // Add bold outline
-                ctx.strokeStyle = '#000000';
-                ctx.lineWidth = 3;
-                ctx.stroke();
-            }
-
-            const texture = new THREE.CanvasTexture(canvas);
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.set(2, 2);
-            return texture;
-        }
-
-        const popTexture = createPopTexture();
-
-        // --- 4. ENVIRONMENT (Floor & Shapes) ---
-        // Grid Floor for Pop Effect
-        const gridHelper = new THREE.GridHelper(100, 50, 0xff1493, 0xdddddd);
-        gridHelper.position.y = 0;
-        scene.add(gridHelper);
-
-        const floorGeo = new THREE.PlaneGeometry(100, 100);
-        const floorMat = new THREE.MeshBasicMaterial({ 
-            color: 0xfff0f5,
-            transparent: true,
-            opacity: 0.8
-        });
-        const floor = new THREE.Mesh(floorGeo, floorMat);
-        floor.rotation.x = -Math.PI / 2;
-        floor.position.y = -0.01;
-        floor.receiveShadow = true;
-        scene.add(floor);
-
-        // Floating Geometric Shapes (Confetti)
-        const shapeGroup = new THREE.Group();
-        const geometries = [
-            new THREE.TorusGeometry(0.3, 0.1, 8, 20),
-            new THREE.OctahedronGeometry(0.4),
-            new THREE.BoxGeometry(0.4, 0.4, 0.4),
-            new THREE.ConeGeometry(0.3, 0.6, 16)
-        ];
-        const mats = [
-            new THREE.MeshStandardMaterial({ color: 0xffd700, roughness: 0.2 }),
-            new THREE.MeshStandardMaterial({ color: 0x00ced1, roughness: 0.2 }),
-            new THREE.MeshStandardMaterial({ color: 0xff1493, roughness: 0.2 }),
-            new THREE.MeshStandardMaterial({ color: 0x8a2be2, roughness: 0.2 })
-        ];
-
-        for (let i = 0; i < 30; i++) {
-            const geo = geometries[Math.floor(Math.random() * geometries.length)];
-            const mat = mats[Math.floor(Math.random() * mats.length)];
-            const mesh = new THREE.Mesh(geo, mat);
-            
-            mesh.position.set(
-                (Math.random() - 0.5) * 15,
-                Math.random() * 6 + 1,
-                (Math.random() - 0.5) * 10
-            );
-            mesh.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, 0);
-            
-            // Store random rotation speed
-            mesh.userData = {
-                rotX: (Math.random() - 0.5) * 0.05,
-                rotY: (Math.random() - 0.5) * 0.05
-            };
-            
-            shapeGroup.add(mesh);
-        }
-        scene.add(shapeGroup);
-
-        // --- 5. THE POP PANTHER ---
-        const pantherGroup = new THREE.Group();
-        
-        const pantherMat = new THREE.MeshStandardMaterial({
-            map: popTexture,
-            roughness: 0.4,
-            metalness: 0.1,
-            envMapIntensity: 0.5
-        });
-
-        // Use same geometry logic as before but maybe slightly chunkier/cartoony
-        function createPart(geometry, x, y, z, rx, ry, rz) {
-            const mesh = new THREE.Mesh(geometry, pantherMat);
-            mesh.position.set(x, y, z);
-            mesh.rotation.set(rx || 0, ry || 0, rz || 0);
-            mesh.castShadow = true;
-            return mesh;
-        }
-
-        // Body
-        const bodyGeo = new THREE.CylinderGeometry(0.55, 0.45, 3.5, 16); // Slightly thicker
-        const body = createPart(bodyGeo, 0, 1.2, 0, 0, 0, Math.PI / 2);
-        pantherGroup.add(body);
-
-        // Neck
-        const neckGeo = new THREE.CylinderGeometry(0.4, 0.55, 1.2, 16);
-        const neck = createPart(neckGeo, 2, 1.8, 0, 0, 0, -Math.PI / 4);
-        pantherGroup.add(neck);
-
-        // Head
-        const headGeo = new THREE.SphereGeometry(0.55, 32, 32);
-        const head = createPart(headGeo, 2.5, 2.2, 0);
-        head.scale.set(1.2, 1, 1);
-        pantherGroup.add(head);
-
-        // Snout
-        const snoutGeo = new THREE.BoxGeometry(0.45, 0.35, 0.45);
-        const snout = createPart(snoutGeo, 3, 2.1, 0);
-        pantherGroup.add(snout);
-
-        // Ears - Larger for cute/pop look
-        const earGeo = new THREE.ConeGeometry(0.2, 0.4, 32);
-        const earL = createPart(earGeo, 2.4, 2.7, 0.35, 0, 0, -0.5);
-        const earR = createPart(earGeo, 2.4, 2.7, -0.35, 0, 0, -0.5);
-        pantherGroup.add(earL, earR);
-
-        // Legs
-        const legUpperGeo = new THREE.CylinderGeometry(0.3, 0.2, 1.2, 16);
-        const legLowerGeo = new THREE.CylinderGeometry(0.2, 0.15, 1.2, 16);
-
-        // Front Left
-        const flGroup = new THREE.Group();
-        flGroup.position.set(1.5, 1.2, 0.45);
-        flGroup.add(createPart(legUpperGeo, 0, -0.3, 0));
-        flGroup.add(createPart(legLowerGeo, 0, -1.3, 0));
-        pantherGroup.add(flGroup);
-
-        // Front Right
-        const frGroup = new THREE.Group();
-        frGroup.position.set(1.5, 1.2, -0.45);
-        frGroup.add(createPart(legUpperGeo, 0, -0.3, 0));
-        frGroup.add(createPart(legLowerGeo, 0, -1.3, 0));
-        pantherGroup.add(frGroup);
-
-        // Back Left
-        const blGroup = new THREE.Group();
-        blGroup.position.set(-1.2, 1.2, 0.45);
-        blGroup.add(createPart(legUpperGeo, 0, -0.3, 0, 0.3, 0, 0)); 
-        blGroup.add(createPart(legLowerGeo, 0, -1.3, 0.2, -0.3, 0, 0));
-        pantherGroup.add(blGroup);
-
-        // Back Right
-        const brGroup = new THREE.Group();
-        brGroup.position.set(-1.2, 1.2, -0.45);
-        brGroup.add(createPart(legUpperGeo, 0, -0.3, 0, 0.3, 0, 0));
-        brGroup.add(createPart(legLowerGeo, 0, -1.3, 0.2, -0.3, 0, 0));
-        pantherGroup.add(brGroup);
-
-        // Tail
-        const tailGroup = new THREE.Group();
-        tailGroup.position.set(-1.8, 1.3, 0);
-        const tailGeo = new THREE.CylinderGeometry(0.12, 0.05, 1.5, 8);
-        const tail = createPart(tailGeo, -0.6, 0.2, 0, 0, 0, -1.2);
-        tailGroup.add(tail);
-        pantherGroup.add(tailGroup);
-
-        scene.add(pantherGroup);
-
-        // --- 6. ANIMATION ---
-        let mouseX = 0;
-        let mouseY = 0;
-
-        document.addEventListener('mousemove', (event) => {
-            mouseX = (event.clientX - window.innerWidth / 2) * 0.001;
-            mouseY = (event.clientY - window.innerHeight / 2) * 0.001;
-        });
-
-        const clock = new THREE.Clock();
-
-        function animate() {
-            requestAnimationFrame(animate);
-            const time = clock.getElapsedTime();
-
-            // 1. Panther Animation (More bounce)
-            pantherGroup.position.y = Math.sin(time * 4) * 0.08; // Faster, bouncier
-            
-            const walkSpeed = 4;
-            const walkRange = 0.3;
-            
-            flGroup.rotation.z = Math.sin(time * walkSpeed) * walkRange;
-            brGroup.rotation.z = Math.sin(time * walkSpeed) * walkRange;
-            frGroup.rotation.z = Math.sin(time * walkSpeed + Math.PI) * walkRange;
-            blGroup.rotation.z = Math.sin(time * walkSpeed + Math.PI) * walkRange;
-            
-            tailGroup.rotation.y = Math.sin(time * 5) * 0.4;
-            tailGroup.rotation.z = Math.sin(time * 3) * 0.1;
-
-            // 2. Confetti Animation
-            shapeGroup.children.forEach(mesh => {
-                mesh.rotation.x += mesh.userData.rotX;
-                mesh.rotation.y += mesh.userData.rotY;
-                mesh.position.y += Math.sin(time + mesh.position.x) * 0.005; // Gentle floating
-            });
-
-            // 3. Camera Interaction
-            const scrollY = window.scrollY;
-            const scrollPercent = scrollY / (document.body.scrollHeight - window.innerHeight);
-
-            // Rotate camera 360 around the panther while scrolling
-            const camRadius = 9;
-            const camAngle = scrollPercent * Math.PI * 2 + (mouseX * 0.5);
-
-            camera.position.x = Math.sin(camAngle) * camRadius;
-            camera.position.z = Math.cos(camAngle) * camRadius;
-            camera.position.y = 2 + (mouseY * 3);
-            
-            camera.lookAt(0, 1.2, 0);
-
-            renderer.render(scene, camera);
-        }
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        window.onload = () => {
-            setTimeout(() => {
-                const loader = document.getElementById('loader');
-                loader.style.opacity = '0';
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                    animate();
-                }, 500);
-            }, 1000);
-        };
-
-    </script>
+<body>
+<p class="p1"><span class="s1">import</span><span class="s2"> </span><span class="s3">React</span><span class="s4">,</span><span class="s2"> </span><span class="s4">{</span><span class="s2"> useState</span><span class="s4">,</span><span class="s2"> useEffect </span><span class="s4">}</span><span class="s2"> </span><span class="s1">from</span><span class="s2"> </span><span class="s5">'react'</span><span class="s4">;</span></p>
+<p class="p2"><span class="s1">import</span><span class="s6"> </span><span class="s4">{</span><span class="s6"> </span><span class="s2">Calendar</span><span class="s4">,</span><span class="s6"> </span><span class="s2">Clock</span><span class="s4">,</span><span class="s6"> </span><span class="s2">CheckCircle</span><span class="s4">,</span><span class="s6"> </span><span class="s2">ArrowRight</span><span class="s4">,</span><span class="s6"> </span><span class="s2">Instagram</span><span class="s4">,</span><span class="s6"> </span><span class="s2">Mail</span><span class="s4">,</span><span class="s6"> </span><span class="s2">Play</span><span class="s6"> </span><span class="s4">}</span><span class="s6"> </span><span class="s1">from</span><span class="s6"> </span><span class="s5">'lucide-react'</span><span class="s4">;</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p4"><span class="s2">/* NOT: 3D Arka Plan ve Aşırı Dekoratif Öğeler Kaldırılmıştır.</span></p>
+<p class="p4"><span class="s2"><span class="Apple-converted-space">   </span>Daha Sade ve Net Bir Tasarım Amaçlanmıştır. */</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p4"><span class="s2">// --- 3D Stilinde Geri Sayım Sayacı (Sadeleştirilmiş) ---</span></p>
+<p class="p2"><span class="s1">const</span><span class="s6"> </span><span class="s2">Countdown3D</span><span class="s6"> </span><span class="s4">=</span><span class="s6"> </span><span class="s4">()</span><span class="s6"> </span><span class="s4">=&gt;</span><span class="s6"> </span><span class="s4">{</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> </span><span class="s4">[</span><span class="s2">timeLeft</span><span class="s4">,</span><span class="s2"> setTimeLeft</span><span class="s4">]</span><span class="s2"> </span><span class="s4">=</span><span class="s2"> useState</span><span class="s4">({</span><span class="s2"> days</span><span class="s4">:</span><span class="s2"> </span><span class="s8">0</span><span class="s4">,</span><span class="s2"> hours</span><span class="s4">:</span><span class="s2"> </span><span class="s8">0</span><span class="s4">,</span><span class="s2"> minutes</span><span class="s4">:</span><span class="s2"> </span><span class="s8">0</span><span class="s4">,</span><span class="s2"> seconds</span><span class="s4">:</span><span class="s2"> </span><span class="s8">0</span><span class="s2"> </span><span class="s4">});</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>useEffect</span><span class="s4">(()</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">{</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">const</span><span class="s2"> targetDate </span><span class="s4">=</span><span class="s2"> </span><span class="s1">new</span><span class="s2"> </span><span class="s3">Date</span><span class="s4">(</span><span class="s5">'2025-12-13T10:00:00'</span><span class="s4">).</span><span class="s2">getTime</span><span class="s4">();</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">const</span><span class="s2"> interval </span><span class="s4">=</span><span class="s2"> setInterval</span><span class="s4">(()</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">{</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s1">const</span><span class="s2"> now </span><span class="s4">=</span><span class="s2"> </span><span class="s1">new</span><span class="s2"> </span><span class="s3">Date</span><span class="s4">().</span><span class="s2">getTime</span><span class="s4">();</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s1">const</span><span class="s2"> distance </span><span class="s4">=</span><span class="s2"> targetDate </span><span class="s4">-</span><span class="s2"> now</span><span class="s4">;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s1">if</span><span class="s2"> </span><span class="s4">(</span><span class="s2">distance </span><span class="s4">&lt;</span><span class="s2"> </span><span class="s8">0</span><span class="s4">)</span><span class="s2"> </span><span class="s4">{</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>clearInterval</span><span class="s4">(</span><span class="s2">interval</span><span class="s4">);</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">}</span><span class="s2"> </span><span class="s1">else</span><span class="s2"> </span><span class="s4">{</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>setTimeLeft</span><span class="s4">({</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>days</span><span class="s4">:</span><span class="s2"> </span><span class="s3">Math</span><span class="s4">.</span><span class="s2">floor</span><span class="s4">(</span><span class="s2">distance </span><span class="s4">/</span><span class="s2"> </span><span class="s4">(</span><span class="s8">1000</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">60</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">60</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">24</span><span class="s4">)),</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>hours</span><span class="s4">:</span><span class="s2"> </span><span class="s3">Math</span><span class="s4">.</span><span class="s2">floor</span><span class="s4">((</span><span class="s2">distance </span><span class="s4">%</span><span class="s2"> </span><span class="s4">(</span><span class="s8">1000</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">60</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">60</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">24</span><span class="s4">))</span><span class="s2"> </span><span class="s4">/</span><span class="s2"> </span><span class="s4">(</span><span class="s8">1000</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">60</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">60</span><span class="s4">)),</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>minutes</span><span class="s4">:</span><span class="s2"> </span><span class="s3">Math</span><span class="s4">.</span><span class="s2">floor</span><span class="s4">((</span><span class="s2">distance </span><span class="s4">%</span><span class="s2"> </span><span class="s4">(</span><span class="s8">1000</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">60</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">60</span><span class="s4">))</span><span class="s2"> </span><span class="s4">/</span><span class="s2"> </span><span class="s4">(</span><span class="s8">1000</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">60</span><span class="s4">)),</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>seconds</span><span class="s4">:</span><span class="s2"> </span><span class="s3">Math</span><span class="s4">.</span><span class="s2">floor</span><span class="s4">((</span><span class="s2">distance </span><span class="s4">%</span><span class="s2"> </span><span class="s4">(</span><span class="s8">1000</span><span class="s2"> </span><span class="s4">*</span><span class="s2"> </span><span class="s8">60</span><span class="s4">))</span><span class="s2"> </span><span class="s4">/</span><span class="s2"> </span><span class="s8">1000</span><span class="s4">),</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s4">});</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">}</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s4">},</span><span class="s2"> </span><span class="s8">1000</span><span class="s4">);</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">return</span><span class="s2"> </span><span class="s4">()</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> clearInterval</span><span class="s4">(</span><span class="s2">interval</span><span class="s4">);</span></p>
+<p class="p5"><span class="s6"><span class="Apple-converted-space">  </span></span><span class="s2">},</span><span class="s6"> </span><span class="s2">[]);</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> </span><span class="s3">FlipCard</span><span class="s2"> </span><span class="s4">=</span><span class="s2"> </span><span class="s4">({</span><span class="s2"> value</span><span class="s4">,</span><span class="s2"> label </span><span class="s4">})</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">(</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">    </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"flex flex-col items-center mx-2 md:mx-3 group"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"relative w-14 h-16 md:w-20 md:h-24 bg-white rounded-lg shadow-md border-b-4 border-orange-500 flex items-center justify-center overflow-hidden"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;</span><span class="s6">span className</span><span class="s4">=</span><span class="s2">"text-2xl md:text-4xl font-black text-gray-800 font-mono"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span></span><span class="s4">{</span><span class="s2">value </span><span class="s4">&lt;</span><span class="s2"> </span><span class="s8">10</span><span class="s2"> </span><span class="s4">?</span><span class="s2"> </span><span class="s5">`0</span><span class="s4">${</span><span class="s2">value</span><span class="s4">}</span><span class="s5">`</span><span class="s2"> </span><span class="s4">:</span><span class="s2"> value</span><span class="s4">}</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;/</span><span class="s2">span</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s6">span className</span><span class="s4">=</span><span class="s2">"mt-2 text-xs md:text-sm font-bold text-gray-500 tracking-widest uppercase"</span><span class="s4">&gt;{</span><span class="s6">label</span><span class="s4">}&lt;/</span><span class="s6">span</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s4">);</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p7"><span class="s6"><span class="Apple-converted-space">  </span></span><span class="s2">return</span><span class="s6"> </span><span class="s4">(</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">    </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"flex items-center justify-start gap-1 md:gap-4 mt-8 mb-8"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s3">FlipCard</span><span class="s2"> value</span><span class="s4">={</span><span class="s2">timeLeft</span><span class="s4">.</span><span class="s2">days</span><span class="s4">}</span><span class="s2"> label</span><span class="s4">=</span><span class="s5">"GÜN"</span><span class="s2"> /&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"text-xl font-bold text-orange-300 pb-6"</span><span class="s6">&gt;:&lt;/div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s3">FlipCard</span><span class="s2"> value</span><span class="s4">={</span><span class="s2">timeLeft</span><span class="s4">.</span><span class="s2">hours</span><span class="s4">}</span><span class="s2"> label</span><span class="s4">=</span><span class="s5">"SAAT"</span><span class="s2"> /&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"text-xl font-bold text-orange-300 pb-6"</span><span class="s6">&gt;:&lt;/div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s3">FlipCard</span><span class="s2"> value</span><span class="s4">={</span><span class="s2">timeLeft</span><span class="s4">.</span><span class="s2">minutes</span><span class="s4">}</span><span class="s2"> label</span><span class="s4">=</span><span class="s5">"DK"</span><span class="s2"> /&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"text-xl font-bold text-orange-300 pb-6"</span><span class="s6">&gt;:&lt;/div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s3">FlipCard</span><span class="s2"> value</span><span class="s4">={</span><span class="s2">timeLeft</span><span class="s4">.</span><span class="s2">seconds</span><span class="s4">}</span><span class="s2"> label</span><span class="s4">=</span><span class="s5">"SN"</span><span class="s2"> /&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s4">);</span></p>
+<p class="p5"><span class="s2">};</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p4"><span class="s2">// --- Ana Uygulama ---</span></p>
+<p class="p7"><span class="s2">export</span><span class="s6"> </span><span class="s2">default</span><span class="s6"> </span><span class="s2">function</span><span class="s6"> </span><span class="s3">EgitimpediaLandingV4</span><span class="s4">()</span><span class="s6"> </span><span class="s4">{</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> </span><span class="s4">[</span><span class="s2">isScrolled</span><span class="s4">,</span><span class="s2"> setIsScrolled</span><span class="s4">]</span><span class="s2"> </span><span class="s4">=</span><span class="s2"> useState</span><span class="s4">(</span><span class="s1">false</span><span class="s4">);</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> </span><span class="s4">[</span><span class="s2">formData</span><span class="s4">,</span><span class="s2"> setFormData</span><span class="s4">]</span><span class="s2"> </span><span class="s4">=</span><span class="s2"> useState</span><span class="s4">({</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>name</span><span class="s4">:</span><span class="s2"> </span><span class="s5">''</span><span class="s4">,</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>surname</span><span class="s4">:</span><span class="s2"> </span><span class="s5">''</span><span class="s4">,</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>email</span><span class="s4">:</span><span class="s2"> </span><span class="s5">''</span><span class="s4">,</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>phone</span><span class="s4">:</span><span class="s2"> </span><span class="s5">''</span><span class="s4">,</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>sessions</span><span class="s4">:</span><span class="s2"> </span><span class="s4">[]</span></p>
+<p class="p5"><span class="s6"><span class="Apple-converted-space">  </span></span><span class="s2">});</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> </span><span class="s4">[</span><span class="s2">formStatus</span><span class="s4">,</span><span class="s2"> setFormStatus</span><span class="s4">]</span><span class="s2"> </span><span class="s4">=</span><span class="s2"> useState</span><span class="s4">(</span><span class="s5">'idle'</span><span class="s4">);</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>useEffect</span><span class="s4">(()</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">{</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">const</span><span class="s2"> handleScroll </span><span class="s4">=</span><span class="s2"> </span><span class="s4">()</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> setIsScrolled</span><span class="s4">(</span><span class="s2">window</span><span class="s4">.</span><span class="s2">scrollY </span><span class="s4">&gt;</span><span class="s2"> </span><span class="s8">20</span><span class="s4">);</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>window</span><span class="s4">.</span><span class="s2">addEventListener</span><span class="s4">(</span><span class="s5">'scroll'</span><span class="s4">,</span><span class="s2"> handleScroll</span><span class="s4">);</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">return</span><span class="s2"> </span><span class="s4">()</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> window</span><span class="s4">.</span><span class="s2">removeEventListener</span><span class="s4">(</span><span class="s5">'scroll'</span><span class="s4">,</span><span class="s2"> handleScroll</span><span class="s4">);</span></p>
+<p class="p5"><span class="s6"><span class="Apple-converted-space">  </span></span><span class="s2">},</span><span class="s6"> </span><span class="s2">[]);</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> handleInputChange </span><span class="s4">=</span><span class="s2"> </span><span class="s4">(</span><span class="s2">e</span><span class="s4">)</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> setFormData</span><span class="s4">({</span><span class="s2"> </span><span class="s4">...</span><span class="s2">formData</span><span class="s4">,</span><span class="s2"> </span><span class="s4">[</span><span class="s2">e</span><span class="s4">.</span><span class="s2">target</span><span class="s4">.</span><span class="s2">name</span><span class="s4">]:</span><span class="s2"> e</span><span class="s4">.</span><span class="s2">target</span><span class="s4">.</span><span class="s2">value </span><span class="s4">});</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> handleCheckboxChange </span><span class="s4">=</span><span class="s2"> </span><span class="s4">(</span><span class="s2">e</span><span class="s4">)</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">{</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">const</span><span class="s2"> </span><span class="s4">{</span><span class="s2"> value</span><span class="s4">,</span><span class="s2"> checked </span><span class="s4">}</span><span class="s2"> </span><span class="s4">=</span><span class="s2"> e</span><span class="s4">.</span><span class="s2">target</span><span class="s4">;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">if</span><span class="s2"> </span><span class="s4">(</span><span class="s2">checked</span><span class="s4">)</span><span class="s2"> </span><span class="s4">{</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>setFormData</span><span class="s4">(</span><span class="s2">prev </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">({</span><span class="s2"> </span><span class="s4">...</span><span class="s2">prev</span><span class="s4">,</span><span class="s2"> sessions</span><span class="s4">:</span><span class="s2"> </span><span class="s4">[...</span><span class="s2">prev</span><span class="s4">.</span><span class="s2">sessions</span><span class="s4">,</span><span class="s2"> value</span><span class="s4">]</span><span class="s2"> </span><span class="s4">}));</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s4">}</span><span class="s2"> </span><span class="s1">else</span><span class="s2"> </span><span class="s4">{</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>setFormData</span><span class="s4">(</span><span class="s2">prev </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">({</span><span class="s2"> </span><span class="s4">...</span><span class="s2">prev</span><span class="s4">,</span><span class="s2"> sessions</span><span class="s4">:</span><span class="s2"> prev</span><span class="s4">.</span><span class="s2">sessions</span><span class="s4">.</span><span class="s2">filter</span><span class="s4">(</span><span class="s2">s </span><span class="s4">=&gt;</span><span class="s2"> s </span><span class="s4">!==</span><span class="s2"> value</span><span class="s4">)</span><span class="s2"> </span><span class="s4">}));</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s4">}</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s4">};</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> handleSubmit </span><span class="s4">=</span><span class="s2"> </span><span class="s4">(</span><span class="s2">e</span><span class="s4">)</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">{</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>e</span><span class="s4">.</span><span class="s2">preventDefault</span><span class="s4">();</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>setFormStatus</span><span class="s4">(</span><span class="s5">'submitting'</span><span class="s4">);</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>setTimeout</span><span class="s4">(()</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">{</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>setFormStatus</span><span class="s4">(</span><span class="s5">'success'</span><span class="s4">);</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s4">},</span><span class="s2"> </span><span class="s8">1500</span><span class="s4">);</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s4">};</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> scrollToSection </span><span class="s4">=</span><span class="s2"> </span><span class="s4">(</span><span class="s2">id</span><span class="s4">)</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">{</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">const</span><span class="s2"> element </span><span class="s4">=</span><span class="s2"> document</span><span class="s4">.</span><span class="s2">getElementById</span><span class="s4">(</span><span class="s2">id</span><span class="s4">);</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">if</span><span class="s2"> </span><span class="s4">(</span><span class="s2">element</span><span class="s4">)</span><span class="s2"> element</span><span class="s4">.</span><span class="s2">scrollIntoView</span><span class="s4">({</span><span class="s2"> behavior</span><span class="s4">:</span><span class="s2"> </span><span class="s5">'smooth'</span><span class="s2"> </span><span class="s4">});</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s4">};</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p7"><span class="s6"><span class="Apple-converted-space">  </span></span><span class="s2">return</span><span class="s6"> </span><span class="s4">(</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">    </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"min-h-screen bg-gray-50 text-gray-900 font-sans selection:bg-orange-500 selection:text-white overflow-x-hidden"</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s2"><span class="Apple-converted-space">      </span></span></p>
+<p class="p4"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">{</span><span class="s2">/* Navbar (Daha Sade) */</span><span class="s4">}</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s6">nav className</span><span class="s4">={</span><span class="s2">`fixed w-full z-50 transition-all duration-300 </span><span class="s4">${</span><span class="s6">isScrolled </span><span class="s4">?</span><span class="s6"> </span><span class="s2">'py-3 bg-white shadow-sm'</span><span class="s6"> </span><span class="s4">:</span><span class="s6"> </span><span class="s2">'py-5 bg-transparent'</span><span class="s4">}</span><span class="s2">`</span><span class="s4">}&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"container mx-auto px-6 flex justify-between items-center"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">          </span></span><span class="s4">&lt;</span><span class="s6">img src</span><span class="s4">=</span><span class="s2">"unnamed.png"</span><span class="s6"> alt</span><span class="s4">=</span><span class="s2">"Eğitimpedia"</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"h-8 md:h-10 object-contain"</span><span class="s6"> /&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">          </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"hidden md:flex items-center gap-6"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span></span><span class="s4">&lt;</span><span class="s2">button<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span>onClick</span><span class="s4">={()</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> scrollToSection</span><span class="s4">(</span><span class="s5">'register'</span><span class="s4">)}</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">              </span>className</span><span class="s4">=</span><span class="s2">"px-6 py-2.5 bg-orange-600 hover:bg-orange-700 text-white rounded-full font-bold text-sm transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5"</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span></span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span></span><span class="s3">Kay</span><span class="s9">ı</span><span class="s2">t </span><span class="s3">Ol</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span></span><span class="s4">&lt;/</span><span class="s2">button</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;/</span><span class="s2">nav</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p4"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">{</span><span class="s2">/* Hero Bölümü (Sadeleştirilmiş) */</span><span class="s4">}</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s6">section className</span><span class="s4">=</span><span class="s2">"relative pt-32 pb-20 lg:pt-40 lg:pb-24 px-6 flex items-center bg-white"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"container mx-auto max-w-7xl relative z-10"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">          </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"grid lg:grid-cols-2 gap-16 items-center"</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s2"><span class="Apple-converted-space">            </span></span></p>
+<p class="p4"><span class="s6"><span class="Apple-converted-space">            </span></span><span class="s4">{</span><span class="s2">/* Sol İçerik */</span><span class="s4">}</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">            </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"flex flex-col justify-center"</span><span class="s4">&gt;</span></p>
+<p class="p4"><span class="s6"><span class="Apple-converted-space">              </span></span><span class="s4">{</span><span class="s2">/* Logo Hero Kısmında da Eklendi */</span><span class="s4">}</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;</span><span class="s6">img src</span><span class="s4">=</span><span class="s2">"unnamed.png"</span><span class="s6"> alt</span><span class="s4">=</span><span class="s2">"Eğitimpedia Logo"</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"h-12 mb-6 object-contain self-start"</span><span class="s6"> /&gt;</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-orange-50 border border-orange-100 w-fit"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s6">span className</span><span class="s4">=</span><span class="s2">"w-2 h-2 rounded-full bg-orange-500 animate-pulse"</span><span class="s6">&gt;&lt;/span</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s6">span className</span><span class="s4">=</span><span class="s2">"text-orange-700 text-xs font-bold tracking-widest uppercase"</span><span class="s4">&gt;</span><span class="s3">Canl</span><span class="s9">ı</span><span class="s6"> </span><span class="s3">Webinar</span><span class="s4">&lt;/</span><span class="s6">span</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;</span><span class="s6">h1 className</span><span class="s4">=</span><span class="s2">"text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.1] mb-6 text-gray-900 uppercase"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s3">E</span><span class="s9">ğ</span><span class="s2">itimpedia </span><span class="s4">&lt;</span><span class="s2">br/&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s2">span className</span><span class="s4">=</span><span class="s5">"text-orange-600"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s3">Okul</span><span class="s2"> </span><span class="s3">Tercih</span><span class="s2"> </span><span class="s3">Webinar</span><span class="s9">ı</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;/</span><span class="s2">span</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;/</span><span class="s2">h1</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"flex items-center gap-4 text-gray-600 mb-8 text-lg font-medium"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"flex items-center gap-2"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;</span><span class="s3">Calendar</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"w-5 h-5 text-orange-500"</span><span class="s2"> /&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s8">13</span><span class="s2"> </span><span class="s3">Aral</span><span class="s9">ı</span><span class="s2">k </span><span class="s3">Cumartesi</span><span class="s2"> </span><span class="s8">2025</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s6">span className</span><span class="s4">=</span><span class="s2">"w-1.5 h-1.5 rounded-full bg-gray-300"</span><span class="s6">&gt;&lt;/span</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"flex items-center gap-2"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;</span><span class="s6">span className</span><span class="s4">=</span><span class="s2">"w-5 h-5 rounded bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs"</span><span class="s4">&gt;</span><span class="s3">Z</span><span class="s4">&lt;/</span><span class="s6">span</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s3">Zoom</span><span class="s2"> </span><span class="s3">Online</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;</span><span class="s6">p className</span><span class="s4">=</span><span class="s2">"text-lg text-gray-600 max-w-lg mb-2 leading-relaxed"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s9">Ç</span><span class="s2">ocu</span><span class="s9">ğ</span><span class="s2">unuzun e</span><span class="s9">ğ</span><span class="s2">itim yolculu</span><span class="s9">ğ</span><span class="s2">unda en </span><span class="s1">do</span><span class="s9">ğ</span><span class="s2">ru karar</span><span class="s9">ı</span><span class="s2"> vermek i</span><span class="s9">ç</span><span class="s1">in</span><span class="s2"> </span><span class="s3">Ali</span><span class="s2"> </span><span class="s3">Ko</span><span class="s9">ç</span><span class="s2"> ile bulu</span><span class="s9">ş</span><span class="s2">uyoruz</span><span class="s4">.</span><span class="s2"><span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;/</span><span class="s2">p</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s2"><span class="Apple-converted-space">              </span></span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"mt-2 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg max-w-lg shadow-sm"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s6">p className</span><span class="s4">=</span><span class="s2">"text-sm text-blue-800 font-medium flex items-center gap-2"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                   </span></span><span class="s4">&lt;</span><span class="s3">CheckCircle</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"w-4 h-4"</span><span class="s2"> /&gt; </span><span class="s3">Zoom</span><span class="s2"> linki ve detayl</span><span class="s9">ı</span><span class="s2"> kat</span><span class="s9">ı</span><span class="s2">l</span><span class="s9">ı</span><span class="s2">m bilgileri kay</span><span class="s9">ı</span><span class="s2">t sonras</span><span class="s9">ı</span><span class="s2"> mail yoluyla payla</span><span class="s9">şı</span><span class="s2">lacakt</span><span class="s9">ı</span><span class="s2">r</span><span class="s4">.</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;/</span><span class="s2">p</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span></span><span class="s4">&lt;</span><span class="s3">Countdown3D</span><span class="s2"> /&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p4"><span class="s6"><span class="Apple-converted-space">            </span></span><span class="s4">{</span><span class="s2">/* Sağ İçerik: Form (Sadeleştirilmiş) */</span><span class="s4">}</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span></span><span class="s4">&lt;</span><span class="s2">div id</span><span class="s4">=</span><span class="s5">"register"</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"relative"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"relative bg-white rounded-2xl p-8 shadow-xl border border-gray-100"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;</span><span class="s6">h3 className</span><span class="s4">=</span><span class="s2">"text-2xl font-bold mb-6 text-gray-900 text-center"</span><span class="s4">&gt;</span><span class="s9">Ü</span><span class="s6">cretsiz </span><span class="s3">Kat</span><span class="s9">ı</span><span class="s6">l</span><span class="s9">ı</span><span class="s6">m </span><span class="s3">Formu</span><span class="s4">&lt;/</span><span class="s6">h3</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s2"><span class="Apple-converted-space">                  </span></span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">{</span><span class="s2">formStatus </span><span class="s4">===</span><span class="s2"> </span><span class="s5">'success'</span><span class="s2"> </span><span class="s4">?</span><span class="s2"> </span><span class="s4">(</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"text-center py-12"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;</span><span class="s3">CheckCircle</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"w-8 h-8 text-green-600"</span><span class="s2"> /&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s2">h4 className</span><span class="s4">=</span><span class="s5">"text-2xl font-bold text-gray-900 mb-2"</span><span class="s4">&gt;</span><span class="s3">Kayd</span><span class="s9">ı</span><span class="s2">n</span><span class="s9">ı</span><span class="s2">z </span><span class="s3">Ba</span><span class="s9">ş</span><span class="s2">ar</span><span class="s9">ı</span><span class="s2">l</span><span class="s9">ı</span><span class="s4">!&lt;/</span><span class="s2">h4</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s2">p className</span><span class="s4">=</span><span class="s5">"text-gray-600"</span><span class="s4">&gt;</span><span class="s3">Bilgileriniz</span><span class="s2"> al</span><span class="s9">ı</span><span class="s2">nd</span><span class="s9">ı</span><span class="s4">.</span><span class="s2"> </span><span class="s3">E</span><span class="s4">-</span><span class="s2">posta kutunuzu kontrol etmeyi unutmay</span><span class="s9">ı</span><span class="s2">n</span><span class="s4">.&lt;/</span><span class="s2">p</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">)</span><span class="s2"> </span><span class="s4">:</span><span class="s2"> </span><span class="s4">(</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;</span><span class="s2">form onSubmit</span><span class="s4">={</span><span class="s2">handleSubmit</span><span class="s4">}</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"space-y-5"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"grid grid-cols-2 gap-4"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"space-y-1"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                            </span></span><span class="s4">&lt;</span><span class="s6">label className</span><span class="s4">=</span><span class="s2">"text-xs font-bold text-gray-500 uppercase ml-1"</span><span class="s4">&gt;</span><span class="s3">Ad</span><span class="s4">&lt;/</span><span class="s6">label</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                            </span></span><span class="s4">&lt;</span><span class="s6">input </span><span class="s1">type</span><span class="s4">=</span><span class="s2">"text"</span><span class="s6"> name</span><span class="s4">=</span><span class="s2">"name"</span><span class="s6"> required className</span><span class="s4">=</span><span class="s2">"w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"</span><span class="s6"> onChange</span><span class="s4">={</span><span class="s6">handleInputChange</span><span class="s4">}</span><span class="s6"> /&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"space-y-1"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                            </span></span><span class="s4">&lt;</span><span class="s6">label className</span><span class="s4">=</span><span class="s2">"text-xs font-bold text-gray-500 uppercase ml-1"</span><span class="s4">&gt;</span><span class="s3">Soyad</span><span class="s4">&lt;/</span><span class="s6">label</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                            </span></span><span class="s4">&lt;</span><span class="s6">input </span><span class="s1">type</span><span class="s4">=</span><span class="s2">"text"</span><span class="s6"> name</span><span class="s4">=</span><span class="s2">"surname"</span><span class="s6"> required className</span><span class="s4">=</span><span class="s2">"w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"</span><span class="s6"> onChange</span><span class="s4">={</span><span class="s6">handleInputChange</span><span class="s4">}</span><span class="s6"> /&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s2"><span class="Apple-converted-space">                      </span></span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"space-y-1"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;</span><span class="s6">label className</span><span class="s4">=</span><span class="s2">"text-xs font-bold text-gray-500 uppercase ml-1"</span><span class="s4">&gt;</span><span class="s3">E</span><span class="s4">-</span><span class="s3">Posta</span><span class="s4">&lt;/</span><span class="s6">label</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;</span><span class="s6">input </span><span class="s1">type</span><span class="s4">=</span><span class="s2">"email"</span><span class="s6"> name</span><span class="s4">=</span><span class="s2">"email"</span><span class="s6"> required className</span><span class="s4">=</span><span class="s2">"w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"</span><span class="s6"> onChange</span><span class="s4">={</span><span class="s6">handleInputChange</span><span class="s4">}</span><span class="s6"> /&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s2"><span class="Apple-converted-space">                      </span></span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"space-y-1"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;</span><span class="s6">label className</span><span class="s4">=</span><span class="s2">"text-xs font-bold text-gray-500 uppercase ml-1"</span><span class="s4">&gt;</span><span class="s3">Telefon</span><span class="s4">&lt;/</span><span class="s6">label</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;</span><span class="s6">input </span><span class="s1">type</span><span class="s4">=</span><span class="s2">"tel"</span><span class="s6"> name</span><span class="s4">=</span><span class="s2">"phone"</span><span class="s6"> required className</span><span class="s4">=</span><span class="s2">"w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"</span><span class="s6"> onChange</span><span class="s4">={</span><span class="s6">handleInputChange</span><span class="s4">}</span><span class="s6"> /&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"pt-2"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;</span><span class="s2">label className</span><span class="s4">=</span><span class="s5">"block text-sm font-bold text-gray-800 mb-3"</span><span class="s4">&gt;</span><span class="s9">İ</span><span class="s2">lgilendi</span><span class="s9">ğ</span><span class="s2">iniz </span><span class="s3">Oturumlar</span><span class="s2">:&lt;/label</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                          </span></span><span class="s4">{[</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                            </span></span><span class="s2">"Anaokulu Webinarı (10.00–12.00)"</span><span class="s4">,</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                            </span></span><span class="s2">"İlkokul Webinarı (12.30–14.30)"</span><span class="s4">,</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                            </span></span><span class="s2">"Ortaokul Webinarı (15.00–17.00)"</span><span class="s4">,</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                            </span></span><span class="s2">"Lise Webinarı (17.30–19.30)"</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                          </span></span><span class="s4">].</span><span class="s2">map</span><span class="s4">((</span><span class="s2">session</span><span class="s4">,</span><span class="s2"> idx</span><span class="s4">)</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">(</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                            </span></span><span class="s4">&lt;</span><span class="s6">label key</span><span class="s4">={</span><span class="s6">idx</span><span class="s4">}</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"flex items-center gap-3 p-3 rounded-lg border border-gray-100 bg-gray-50 hover:border-orange-300 cursor-pointer transition-all group"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                              </span></span><span class="s4">&lt;</span><span class="s2">input </span><span class="s1">type</span><span class="s4">=</span><span class="s5">"checkbox"</span><span class="s2"> value</span><span class="s4">={</span><span class="s2">session</span><span class="s4">}</span><span class="s2"> onChange</span><span class="s4">={</span><span class="s2">handleCheckboxChange</span><span class="s4">}</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"w-5 h-5 text-orange-600 rounded focus:ring-orange-500 border-gray-300"</span><span class="s2"> /&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                              </span></span><span class="s4">&lt;</span><span class="s2">span className</span><span class="s4">=</span><span class="s5">"text-sm text-gray-600 group-hover:text-gray-900"</span><span class="s4">&gt;{</span><span class="s2">session</span><span class="s4">}&lt;/</span><span class="s2">span</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                            </span></span><span class="s4">&lt;/</span><span class="s2">label</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                          </span></span><span class="s4">))}</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s6">button </span><span class="s1">type</span><span class="s4">=</span><span class="s2">"submit"</span><span class="s6"> disabled</span><span class="s4">={</span><span class="s6">formData</span><span class="s4">.</span><span class="s6">sessions</span><span class="s4">.</span><span class="s6">length </span><span class="s4">===</span><span class="s6"> </span><span class="s8">0</span><span class="s6"> </span><span class="s4">||</span><span class="s6"> formStatus </span><span class="s4">===</span><span class="s6"> </span><span class="s2">'submitting'</span><span class="s4">}</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"w-full py-3.5 bg-orange-600 hover:bg-orange-700 text-white rounded-lg font-bold text-lg shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span></span><span class="s4">{</span><span class="s2">formStatus </span><span class="s4">===</span><span class="s2"> </span><span class="s5">'submitting'</span><span class="s2"> </span><span class="s4">?</span><span class="s2"> </span><span class="s5">'İşleniyor...'</span><span class="s2"> </span><span class="s4">:</span><span class="s2"> </span><span class="s5">'Kayıt Ol'</span><span class="s4">}</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;/</span><span class="s2">button</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;/</span><span class="s2">form</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">)}</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;/</span><span class="s2">section</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p4"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">{</span><span class="s2">/* Ali Koç &amp; Eğitimpedia Bölümü (Sadeleştirilmiş) */</span><span class="s4">}</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s2">section className</span><span class="s4">=</span><span class="s5">"py-20 bg-gray-50"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"container mx-auto px-6"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">          </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"flex flex-col md:flex-row items-center gap-16"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">             </span></span><span class="s4">{</span><span class="s10">/* Görsel */</span><span class="s4">}</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">             </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"w-full md:w-1/2"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s2">img<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span>src</span><span class="s4">=</span><span class="s5">"DSC_5908 copy.jpg"</span><span class="s2"><span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span>alt</span><span class="s4">=</span><span class="s5">"Ali Koç"</span><span class="s2"><span class="Apple-converted-space"> </span></span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                  </span>className</span><span class="s4">=</span><span class="s2">"relative w-full h-[500px] object-cover rounded-2xl shadow-xl"</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>/&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">             </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">             </span></span><span class="s4">{</span><span class="s10">/* Metin */</span><span class="s4">}</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">             </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"w-full md:w-1/2"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s6">h2 className</span><span class="s4">=</span><span class="s2">"text-3xl md:text-4xl font-black mb-6 leading-tight text-gray-900"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s3">E</span><span class="s9">ğ</span><span class="s2">itimde </span><span class="s4">&lt;</span><span class="s2">span className</span><span class="s4">=</span><span class="s5">"text-orange-600"</span><span class="s4">&gt;</span><span class="s3">D</span><span class="s9">ö</span><span class="s2">n</span><span class="s9">ü</span><span class="s2">m </span><span class="s3">Noktas</span><span class="s9">ı</span><span class="s4">.&lt;/</span><span class="s2">span</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;/</span><span class="s2">h2</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s2"><span class="Apple-converted-space">                </span></span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"prose prose-lg text-gray-600 mb-8"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;</span><span class="s2">p</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s3">E</span><span class="s9">ğ</span><span class="s2">itim d</span><span class="s9">ü</span><span class="s2">nyas</span><span class="s9">ı</span><span class="s2">n</span><span class="s9">ı</span><span class="s2">n deneyimli ismi </span><span class="s4">&lt;</span><span class="s2">strong</span><span class="s4">&gt;</span><span class="s3">Ali</span><span class="s2"> </span><span class="s3">Ko</span><span class="s9">ç</span><span class="s4">&lt;/</span><span class="s2">strong</span><span class="s4">&gt;</span><span class="s2"> rehberli</span><span class="s9">ğ</span><span class="s2">inde</span><span class="s4">,</span><span class="s2"> </span><span class="s9">ç</span><span class="s2">ocu</span><span class="s9">ğ</span><span class="s2">unuzun gelece</span><span class="s9">ğ</span><span class="s2">ini </span><span class="s9">ş</span><span class="s2">ekillendirecek okul se</span><span class="s9">ç</span><span class="s2">im s</span><span class="s9">ü</span><span class="s2">re</span><span class="s9">ç</span><span class="s2">lerini t</span><span class="s9">ü</span><span class="s2">m </span><span class="s9">ş</span><span class="s2">effafl</span><span class="s9">ığı</span><span class="s2">yla konu</span><span class="s9">ş</span><span class="s2">uyoruz</span><span class="s4">.</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;/</span><span class="s2">p</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;</span><span class="s6">p className</span><span class="s4">=</span><span class="s2">"font-medium text-gray-800 border-l-4 border-orange-500 pl-4 py-2 bg-white rounded-r-lg shadow-sm"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s3">Bu</span><span class="s2"> webinar</span><span class="s4">,</span><span class="s2"> sadece bir bilgilendirme toplant</span><span class="s9">ı</span><span class="s2">s</span><span class="s9">ı</span><span class="s2"> de</span><span class="s9">ğ</span><span class="s2">il</span><span class="s4">;</span><span class="s2"> ayn</span><span class="s9">ı</span><span class="s2"> zamanda </span><span class="s4">&lt;</span><span class="s2">strong</span><span class="s4">&gt;</span><span class="s3">E</span><span class="s9">ğ</span><span class="s2">itimpedia</span><span class="s4">&lt;/</span><span class="s2">strong</span><span class="s4">&gt;</span><span class="s2"> platformunun </span><span class="s1">do</span><span class="s9">ğ</span><span class="s2">u</span><span class="s9">ş</span><span class="s2">unun habercisidir</span><span class="s4">.</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;/</span><span class="s2">p</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;</span><span class="s2">p</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                    </span></span><span class="s3">E</span><span class="s9">ğ</span><span class="s6">itimpedia</span><span class="s4">;</span><span class="s6"> </span><span class="s9">ç</span><span class="s6">ok yak</span><span class="s9">ı</span><span class="s6">nda hayata ge</span><span class="s9">ç</span><span class="s6">ecek</span><span class="s4">,</span><span class="s6"> </span><span class="s3">T</span><span class="s9">ü</span><span class="s6">rkiye</span><span class="s2">'deki tüm okulların veriye dayalı, şeffaf ve kapsamlı bir şekilde incelenebileceği devrim niteliğinde bir platformdur. Velilerin "en doğru" okulu bulma yolculuğunda onlara ışık tutacak, daha önce yapılmamış bir veri tabanı ve rehberlik sistemidir.</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;/</span><span class="s2">p</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"flex items-center gap-4"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"flex -space-x-4"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                     </span></span><span class="s4">{[</span><span class="s8">1</span><span class="s4">,</span><span class="s8">2</span><span class="s4">,</span><span class="s8">3</span><span class="s4">].</span><span class="s2">map</span><span class="s4">(</span><span class="s2">i </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">(</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                       </span></span><span class="s4">&lt;</span><span class="s6">div key</span><span class="s4">={</span><span class="s6">i</span><span class="s4">}</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"w-12 h-12 rounded-full border-4 border-white bg-gray-200 overflow-hidden shadow-sm"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                          </span></span><span class="s4">&lt;</span><span class="s6">img src</span><span class="s4">={</span><span class="s2">`https://api.dicebear.com/7.x/avataaars/svg?seed=</span><span class="s4">${</span><span class="s6">i</span><span class="s4">*</span><span class="s8">55</span><span class="s4">}</span><span class="s2">`</span><span class="s4">}</span><span class="s6"> alt</span><span class="s4">=</span><span class="s2">"avatar"</span><span class="s6"> /&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                       </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                     </span></span><span class="s4">))}</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;</span><span class="s2">p className</span><span class="s4">=</span><span class="s5">"font-bold text-gray-900"</span><span class="s4">&gt;</span><span class="s3">Binlerce</span><span class="s2"> </span><span class="s3">Veli</span><span class="s2"> </span><span class="s3">Bekliyor</span><span class="s4">&lt;/</span><span class="s2">p</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;</span><span class="s2">p className</span><span class="s4">=</span><span class="s5">"text-xs text-gray-500"</span><span class="s4">&gt;</span><span class="s3">Lansman</span><span class="s2"> </span><span class="s9">ö</span><span class="s2">ncesi yerinizi al</span><span class="s9">ı</span><span class="s2">n</span><span class="s4">.&lt;/</span><span class="s2">p</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">             </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;/</span><span class="s2">section</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p4"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">{</span><span class="s2">/* Yaratıcı Ajanda Bölümü (Sadeleştirilmiş Arka Plan) */</span><span class="s4">}</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s6">section className</span><span class="s4">=</span><span class="s2">"py-20 bg-gray-900 text-white relative overflow-hidden"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"container mx-auto px-6 relative z-10"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">          </span></span><span class="s4">&lt;</span><span class="s6">h2 className</span><span class="s4">=</span><span class="s2">"text-3xl font-bold text-center mb-16"</span><span class="s4">&gt;</span><span class="s3">Webinar</span><span class="s6"> </span><span class="s3">Ak</span><span class="s9">ışı</span><span class="s4">&lt;/</span><span class="s6">h2</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span></span><span class="s4">&lt;</span><span class="s2">div className</span><span class="s4">=</span><span class="s5">"relative"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">             </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"flex flex-col md:flex-row gap-8 md:gap-0 relative justify-between"</span><span class="s4">&gt;</span></p>
+<p class="p4"><span class="s6"><span class="Apple-converted-space">                </span></span><span class="s4">{</span><span class="s2">/* Bağlantı Çizgisi (Masaüstü) */</span><span class="s4">}</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"hidden md:block absolute top-[30px] left-0 w-full h-0.5 bg-gray-700 z-0"</span><span class="s6">&gt;&lt;/div</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">{[</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">{</span><span class="s2"> time</span><span class="s4">:</span><span class="s2"> </span><span class="s5">"10.00"</span><span class="s4">,</span><span class="s2"> title</span><span class="s4">:</span><span class="s2"> </span><span class="s5">"Anaokulu"</span><span class="s4">,</span><span class="s2"> icon</span><span class="s4">:</span><span class="s2"> </span><span class="s4">&lt;</span><span class="s3">Play</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"w-4 h-4"</span><span class="s2"> /&gt; </span><span class="s4">},</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">{</span><span class="s2"> time</span><span class="s4">:</span><span class="s2"> </span><span class="s5">"12.30"</span><span class="s4">,</span><span class="s2"> title</span><span class="s4">:</span><span class="s2"> </span><span class="s5">"İlkokul"</span><span class="s4">,</span><span class="s2"> icon</span><span class="s4">:</span><span class="s2"> </span><span class="s4">&lt;</span><span class="s3">Play</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"w-4 h-4"</span><span class="s2"> /&gt; </span><span class="s4">},</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">{</span><span class="s2"> time</span><span class="s4">:</span><span class="s2"> </span><span class="s5">"15.00"</span><span class="s4">,</span><span class="s2"> title</span><span class="s4">:</span><span class="s2"> </span><span class="s5">"Ortaokul"</span><span class="s4">,</span><span class="s2"> icon</span><span class="s4">:</span><span class="s2"> </span><span class="s4">&lt;</span><span class="s3">Play</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"w-4 h-4"</span><span class="s2"> /&gt; </span><span class="s4">},</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">{</span><span class="s2"> time</span><span class="s4">:</span><span class="s2"> </span><span class="s5">"17.30"</span><span class="s4">,</span><span class="s2"> title</span><span class="s4">:</span><span class="s2"> </span><span class="s5">"Lise"</span><span class="s4">,</span><span class="s2"> icon</span><span class="s4">:</span><span class="s2"> </span><span class="s4">&lt;</span><span class="s3">Play</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"w-4 h-4"</span><span class="s2"> /&gt; </span><span class="s4">}</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">].</span><span class="s2">map</span><span class="s4">((</span><span class="s2">item</span><span class="s4">,</span><span class="s2"> index</span><span class="s4">)</span><span class="s2"> </span><span class="s4">=&gt;</span><span class="s2"> </span><span class="s4">(</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;</span><span class="s6">div key</span><span class="s4">={</span><span class="s6">index</span><span class="s4">}</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"flex-1 relative z-10 group flex flex-col items-center text-center"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">{</span><span class="s10">/* Daire Düğüm */</span><span class="s4">}</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"w-16 h-16 rounded-full bg-gray-800 border-4 border-gray-700 group-hover:border-orange-500 group-hover:bg-orange-600 transition-all duration-300 flex items-center justify-center shadow-lg mb-6 z-10"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s2">span className</span><span class="s4">=</span><span class="s5">"font-bold font-mono text-sm"</span><span class="s4">&gt;{</span><span class="s2">item</span><span class="s4">.</span><span class="s2">time</span><span class="s4">}&lt;/</span><span class="s2">span</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s2"><span class="Apple-converted-space">                    </span></span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">{</span><span class="s10">/* İçerik Kartı */</span><span class="s4">}</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"bg-gray-800 p-6 rounded-xl w-full max-w-[280px] border border-gray-700 transition-all duration-300 group-hover:border-orange-500/50 group-hover:shadow-lg group-hover:shadow-orange-500/10"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s2">h3 className</span><span class="s4">=</span><span class="s5">"text-xl font-bold text-orange-400 mb-2"</span><span class="s4">&gt;{</span><span class="s2">item</span><span class="s4">.</span><span class="s2">title</span><span class="s4">}&lt;/</span><span class="s2">h3</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s2">p className</span><span class="s4">=</span><span class="s5">"text-sm text-gray-400"</span><span class="s4">&gt;</span><span class="s3">Okul</span><span class="s2"> tercihlerinde dikkat edilmesi gerekenler ve soru</span><span class="s4">-</span><span class="s2">cevap</span><span class="s4">.&lt;/</span><span class="s2">p</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"mt-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-gray-500"</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span></span><span class="s4">&lt;</span><span class="s3">Clock</span><span class="s2"> className</span><span class="s4">=</span><span class="s5">"w-3 h-3"</span><span class="s2"> /&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span></span><span class="s8">2</span><span class="s2"> </span><span class="s3">Saat</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s4">))}</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">             </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;/</span><span class="s2">section</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p4"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">{</span><span class="s2">/* Sade Footer */</span><span class="s4">}</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;</span><span class="s6">footer className</span><span class="s4">=</span><span class="s2">"bg-white border-t border-gray-200 py-12 text-center"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;</span><span class="s6">img src</span><span class="s4">=</span><span class="s2">"unnamed.png"</span><span class="s6"> alt</span><span class="s4">=</span><span class="s2">"Logo"</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"h-8 mx-auto mb-6 object-contain"</span><span class="s6"> /&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;</span><span class="s2">p className</span><span class="s4">=</span><span class="s5">"text-gray-500 text-sm"</span><span class="s4">&gt;</span><span class="s9">©</span><span class="s2"> </span><span class="s8">2025</span><span class="s2"> </span><span class="s3">E</span><span class="s9">ğ</span><span class="s2">itimpedia</span><span class="s4">.</span><span class="s2"> </span><span class="s3">T</span><span class="s9">ü</span><span class="s2">m haklar</span><span class="s9">ı</span><span class="s2"> sakl</span><span class="s9">ı</span><span class="s2">d</span><span class="s9">ı</span><span class="s2">r</span><span class="s4">.&lt;/</span><span class="s2">p</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;</span><span class="s6">div className</span><span class="s4">=</span><span class="s2">"flex justify-center gap-6 mt-6"</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">           </span></span><span class="s4">&lt;</span><span class="s6">a href</span><span class="s4">=</span><span class="s2">"#"</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"text-gray-400 hover:text-orange-600 transition-colors"</span><span class="s6">&gt;&lt;</span><span class="s3">Instagram</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"w-6 h-6"</span><span class="s6">/&gt;&lt;/a</span><span class="s4">&gt;</span></p>
+<p class="p6"><span class="s6"><span class="Apple-converted-space">           </span></span><span class="s4">&lt;</span><span class="s6">a href</span><span class="s4">=</span><span class="s2">"#"</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"text-gray-400 hover:text-orange-600 transition-colors"</span><span class="s6">&gt;&lt;</span><span class="s3">Mail</span><span class="s6"> className</span><span class="s4">=</span><span class="s2">"w-6 h-6"</span><span class="s6">/&gt;&lt;/a</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s4">&lt;/</span><span class="s2">footer</span><span class="s4">&gt;</span></p>
+<p class="p3"><span class="s7"></span><br></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s4">&lt;/</span><span class="s2">div</span><span class="s4">&gt;</span></p>
+<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s4">);</span></p>
+<p class="p5"><span class="s2">}</span></p>
 </body>
 </html>
