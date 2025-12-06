@@ -1,324 +1,397 @@
-import React, { useState, useEffect } from 'react';
-import { Calendar, Clock, CheckCircle, ArrowRight, Instagram, Mail, Play } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eğitimpedia Okul Tercih Webinarı</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <!-- Babel (JSX Derleyicisi) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-/* NOT: 3D Arka Plan ve Aşırı Dekoratif Öğeler Kaldırılmıştır.
-   Daha Sade ve Net Bir Tasarım Amaçlanmıştır. */
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-// --- 3D Stilinde Geri Sayım Sayacı (Sadeleştirilmiş) ---
-const Countdown3D = () => {
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Özel Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <div id="root"></div>
 
-  useEffect(() => {
-    const targetDate = new Date('2025-12-13T10:00:00').getTime();
-    const interval = setInterval(() => {
-      const now = new Date().getTime();
-      const distance = targetDate - now;
-      if (distance < 0) {
-        clearInterval(interval);
-      } else {
-        setTimeLeft({
-          days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-          seconds: Math.floor((distance % (1000 * 60)) / 1000),
-        });
-      }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+    <script type="text/babel">
+        const { useState, useEffect } = React;
 
-  const FlipCard = ({ value, label }) => (
-    <div className="flex flex-col items-center mx-2 md:mx-3 group">
-      <div className="relative w-14 h-16 md:w-20 md:h-24 bg-white rounded-lg shadow-md border-b-4 border-orange-500 flex items-center justify-center overflow-hidden">
-        <span className="text-2xl md:text-4xl font-black text-gray-800 font-mono">
-          {value < 10 ? `0${value}` : value}
-        </span>
-      </div>
-      <span className="mt-2 text-xs md:text-sm font-bold text-gray-500 tracking-widest uppercase">{label}</span>
-    </div>
-  );
+        // --- İKONLAR (Lucide React yerine SVG bileşenleri) ---
+        const Calendar = (props) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+        );
+        const Clock = (props) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        );
+        const CheckCircle = (props) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        );
+        const ArrowRight = (props) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        );
+        const Instagram = (props) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+        );
+        const Mail = (props) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        );
+        const Play = (props) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        );
 
-  return (
-    <div className="flex items-center justify-start gap-1 md:gap-4 mt-8 mb-8">
-      <FlipCard value={timeLeft.days} label="GÜN" />
-      <div className="text-xl font-bold text-orange-300 pb-6">:</div>
-      <FlipCard value={timeLeft.hours} label="SAAT" />
-      <div className="text-xl font-bold text-orange-300 pb-6">:</div>
-      <FlipCard value={timeLeft.minutes} label="DK" />
-      <div className="text-xl font-bold text-orange-300 pb-6">:</div>
-      <FlipCard value={timeLeft.seconds} label="SN" />
-    </div>
-  );
-};
+        // --- Geri Sayım Bileşeni ---
+        const Countdown3D = () => {
+            const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
-// --- Ana Uygulama ---
-export default function EgitimpediaLandingV4() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    surname: '',
-    email: '',
-    phone: '',
-    sessions: []
-  });
-  const [formStatus, setFormStatus] = useState('idle');
+            useEffect(() => {
+                const targetDate = new Date('2025-12-13T10:00:00').getTime();
+                const interval = setInterval(() => {
+                    const now = new Date().getTime();
+                    const distance = targetDate - now;
+                    if (distance < 0) {
+                        clearInterval(interval);
+                    } else {
+                        setTimeLeft({
+                            days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+                            hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+                            minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+                            seconds: Math.floor((distance % (1000 * 60)) / 1000),
+                        });
+                    }
+                }, 1000);
+                return () => clearInterval(interval);
+            }, []);
 
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleInputChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const handleCheckboxChange = (e) => {
-    const { value, checked } = e.target;
-    if (checked) {
-      setFormData(prev => ({ ...prev, sessions: [...prev.sessions, value] }));
-    } else {
-      setFormData(prev => ({ ...prev, sessions: prev.sessions.filter(s => s !== value) }));
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setFormStatus('submitting');
-    setTimeout(() => {
-      setFormStatus('success');
-    }, 1500);
-  };
-
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) element.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans selection:bg-orange-500 selection:text-white overflow-x-hidden">
-      
-      {/* Navbar (Daha Sade) */}
-      <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'py-3 bg-white shadow-sm' : 'py-5 bg-transparent'}`}>
-        <div className="container mx-auto px-6 flex justify-between items-center">
-          <img src="unnamed.png" alt="Eğitimpedia" className="h-8 md:h-10 object-contain" />
-          <div className="hidden md:flex items-center gap-6">
-            <button 
-              onClick={() => scrollToSection('register')}
-              className="px-6 py-2.5 bg-orange-600 hover:bg-orange-700 text-white rounded-full font-bold text-sm transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
-            >
-              Kayıt Ol
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      {/* Hero Bölümü (Sadeleştirilmiş) */}
-      <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-24 px-6 flex items-center bg-white">
-        <div className="container mx-auto max-w-7xl relative z-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            
-            {/* Sol İçerik */}
-            <div className="flex flex-col justify-center">
-              {/* Logo Hero Kısmında da Eklendi */}
-              <img src="unnamed.png" alt="Eğitimpedia Logo" className="h-12 mb-6 object-contain self-start" />
-
-              <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-orange-50 border border-orange-100 w-fit">
-                <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
-                <span className="text-orange-700 text-xs font-bold tracking-widest uppercase">Canlı Webinar</span>
-              </div>
-
-              <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.1] mb-6 text-gray-900 uppercase">
-                Eğitimpedia <br/>
-                <span className="text-orange-600">
-                  Okul Tercih Webinarı
-                </span>
-              </h1>
-
-              <div className="flex items-center gap-4 text-gray-600 mb-8 text-lg font-medium">
-                <div className="flex items-center gap-2">
-                    <Calendar className="w-5 h-5 text-orange-500" />
-                    13 Aralık Cumartesi 2025
-                </div>
-                <span className="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
-                <div className="flex items-center gap-2">
-                    <span className="w-5 h-5 rounded bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs">Z</span>
-                    Zoom Online
-                </div>
-              </div>
-
-              <p className="text-lg text-gray-600 max-w-lg mb-2 leading-relaxed">
-                Çocuğunuzun eğitim yolculuğunda en doğru kararı vermek için Ali Koç ile buluşuyoruz. 
-              </p>
-              
-              <div className="mt-2 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg max-w-lg shadow-sm">
-                <p className="text-sm text-blue-800 font-medium flex items-center gap-2">
-                   <CheckCircle className="w-4 h-4" /> Zoom linki ve detaylı katılım bilgileri kayıt sonrası mail yoluyla paylaşılacaktır.
-                </p>
-              </div>
-
-              <Countdown3D />
-            </div>
-
-            {/* Sağ İçerik: Form (Sadeleştirilmiş) */}
-            <div id="register" className="relative">
-                <div className="relative bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
-                  <h3 className="text-2xl font-bold mb-6 text-gray-900 text-center">Ücretsiz Katılım Formu</h3>
-                  
-                  {formStatus === 'success' ? (
-                    <div className="text-center py-12">
-                      <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <CheckCircle className="w-8 h-8 text-green-600" />
-                      </div>
-                      <h4 className="text-2xl font-bold text-gray-900 mb-2">Kaydınız Başarılı!</h4>
-                      <p className="text-gray-600">Bilgileriniz alındı. E-posta kutunuzu kontrol etmeyi unutmayın.</p>
+            const FlipCard = ({ value, label }) => (
+                <div className="flex flex-col items-center mx-2 md:mx-3 group">
+                    <div className="relative w-14 h-16 md:w-20 md:h-24 bg-white rounded-lg shadow-md border-b-4 border-orange-500 flex items-center justify-center overflow-hidden">
+                        <span className="text-2xl md:text-4xl font-black text-gray-800 font-mono">
+                            {value < 10 ? `0${value}` : value}
+                        </span>
                     </div>
-                  ) : (
-                    <form onSubmit={handleSubmit} className="space-y-5">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-1">
-                            <label className="text-xs font-bold text-gray-500 uppercase ml-1">Ad</label>
-                            <input type="text" name="name" required className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all" onChange={handleInputChange} />
-                        </div>
-                        <div className="space-y-1">
-                            <label className="text-xs font-bold text-gray-500 uppercase ml-1">Soyad</label>
-                            <input type="text" name="surname" required className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all" onChange={handleInputChange} />
-                        </div>
-                      </div>
-                      
-                      <div className="space-y-1">
-                        <label className="text-xs font-bold text-gray-500 uppercase ml-1">E-Posta</label>
-                        <input type="email" name="email" required className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all" onChange={handleInputChange} />
-                      </div>
-                      
-                      <div className="space-y-1">
-                        <label className="text-xs font-bold text-gray-500 uppercase ml-1">Telefon</label>
-                        <input type="tel" name="phone" required className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all" onChange={handleInputChange} />
-                      </div>
-
-                      <div className="pt-2">
-                        <label className="block text-sm font-bold text-gray-800 mb-3">İlgilendiğiniz Oturumlar:</label>
-                        <div className="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar">
-                          {[
-                            "Anaokulu Webinarı (10.00–12.00)",
-                            "İlkokul Webinarı (12.30–14.30)",
-                            "Ortaokul Webinarı (15.00–17.00)",
-                            "Lise Webinarı (17.30–19.30)"
-                          ].map((session, idx) => (
-                            <label key={idx} className="flex items-center gap-3 p-3 rounded-lg border border-gray-100 bg-gray-50 hover:border-orange-300 cursor-pointer transition-all group">
-                              <input type="checkbox" value={session} onChange={handleCheckboxChange} className="w-5 h-5 text-orange-600 rounded focus:ring-orange-500 border-gray-300" />
-                              <span className="text-sm text-gray-600 group-hover:text-gray-900">{session}</span>
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-
-                      <button type="submit" disabled={formData.sessions.length === 0 || formStatus === 'submitting'} className="w-full py-3.5 bg-orange-600 hover:bg-orange-700 text-white rounded-lg font-bold text-lg shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed">
-                        {formStatus === 'submitting' ? 'İşleniyor...' : 'Kayıt Ol'}
-                      </button>
-                    </form>
-                  )}
+                    <span className="mt-2 text-xs md:text-sm font-bold text-gray-500 tracking-widest uppercase">{label}</span>
                 </div>
-            </div>
-          </div>
-        </div>
-      </section>
+            );
 
-      {/* Ali Koç & Eğitimpedia Bölümü (Sadeleştirilmiş) */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center gap-16">
-             {/* Görsel */}
-             <div className="w-full md:w-1/2">
-                <img 
-                  src="DSC_5908 copy.jpg" 
-                  alt="Ali Koç" 
-                  className="relative w-full h-[500px] object-cover rounded-2xl shadow-xl"
-                />
-             </div>
+            return (
+                <div className="flex items-center justify-start gap-1 md:gap-4 mt-8 mb-8">
+                    <FlipCard value={timeLeft.days} label="GÜN" />
+                    <div className="text-xl font-bold text-orange-300 pb-6">:</div>
+                    <FlipCard value={timeLeft.hours} label="SAAT" />
+                    <div className="text-xl font-bold text-orange-300 pb-6">:</div>
+                    <FlipCard value={timeLeft.minutes} label="DK" />
+                    <div className="text-xl font-bold text-orange-300 pb-6">:</div>
+                    <FlipCard value={timeLeft.seconds} label="SN" />
+                </div>
+            );
+        };
 
-             {/* Metin */}
-             <div className="w-full md:w-1/2">
-                <h2 className="text-3xl md:text-4xl font-black mb-6 leading-tight text-gray-900">
-                  Eğitimde <span className="text-orange-600">Dönüm Noktası.</span>
-                </h2>
+        // --- Ana Uygulama ---
+        const App = () => {
+            const [isScrolled, setIsScrolled] = useState(false);
+            const [formData, setFormData] = useState({
+                name: '',
+                surname: '',
+                email: '',
+                phone: '',
+                sessions: []
+            });
+            const [formStatus, setFormStatus] = useState('idle');
+
+            useEffect(() => {
+                const handleScroll = () => setIsScrolled(window.scrollY > 20);
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            const handleInputChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+            const handleCheckboxChange = (e) => {
+                const { value, checked } = e.target;
+                if (checked) {
+                    setFormData(prev => ({ ...prev, sessions: [...prev.sessions, value] }));
+                } else {
+                    setFormData(prev => ({ ...prev, sessions: prev.sessions.filter(s => s !== value) }));
+                }
+            };
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                setFormStatus('submitting');
+                setTimeout(() => {
+                    setFormStatus('success');
+                }, 1500);
+            };
+
+            const scrollToSection = (id) => {
+                const element = document.getElementById(id);
+                if (element) element.scrollIntoView({ behavior: 'smooth' });
+            };
+
+            return (
+                <div className="min-h-screen bg-gray-50 text-gray-900 font-sans selection:bg-orange-500 selection:text-white overflow-x-hidden">
                 
-                <div className="prose prose-lg text-gray-600 mb-8">
-                  <p>
-                    Eğitim dünyasının deneyimli ismi <strong>Ali Koç</strong> rehberliğinde, çocuğunuzun geleceğini şekillendirecek okul seçim süreçlerini tüm şeffaflığıyla konuşuyoruz.
-                  </p>
-                  <p className="font-medium text-gray-800 border-l-4 border-orange-500 pl-4 py-2 bg-white rounded-r-lg shadow-sm">
-                    Bu webinar, sadece bir bilgilendirme toplantısı değil; aynı zamanda <strong>Eğitimpedia</strong> platformunun doğuşunun habercisidir.
-                  </p>
-                  <p>
-                    Eğitimpedia; çok yakında hayata geçecek, Türkiye'deki tüm okulların veriye dayalı, şeffaf ve kapsamlı bir şekilde incelenebileceği devrim niteliğinde bir platformdur. Velilerin "en doğru" okulu bulma yolculuğunda onlara ışık tutacak, daha önce yapılmamış bir veri tabanı ve rehberlik sistemidir.
-                  </p>
-                </div>
+                {/* Navbar */}
+                <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'py-3 bg-white shadow-sm' : 'py-5 bg-transparent'}`}>
+                    <div className="container mx-auto px-6 flex justify-between items-center">
+                    <img src="unnamed.png" alt="Eğitimpedia" className="h-8 md:h-10 object-contain" onError={(e) => {e.target.style.display='none'; e.target.nextSibling.style.display='block'}} />
+                    <div style={{display: 'none'}} className="text-xl font-bold">Eğitimpedia</div>
 
-                <div className="flex items-center gap-4">
-                  <div className="flex -space-x-4">
-                     {[1,2,3].map(i => (
-                       <div key={i} className="w-12 h-12 rounded-full border-4 border-white bg-gray-200 overflow-hidden shadow-sm">
-                          <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i*55}`} alt="avatar" />
-                       </div>
-                     ))}
-                  </div>
-                  <div>
-                    <p className="font-bold text-gray-900">Binlerce Veli Bekliyor</p>
-                    <p className="text-xs text-gray-500">Lansman öncesi yerinizi alın.</p>
-                  </div>
-                </div>
-             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Yaratıcı Ajanda Bölümü (Sadeleştirilmiş Arka Plan) */}
-      <section className="py-20 bg-gray-900 text-white relative overflow-hidden">
-        <div className="container mx-auto px-6 relative z-10">
-          <h2 className="text-3xl font-bold text-center mb-16">Webinar Akışı</h2>
-
-          <div className="relative">
-             <div className="flex flex-col md:flex-row gap-8 md:gap-0 relative justify-between">
-                {/* Bağlantı Çizgisi (Masaüstü) */}
-                <div className="hidden md:block absolute top-[30px] left-0 w-full h-0.5 bg-gray-700 z-0"></div>
-
-                {[
-                  { time: "10.00", title: "Anaokulu", icon: <Play className="w-4 h-4" /> },
-                  { time: "12.30", title: "İlkokul", icon: <Play className="w-4 h-4" /> },
-                  { time: "15.00", title: "Ortaokul", icon: <Play className="w-4 h-4" /> },
-                  { time: "17.30", title: "Lise", icon: <Play className="w-4 h-4" /> }
-                ].map((item, index) => (
-                  <div key={index} className="flex-1 relative z-10 group flex flex-col items-center text-center">
-                    {/* Daire Düğüm */}
-                    <div className="w-16 h-16 rounded-full bg-gray-800 border-4 border-gray-700 group-hover:border-orange-500 group-hover:bg-orange-600 transition-all duration-300 flex items-center justify-center shadow-lg mb-6 z-10">
-                      <span className="font-bold font-mono text-sm">{item.time}</span>
+                    <div className="hidden md:flex items-center gap-6">
+                        <button 
+                        onClick={() => scrollToSection('register')}
+                        className="px-6 py-2.5 bg-orange-600 hover:bg-orange-700 text-white rounded-full font-bold text-sm transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+                        >
+                        Kayıt Ol
+                        </button>
                     </div>
-                    
-                    {/* İçerik Kartı */}
-                    <div className="bg-gray-800 p-6 rounded-xl w-full max-w-[280px] border border-gray-700 transition-all duration-300 group-hover:border-orange-500/50 group-hover:shadow-lg group-hover:shadow-orange-500/10">
-                      <h3 className="text-xl font-bold text-orange-400 mb-2">{item.title}</h3>
-                      <p className="text-sm text-gray-400">Okul tercihlerinde dikkat edilmesi gerekenler ve soru-cevap.</p>
-                      <div className="mt-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-gray-500">
-                        <Clock className="w-3 h-3" />
-                        2 Saat
-                      </div>
                     </div>
-                  </div>
-                ))}
-             </div>
-          </div>
-        </div>
-      </section>
+                </nav>
 
-      {/* Sade Footer */}
-      <footer className="bg-white border-t border-gray-200 py-12 text-center">
-        <img src="unnamed.png" alt="Logo" className="h-8 mx-auto mb-6 object-contain" />
-        <p className="text-gray-500 text-sm">© 2025 Eğitimpedia. Tüm hakları saklıdır.</p>
-        <div className="flex justify-center gap-6 mt-6">
-           <a href="#" className="text-gray-400 hover:text-orange-600 transition-colors"><Instagram className="w-6 h-6"/></a>
-           <a href="#" className="text-gray-400 hover:text-orange-600 transition-colors"><Mail className="w-6 h-6"/></a>
-        </div>
-      </footer>
+                {/* Hero Bölümü */}
+                <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-24 px-6 flex items-center bg-white">
+                    <div className="container mx-auto max-w-7xl relative z-10">
+                    <div className="grid lg:grid-cols-2 gap-16 items-center">
+                        
+                        {/* Sol İçerik */}
+                        <div className="flex flex-col justify-center">
+                        <img src="unnamed.png" alt="Eğitimpedia Logo" className="h-12 mb-6 object-contain self-start" onError={(e) => {e.target.style.display='none'}} />
 
-    </div>
-  );
-}
+                        <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-orange-50 border border-orange-100 w-fit">
+                            <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
+                            <span className="text-orange-700 text-xs font-bold tracking-widest uppercase">Canlı Webinar</span>
+                        </div>
+
+                        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.1] mb-6 text-gray-900 uppercase">
+                            Eğitimpedia <br/>
+                            <span className="text-orange-600">
+                            Okul Tercih Webinarı
+                            </span>
+                        </h1>
+
+                        <div className="flex items-center gap-4 text-gray-600 mb-8 text-lg font-medium">
+                            <div className="flex items-center gap-2">
+                                <Calendar className="w-5 h-5 text-orange-500" />
+                                13 Aralık Cumartesi 2025
+                            </div>
+                            <span className="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
+                            <div className="flex items-center gap-2">
+                                <span className="w-5 h-5 rounded bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs">Z</span>
+                                Zoom Online
+                            </div>
+                        </div>
+
+                        <p className="text-lg text-gray-600 max-w-lg mb-2 leading-relaxed">
+                            Çocuğunuzun eğitim yolculuğunda en doğru kararı vermek için Ali Koç ile buluşuyoruz. 
+                        </p>
+                        
+                        <div className="mt-2 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg max-w-lg shadow-sm">
+                            <p className="text-sm text-blue-800 font-medium flex items-center gap-2">
+                            <CheckCircle className="w-4 h-4" /> Zoom linki ve detaylı katılım bilgileri kayıt sonrası mail yoluyla paylaşılacaktır.
+                            </p>
+                        </div>
+
+                        <Countdown3D />
+                        </div>
+
+                        {/* Sağ İçerik: Form */}
+                        <div id="register" className="relative">
+                            <div className="relative bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                            <h3 className="text-2xl font-bold mb-6 text-gray-900 text-center">Ücretsiz Katılım Formu</h3>
+                            
+                            {formStatus === 'success' ? (
+                                <div className="text-center py-12">
+                                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                    <CheckCircle className="w-8 h-8 text-green-600" />
+                                </div>
+                                <h4 className="text-2xl font-bold text-gray-900 mb-2">Kaydınız Başarılı!</h4>
+                                <p className="text-gray-600">Bilgileriniz alındı. E-posta kutunuzu kontrol etmeyi unutmayın.</p>
+                                </div>
+                            ) : (
+                                <form onSubmit={handleSubmit} className="space-y-5">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-1">
+                                        <label className="text-xs font-bold text-gray-500 uppercase ml-1">Ad</label>
+                                        <input type="text" name="name" required className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all" onChange={handleInputChange} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-xs font-bold text-gray-500 uppercase ml-1">Soyad</label>
+                                        <input type="text" name="surname" required className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all" onChange={handleInputChange} />
+                                    </div>
+                                </div>
+                                
+                                <div className="space-y-1">
+                                    <label className="text-xs font-bold text-gray-500 uppercase ml-1">E-Posta</label>
+                                    <input type="email" name="email" required className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all" onChange={handleInputChange} />
+                                </div>
+                                
+                                <div className="space-y-1">
+                                    <label className="text-xs font-bold text-gray-500 uppercase ml-1">Telefon</label>
+                                    <input type="tel" name="phone" required className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all" onChange={handleInputChange} />
+                                </div>
+
+                                <div className="pt-2">
+                                    <label className="block text-sm font-bold text-gray-800 mb-3">İlgilendiğiniz Oturumlar:</label>
+                                    <div className="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar">
+                                    {[
+                                        "Anaokulu Webinarı (10.00–12.00)",
+                                        "İlkokul Webinarı (12.30–14.30)",
+                                        "Ortaokul Webinarı (15.00–17.00)",
+                                        "Lise Webinarı (17.30–19.30)"
+                                    ].map((session, idx) => (
+                                        <label key={idx} className="flex items-center gap-3 p-3 rounded-lg border border-gray-100 bg-gray-50 hover:border-orange-300 cursor-pointer transition-all group">
+                                        <input type="checkbox" value={session} onChange={handleCheckboxChange} className="w-5 h-5 text-orange-600 rounded focus:ring-orange-500 border-gray-300" />
+                                        <span className="text-sm text-gray-600 group-hover:text-gray-900">{session}</span>
+                                        </label>
+                                    ))}
+                                    </div>
+                                </div>
+
+                                <button type="submit" disabled={formData.sessions.length === 0 || formStatus === 'submitting'} className="w-full py-3.5 bg-orange-600 hover:bg-orange-700 text-white rounded-lg font-bold text-lg shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                                    {formStatus === 'submitting' ? 'İşleniyor...' : 'Kayıt Ol'}
+                                </button>
+                                </form>
+                            )}
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </section>
+
+                {/* Ali Koç & Eğitimpedia Bölümü */}
+                <section className="py-20 bg-gray-50">
+                    <div className="container mx-auto px-6">
+                    <div className="flex flex-col md:flex-row items-center gap-16">
+                        {/* Görsel */}
+                        <div className="w-full md:w-1/2">
+                            <img 
+                            src="DSC_5908 copy.jpg" 
+                            alt="Ali Koç" 
+                            className="relative w-full h-[500px] object-cover rounded-2xl shadow-xl"
+                            onError={(e) => {
+                                e.target.src = "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800"; // Fallback image if local file missing
+                            }}
+                            />
+                        </div>
+
+                        {/* Metin */}
+                        <div className="w-full md:w-1/2">
+                            <h2 className="text-3xl md:text-4xl font-black mb-6 leading-tight text-gray-900">
+                            Eğitimde <span className="text-orange-600">Dönüm Noktası.</span>
+                            </h2>
+                            
+                            <div className="prose prose-lg text-gray-600 mb-8">
+                            <p>
+                                Eğitim dünyasının deneyimli ismi <strong>Ali Koç</strong> rehberliğinde, çocuğunuzun geleceğini şekillendirecek okul seçim süreçlerini tüm şeffaflığıyla konuşuyoruz.
+                            </p>
+                            <p className="font-medium text-gray-800 border-l-4 border-orange-500 pl-4 py-2 bg-white rounded-r-lg shadow-sm">
+                                Bu webinar, sadece bir bilgilendirme toplantısı değil; aynı zamanda <strong>Eğitimpedia</strong> platformunun doğuşunun habercisidir.
+                            </p>
+                            <p>
+                                Eğitimpedia; çok yakında hayata geçecek, Türkiye'deki tüm okulların veriye dayalı, şeffaf ve kapsamlı bir şekilde incelenebileceği devrim niteliğinde bir platformdur. Velilerin "en doğru" okulu bulma yolculuğunda onlara ışık tutacak, daha önce yapılmamış bir veri tabanı ve rehberlik sistemidir.
+                            </p>
+                            </div>
+
+                            <div className="flex items-center gap-4">
+                            <div className="flex -space-x-4">
+                                {[1,2,3].map(i => (
+                                <div key={i} className="w-12 h-12 rounded-full border-4 border-white bg-gray-200 overflow-hidden shadow-sm">
+                                    <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i*55}`} alt="avatar" />
+                                </div>
+                                ))}
+                            </div>
+                            <div>
+                                <p className="font-bold text-gray-900">Binlerce Veli Bekliyor</p>
+                                <p className="text-xs text-gray-500">Lansman öncesi yerinizi alın.</p>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </section>
+
+                {/* Yaratıcı Ajanda Bölümü */}
+                <section className="py-20 bg-gray-900 text-white relative overflow-hidden">
+                    <div className="container mx-auto px-6 relative z-10">
+                    <h2 className="text-3xl font-bold text-center mb-16">Webinar Akışı</h2>
+
+                    <div className="relative">
+                        <div className="flex flex-col md:flex-row gap-8 md:gap-0 relative justify-between">
+                            {/* Bağlantı Çizgisi (Masaüstü) */}
+                            <div className="hidden md:block absolute top-[30px] left-0 w-full h-0.5 bg-gray-700 z-0"></div>
+
+                            {[
+                            { time: "10.00", title: "Anaokulu", icon: <Play className="w-4 h-4" /> },
+                            { time: "12.30", title: "İlkokul", icon: <Play className="w-4 h-4" /> },
+                            { time: "15.00", title: "Ortaokul", icon: <Play className="w-4 h-4" /> },
+                            { time: "17.30", title: "Lise", icon: <Play className="w-4 h-4" /> }
+                            ].map((item, index) => (
+                            <div key={index} className="flex-1 relative z-10 group flex flex-col items-center text-center">
+                                {/* Daire Düğüm */}
+                                <div className="w-16 h-16 rounded-full bg-gray-800 border-4 border-gray-700 group-hover:border-orange-500 group-hover:bg-orange-600 transition-all duration-300 flex items-center justify-center shadow-lg mb-6 z-10">
+                                <span className="font-bold font-mono text-sm">{item.time}</span>
+                                </div>
+                                
+                                {/* İçerik Kartı */}
+                                <div className="bg-gray-800 p-6 rounded-xl w-full max-w-[280px] border border-gray-700 transition-all duration-300 group-hover:border-orange-500/50 group-hover:shadow-lg group-hover:shadow-orange-500/10">
+                                <h3 className="text-xl font-bold text-orange-400 mb-2">{item.title}</h3>
+                                <p className="text-sm text-gray-400">Okul tercihlerinde dikkat edilmesi gerekenler ve soru-cevap.</p>
+                                <div className="mt-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-gray-500">
+                                    <Clock className="w-3 h-3" />
+                                    2 Saat
+                                </div>
+                                </div>
+                            </div>
+                            ))}
+                        </div>
+                    </div>
+                    </div>
+                </section>
+
+                {/* Sade Footer */}
+                <footer className="bg-white border-t border-gray-200 py-12 text-center">
+                    <img src="unnamed.png" alt="Logo" className="h-8 mx-auto mb-6 object-contain" onError={(e) => {e.target.style.display='none'}} />
+                    <p className="text-gray-500 text-sm">© 2025 Eğitimpedia. Tüm hakları saklıdır.</p>
+                    <div className="flex justify-center gap-6 mt-6">
+                    <a href="#" className="text-gray-400 hover:text-orange-600 transition-colors"><Instagram className="w-6 h-6"/></a>
+                    <a href="#" className="text-gray-400 hover:text-orange-600 transition-colors"><Mail className="w-6 h-6"/></a>
+                    </div>
+                </footer>
+
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
