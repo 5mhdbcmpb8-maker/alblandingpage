@@ -18,13 +18,12 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- HUBSPOT TRACKING CODE (Otomatik Yüklendi) -->
+    <!-- HUBSPOT TRACKING CODE -->
     <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/147074714.js"></script>
 
     <style>
         body { font-family: 'Inter', sans-serif; }
         
-        /* Animasyonlar */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -33,7 +32,7 @@
             animation: fadeIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
 
-        /* Özel Checkbox Stili */
+        /* Checkbox Stili */
         .session-checkbox:checked + label {
             border-color: #f97316; /* orange-500 */
             background-color: #fff7ed; /* orange-50 */
@@ -44,7 +43,6 @@
             transform: scale(1);
         }
         
-        /* Yüzen Dekoratif Toplar */
         .blob {
             position: absolute;
             filter: blur(50px);
@@ -65,22 +63,22 @@
         const { useState, useEffect } = React;
 
         // =================================================================
-        // HUBSPOT AYARLARI (Sizin verdiğiniz koddan alındı)
+        // HUBSPOT AYARLARI
         // =================================================================
         const HS_PORTAL_ID = "147074714"; 
         const HS_FORM_ID = "9cb13eb8-0553-49c7-84d3-71b731ab6af1";
         // =================================================================
 
         // --- SVG İKONLAR ---
-        const Calendar = (props) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>);
-        const CheckCircle = (props) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>);
+        const Calendar = (props) => (<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>);
+        const CheckCircle = (props) => (<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>);
         const Instagram = (props) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>);
         const Mail = (props) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>);
-        const User = (props) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>);
-        const Phone = (props) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>);
+        const User = (props) => (<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>);
+        const Phone = (props) => (<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>);
         const Check = (props) => (<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" {...props}><polyline points="20 6 9 17 4 12"/></svg>);
 
-        // --- Geri Sayım Bileşeni ---
+        // --- Geri Sayım ---
         const Countdown = () => {
             const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
@@ -122,7 +120,6 @@
             );
         };
 
-        // --- Ana Uygulama ---
         const App = () => {
             const [isScrolled, setIsScrolled] = useState(false);
             const [formData, setFormData] = useState({ name: '', surname: '', email: '', phone: '', sessions: [] });
@@ -147,17 +144,17 @@
                 e.preventDefault();
                 setFormStatus('submitting');
 
-                // API Endpoint (Tüm dünyadan erişilebilir)
                 const url = `https://api.hsforms.com/submissions/v3/integration/submit/${HS_PORTAL_ID}/${HS_FORM_ID}`;
 
-                // HubSpot'un beklediği veri yapısı
-                // ÖNEMLİ: "webinar_oturum_tercihi" alan adını HubSpot'ta oluşturduğunuz property ile aynı yaptık.
+                // VERİ PAKETLEME
                 const requestData = {
                     fields: [
                         { name: "firstname", value: formData.name },
                         { name: "lastname", value: formData.surname },
                         { name: "email", value: formData.email },
                         { name: "phone", value: formData.phone },
+                        // HubSpot için kısa kodları (anaokulu, lise vb.) gönderiyoruz.
+                        // ÖNEMLİ: Bu kodun çalışması için HubSpot'ta Internal Value'ların "anaokulu", "ilkokul" vb. olması ŞARTTIR.
                         { name: "webinar_oturum_tercihi", value: formData.sessions.join(';') } 
                     ],
                     context: {
@@ -173,12 +170,11 @@
                         body: JSON.stringify(requestData)
                     });
 
-                    // Başarılı olsa da olmasa da (bazen CORS uyarısı verebilir ama veri gider) success dönüyoruz
                     setFormStatus('success');
                     
                 } catch (error) {
                     console.error("Form Hatası:", error);
-                    setFormStatus('success'); // Kullanıcı deneyimini bozmamak için
+                    setFormStatus('success');
                 }
             };
 
@@ -188,11 +184,13 @@
 
             const LOGO_SRC = "unnamed.png";
             const ALI_KOC_SRC = "DSC_5908 copy.jpg";
+            
+            // AYARLAR
             const SESSIONS = [
-                "Anaokulu Webinarı (10.00–12.00)",
-                "İlkokul Webinarı (12.30–14.30)",
-                "Ortaokul Webinarı (15.00–17.00)",
-                "Lise Webinarı (17.30–19.30)"
+                { label: "Anaokulu Webinarı (10.00–12.00)", value: "anaokulu" },
+                { label: "İlkokul Webinarı (12.30–14.30)", value: "ilkokul" },
+                { label: "Ortaokul Webinarı (15.00–17.00)", value: "ortaokul" },
+                { label: "Lise Webinarı (17.30–19.30)", value: "lise" }
             ];
 
             return (
@@ -209,7 +207,6 @@
 
                     {/* Hero Bölümü */}
                     <section className="relative pt-36 pb-24 lg:pt-48 lg:pb-32 px-6 overflow-hidden bg-white">
-                        {/* Dekoratif Arka Plan */}
                         <div className="blob w-[500px] h-[500px] bg-orange-100 rounded-full top-[-10%] right-[-10%] mix-blend-multiply"></div>
                         <div className="blob w-[500px] h-[500px] bg-blue-100 rounded-full bottom-[-10%] left-[-10%] mix-blend-multiply animation-delay-2000"></div>
 
@@ -252,9 +249,8 @@
                                     </div>
                                 </div>
 
-                                {/* Sağ: Form (Yaratıcı, Geniş ve Glassmorphism) */}
+                                {/* Sağ: Form */}
                                 <div id="register" className="relative animate-fade-in" style={{animationDelay: '0.2s'}}>
-                                    {/* Form Arkası Işık Efekti */}
                                     <div className="absolute inset-0 bg-gradient-to-tr from-orange-200 to-blue-200 rounded-[3rem] blur-3xl opacity-20 -z-10"></div>
 
                                     <div className="relative bg-white/80 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-12 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] border border-white/50 ring-1 ring-white/60">
@@ -270,7 +266,7 @@
                                                     <CheckCircle className="w-12 h-12 text-green-600" />
                                                 </div>
                                                 <h4 className="text-2xl font-bold text-gray-900 mb-2">Kaydınız Alındı!</h4>
-                                                <p className="text-gray-600">Bilgileriniz alındı. E-posta kutunuzu kontrol etmeyi unutmayın.</p>
+                                                <p className="text-gray-600 max-w-sm mx-auto">En kısa sürede maille dönüş yapacağız. E-posta kutunuzu kontrol etmeyi unutmayın.</p>
                                             </div>
                                         ) : (
                                             <form onSubmit={handleSubmit} className="space-y-6">
@@ -313,7 +309,7 @@
                                                                 <input 
                                                                     type="checkbox" 
                                                                     id={`session-${idx}`} 
-                                                                    value={session}
+                                                                    value={session.value} 
                                                                     onChange={handleCheckboxChange}
                                                                     className="peer sr-only session-checkbox" 
                                                                 />
@@ -324,7 +320,7 @@
                                                                     <div className="w-6 h-6 rounded-md border-2 border-gray-300 bg-white flex items-center justify-center mr-4 group-hover:border-orange-400 transition-colors check-icon">
                                                                          <Check className="w-4 h-4 text-orange-600 opacity-0 transform scale-50 transition-all duration-200 check-icon" />
                                                                     </div>
-                                                                    <span className="text-gray-700 font-medium group-hover:text-gray-900">{session}</span>
+                                                                    <span className="text-gray-700 font-medium group-hover:text-gray-900">{session.label}</span>
                                                                 </label>
                                                             </div>
                                                         ))}
@@ -347,7 +343,7 @@
                     <section className="py-24 bg-white relative overflow-hidden">
                         <div className="container mx-auto px-6 relative z-10">
                             <div className="flex flex-col md:flex-row items-center gap-16">
-                                {/* Görsel - Karartma YOK, Canlı Renkler */}
+                                {/* Görsel */}
                                 <div className="w-full md:w-1/2 relative group animate-fade-in">
                                     <div className="absolute inset-0 bg-gray-100 rounded-[2.5rem] transform rotate-3 transition-transform group-hover:rotate-0 -z-10"></div>
                                     <img 
@@ -356,7 +352,7 @@
                                         className="relative w-full h-[600px] object-cover rounded-[2.5rem] shadow-2xl"
                                         onError={(e) => {e.target.src = "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800"}}
                                     />
-                                    {/* Unvan Yazısı */}
+                                    {/* Unvan */}
                                     <div className="mt-6 text-center md:text-left pl-4 border-l-4 border-orange-500">
                                         <h3 className="font-bold text-2xl text-gray-900">Ali Koç</h3>
                                         <p className="text-orange-600 font-bold text-sm uppercase tracking-wider">Eğitimci, Eğitimpedia Kurucusu</p>
